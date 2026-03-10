@@ -32,7 +32,7 @@
                         del mañana.
                     </p>
                     <div class="hero-action-group">
-                        <a href="/autoridades" class="btn-hero-primary">
+                        <a href="/historia" class="btn-hero-primary">
                             <span>Nuestra Historia</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
@@ -111,41 +111,43 @@
                 <% [1, 2, 3].forEach((num, idx)=> {
                     const icons = ['fa-graduation-cap', 'fa-bullseye', 'fa-landmark'];
                     const nums = ['01', '02', '03'];
-                    const cats = ['Modelo Pedagógico', 'Propósito Institucional', 'Legado y Tradición'];
+                    const cats = ['Propuesta Educativa', 'Misión y Visión', 'Historia'];
                     %>
                     <div class="hl-card scroll-reveal">
                         <!-- Imagen de fondo con parallax -->
-                        <div class="hl-card-img">
-                            <img src="<%= ajustes['card' + num + '_img'] %>"
-                                alt="<%= ajustes['card' + num + '_titulo'] %>">
-                        </div>
-                        <!-- Gradiente permanente -->
-                        <div class="hl-card-gradient"></div>
-                        <!-- Número decorativo -->
-                        <span class="hl-card-num">
-                            <%= nums[idx] %>
-                        </span>
-                        <!-- Contenido -->
-                        <div class="hl-card-body">
-                            <div class="hl-card-cat">
-                                <i class="fas <%= icons[idx] %>"></i>
-                                <%= cats[idx] %>
+                        <% const cardStaticImages=['/img/card-propuesta.png', '/img/card-mision.png'
+                            , '/img/card-historia.png' ]; %>
+                            <div class="hl-card-img">
+                                <img src="<%= cardStaticImages[idx] %>" alt="<%= ajustes['card' + num + '_titulo' ] %>">
                             </div>
-                            <h3 class="hl-card-title">
-                                <%= ajustes['card' + num + '_titulo' ] %>
-                            </h3>
-                            <p class="hl-card-desc">
-                                <%= ajustes['card' + num + '_desc' ] %>
-                            </p>
-                            <a href="<%= ajustes['card' + num + '_link'] %>" class="hl-card-cta">
-                                <span>
-                                    <%= ajustes['card' + num + '_btn' ] %>
-                                </span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                        <!-- Barra roja de acento inferior -->
-                        <div class="hl-card-accent"></div>
+                            <!-- Gradiente permanente -->
+                            <div class="hl-card-gradient"></div>
+                            <!-- Número decorativo -->
+                            <span class="hl-card-num">
+                                <%= nums[idx] %>
+                            </span>
+                            <!-- Contenido -->
+                            <div class="hl-card-body">
+                                <div class="hl-card-cat">
+                                    <i class="fas <%= icons[idx] %>"></i>
+                                    <%= cats[idx] %>
+                                </div>
+                                <h3 class="hl-card-title">
+                                    <%= ajustes['card' + num + '_titulo' ] %>
+                                </h3>
+                                <p class="hl-card-desc">
+                                    <%= ajustes['card' + num + '_desc' ] %>
+                                </p>
+                                <% const cardLinks=['/propuesta-educativa', '/mision-vision' , '/historia' ]; %>
+                                    <a href="<%= cardLinks[idx] %>" class="hl-card-cta">
+                                        <span>
+                                            <%= ajustes['card' + num + '_btn' ] %>
+                                        </span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                            </div>
+                            <!-- Barra roja de acento inferior -->
+                            <div class="hl-card-accent"></div>
                     </div>
                     <% }) %>
             </div>
@@ -204,13 +206,11 @@
                         </article>
                         <% }) %>
                             <% } else { %>
-                                <article class="news-card-premium scroll-reveal"
-                                    style="grid-column: 1 / -1; text-align: center; padding: 40px;">
-                                    <div style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"><i
-                                            class="far fa-star"></i></div>
-                                    <h3 style="color: #666;">Sin Contenido Destacado</h3>
+                                <div class="news-empty-state scroll-reveal">
+                                    <div class="empty-icon"><i class="far fa-star"></i></div>
+                                    <h3>Sin Contenido Destacado</h3>
                                     <p>Muy pronto compartiremos lo más relevante de nuestra institución.</p>
-                                </article>
+                                </div>
                                 <% } %>
             </div>
 

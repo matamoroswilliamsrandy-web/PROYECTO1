@@ -1033,6 +1033,52 @@
     filter: brightness(0.65);
 }
 
+/* Empty State Styling */
+.news-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 40px;
+    background: #ffffff;
+    border: 2px dashed #e0e0e0;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.news-empty-state:hover {
+    border-color: #c0392b;
+    background: #fffafa;
+}
+
+.news-empty-state .empty-icon {
+    font-size: 3.5rem;
+    color: #cbd5e0;
+    margin-bottom: 20px;
+    transition: transform 0.4s ease;
+}
+
+.news-empty-state:hover .empty-icon {
+    transform: scale(1.1) rotate(10deg);
+    color: #c0392b;
+}
+
+.news-empty-state h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.news-empty-state p {
+    font-size: 1.1rem;
+    color: #718096;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
 .news-cta-wrap {
     display: flex;
     gap: 20px;
@@ -1301,6 +1347,13 @@
     transition: all 0.25s ease;
 }
 
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
 /* Responsive Fixes */
 @media (max-width: 768px) {
     .hero-title {
@@ -1309,5 +1362,74 @@
 
     .hero-subtitle {
         font-size: 1.1rem;
+    }
+
+    /* Stats Grid 2x2 on Mobile */
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .stat-item {
+        padding: 30px 15px;
+        border-radius: 20px;
+    }
+
+    .stat-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+    }
+
+    /* CTA Buttons Mobile */
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .cta-buttons .btn {
+        width: 100%;
+        max-width: 320px;
+        display: inline-flex;
+        justify-content: center;
+        padding: 16px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        gap: 12px;
+    }
+
+    .stat-item {
+        padding: 20px 10px;
+        border-radius: 16px;
+    }
+
+    .stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
     }
 }

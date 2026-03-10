@@ -718,23 +718,24 @@
 
 .mv-deco-letter {
     position: absolute;
-    bottom: -10%;
-    font-size: 35rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 38rem;
     font-weight: 950;
     line-height: 1;
-    color: rgba(0, 0, 0, 0.02);
-    /* Changed for light theme */
+    color: var(--inst-red);
+    opacity: 0.1;
     pointer-events: none;
     user-select: none;
     z-index: 1;
 }
 
 .mv-glass-block.mision .mv-deco-letter {
-    right: -5%;
+    right: 5%;
 }
 
 .mv-glass-block.vision .mv-deco-letter {
-    left: -5%;
+    left: 5%;
 }
 
 

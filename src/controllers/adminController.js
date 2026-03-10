@@ -237,9 +237,6 @@ exports.guardarAjustes = catchAsync(async (req, res, next) => {
 
     if (req.files) {
         const filesMap = {
-            card1_img: 'card1_img',
-            card2_img: 'card2_img',
-            card3_img: 'card3_img',
             hist_img1: 'hist_img1',
             mv_mision_img: 'mv_mision_img',
             mv_vision_img: 'mv_vision_img',

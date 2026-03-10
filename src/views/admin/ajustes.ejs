@@ -216,23 +216,11 @@
                                             value="<%= ajustes.card1_btn %>">
                                     </div>
                                 </div>
-                                <div class="aj-two-col--img"
-                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                <div class="aj-two-col">
                                     <div class="aj-field">
                                         <label class="aj-label">Descripción Breve</label>
                                         <textarea name="card1_desc" class="aj-input aj-textarea"
                                             rows="4"><%= ajustes.card1_desc %></textarea>
-                                    </div>
-                                    <div class="aj-field">
-                                        <label class="aj-label">Imagen de Fondo</label>
-                                        <div class="aj-uploader" style="height:120px;">
-                                            <img src="<%= ajustes.card1_img %>" class="aj-uploader-img" id="prev-card1">
-                                            <label class="aj-uploader-overlay" for="card1_img">
-                                                <i class="fas fa-camera"></i>
-                                                <input type="file" id="card1_img" name="card1_img" accept="image/*"
-                                                    onchange="ajPreview(this,'prev-card1')">
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -352,23 +340,30 @@
                                             value="<%= ajustes.card2_btn %>">
                                     </div>
                                 </div>
-                                <div class="aj-two-col--img"
-                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                <div class="aj-two-col">
                                     <div class="aj-field">
                                         <label class="aj-label">Descripción Breve</label>
                                         <textarea name="card2_desc" class="aj-input aj-textarea"
                                             rows="4"><%= ajustes.card2_desc %></textarea>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- Hero -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-layer-group"></i> Sección Hero (portada)
+                                </div>
+                                <div class="aj-two-col">
                                     <div class="aj-field">
-                                        <label class="aj-label">Imagen de Fondo</label>
-                                        <div class="aj-uploader" style="height:120px;">
-                                            <img src="<%= ajustes.card2_img %>" class="aj-uploader-img" id="prev-card2">
-                                            <label class="aj-uploader-overlay" for="card2_img">
-                                                <i class="fas fa-camera"></i>
-                                                <input type="file" id="card2_img" name="card2_img" accept="image/*"
-                                                    onchange="ajPreview(this,'prev-card2')">
-                                            </label>
-                                        </div>
+                                        <label class="aj-label">Título Hero</label>
+                                        <input type="text" name="mv_hero_title" class="aj-input"
+                                            value="<%= ajustes.mv_hero_title %>" placeholder="Misión y Visión">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Subtítulo Hero</label>
+                                        <input type="text" name="mv_hero_sub" class="aj-input"
+                                            value="<%= ajustes.mv_hero_sub %>"
+                                            placeholder="Principios fundamentales...">
                                     </div>
                                 </div>
                             </div>
@@ -479,23 +474,11 @@
                                             value="<%= ajustes.card3_btn %>">
                                     </div>
                                 </div>
-                                <div class="aj-two-col--img"
-                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                <div class="aj-two-col">
                                     <div class="aj-field">
                                         <label class="aj-label">Descripción Breve</label>
                                         <textarea name="card3_desc" class="aj-input aj-textarea"
                                             rows="4"><%= ajustes.card3_desc %></textarea>
-                                    </div>
-                                    <div class="aj-field">
-                                        <label class="aj-label">Imagen de Fondo</label>
-                                        <div class="aj-uploader" style="height:120px;">
-                                            <img src="<%= ajustes.card3_img %>" class="aj-uploader-img" id="prev-card3">
-                                            <label class="aj-uploader-overlay" for="card3_img">
-                                                <i class="fas fa-camera"></i>
-                                                <input type="file" id="card3_img" name="card3_img" accept="image/*"
-                                                    onchange="ajPreview(this,'prev-card3')">
-                                            </label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -503,10 +486,17 @@
                             <!-- Hero + Sección 1 -->
                             <div class="aj-group">
                                 <div class="aj-group-title"><i class="fas fa-layer-group"></i> Sección Principal</div>
-                                <div class="aj-field" style="margin-bottom:14px;">
-                                    <label class="aj-label">Subtítulo del Hero</label>
-                                    <input type="text" name="hist_hero_sub" class="aj-input"
-                                        value="<%= ajustes.hist_hero_sub %>">
+                                <div class="aj-two-col">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Título Hero</label>
+                                        <input type="text" name="hist_hero_title" class="aj-input"
+                                            value="<%= ajustes.hist_hero_title %>" placeholder="Nuestra Historia">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Subtítulo del Hero</label>
+                                        <input type="text" name="hist_hero_sub" class="aj-input"
+                                            value="<%= ajustes.hist_hero_sub %>">
+                                    </div>
                                 </div>
                                 <div class="aj-two-col aj-two-col--img">
                                     <div>
