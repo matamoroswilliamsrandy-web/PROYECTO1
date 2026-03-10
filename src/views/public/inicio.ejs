@@ -1,0 +1,282 @@
+<%- include('../partials/header') %>
+
+    <!-- Premium Hero with Shattered Transition -->
+    <section class="hero-split">
+        <!-- Main Background Carousel -->
+        <div class="hero-main-carousel" id="heroCarousel">
+            <div class="carousel-slide active" style="background-image: url('/img/hero-1.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/img/hero-2.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/img/hero-3.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/img/hero-4.png');"></div>
+            <div class="carousel-slide" style="background-image: url('/img/hero-5.png');"></div>
+
+            <!-- Shatter Overlay Container -->
+            <div id="shatterOverlay" class="shatter-overlay"></div>
+
+            <div class="hero-bg-overlay"></div>
+        </div>
+
+        <div class="container container--hero">
+            <div class="hero-grid">
+                <!-- Left: Impactful Content -->
+                <div class="hero-left fade-in-up">
+                    <div class="hero-badge-elite">
+                        <i class="fas fa-star"></i> Excelencia Educativa
+                    </div>
+                    <h1 class="hero-main-title">
+                        <span class="title-top">IE. Antonio</span>
+                        <span class="title-bottom highlight-red">Raymondi</span>
+                    </h1>
+                    <p class="hero-lead">
+                        Liderando la formación integral con valores, innovación y el compromiso de forjar los líderes
+                        del mañana.
+                    </p>
+                    <div class="hero-action-group">
+                        <a href="/autoridades" class="btn-hero-primary">
+                            <span>Nuestra Historia</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="/noticias" class="btn-hero-secondary">
+                            <span>Ver Noticias</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: 3D Showcase Stats -->
+                <div class="hero-right fade-in-up delay-200">
+                    <div class="hero-stats-3d">
+                        <div class="stat-card">
+                            <i class="fas fa-history"></i>
+                            <span class="stat-num">50+</span>
+                            <span class="stat-lbl">Años de Tradición</span>
+                        </div>
+                        <div class="stat-card highlight">
+                            <i class="fas fa-heart"></i>
+                            <span class="stat-num">100%</span>
+                            <span class="stat-lbl">Valores Cristianos</span>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span class="stat-num">Top</span>
+                            <span class="stat-lbl">Educación Integral</span>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-microchip"></i>
+                            <span class="stat-num">AI</span>
+                            <span class="stat-lbl">Innovación Digital</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated Scroll Mouse -->
+        <div class="hero-scroll-invite">
+            <div class="mouse-icon">
+                <div class="wheel"></div>
+            </div>
+            <span>Explora</span>
+        </div>
+    </section>
+
+    <!-- Scrolling Ticker / Cinta de Anuncios -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="ticker-item"><i class="fas fa-bullhorn"></i>
+                <%= ajustes.ticker_text1 %>
+            </div>
+            <div class="ticker-item"><i class="fas fa-calendar-alt"></i>
+                <%= ajustes.ticker_text2 %>
+            </div>
+            <div class="ticker-item"><i class="fas fa-graduation-cap"></i>
+                <%= ajustes.ticker_text3 %>
+            </div>
+            <!-- Duplicado para loop infinito fluido -->
+            <div class="ticker-item"><i class="fas fa-bullhorn"></i>
+                <%= ajustes.ticker_text1 %>
+            </div>
+            <div class="ticker-item"><i class="fas fa-calendar-alt"></i>
+                <%= ajustes.ticker_text2 %>
+            </div>
+            <div class="ticker-item"><i class="fas fa-graduation-cap"></i>
+                <%= ajustes.ticker_text3 %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highlights Grid — Premium Magazine Cards -->
+    <section class="highlights-section">
+        <div class="container__wide">
+            <div class="highlights-grid">
+                <% [1, 2, 3].forEach((num, idx)=> {
+                    const icons = ['fa-graduation-cap', 'fa-bullseye', 'fa-landmark'];
+                    const nums = ['01', '02', '03'];
+                    const cats = ['Modelo Pedagógico', 'Propósito Institucional', 'Legado y Tradición'];
+                    %>
+                    <div class="hl-card scroll-reveal">
+                        <!-- Imagen de fondo con parallax -->
+                        <div class="hl-card-img">
+                            <img src="<%= ajustes['card' + num + '_img'] %>"
+                                alt="<%= ajustes['card' + num + '_titulo'] %>">
+                        </div>
+                        <!-- Gradiente permanente -->
+                        <div class="hl-card-gradient"></div>
+                        <!-- Número decorativo -->
+                        <span class="hl-card-num">
+                            <%= nums[idx] %>
+                        </span>
+                        <!-- Contenido -->
+                        <div class="hl-card-body">
+                            <div class="hl-card-cat">
+                                <i class="fas <%= icons[idx] %>"></i>
+                                <%= cats[idx] %>
+                            </div>
+                            <h3 class="hl-card-title">
+                                <%= ajustes['card' + num + '_titulo' ] %>
+                            </h3>
+                            <p class="hl-card-desc">
+                                <%= ajustes['card' + num + '_desc' ] %>
+                            </p>
+                            <a href="<%= ajustes['card' + num + '_link'] %>" class="hl-card-cta">
+                                <span>
+                                    <%= ajustes['card' + num + '_btn' ] %>
+                                </span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <!-- Barra roja de acento inferior -->
+                        <div class="hl-card-accent"></div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured News & Events Section (Diseño Premium) -->
+    <section class="section-padding bg-pattern">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-subtitle">Lo más importante</span>
+                <h2 class="section-title">Contenido Destacado</h2>
+                <div class="title-underline"></div>
+            </div>
+
+            <div class="news-grid-premium">
+                <% if (destacados.length> 0) { %>
+                    <% destacados.forEach((item, index)=> { %>
+                        <article class="news-card-premium scroll-reveal">
+                            <div class="news-card-bg-wrap">
+                                <% if(item.imagen) { %>
+                                    <img src="<%= item.imagen %>" alt="<%= item.titulo %>" class="news-card-bg">
+                                    <% } else { %>
+                                        <img src="/uploads/<%= item.tipo === 'noticia' ? 'news-placeholder.jpg' : 'event-placeholder.jpg' %>"
+                                            alt="Destacado" class="news-card-bg">
+                                        <% } %>
+                                            <div class="news-card-overlay"></div>
+                            </div>
+
+                            <div class="news-card-content">
+                                <div class="news-card-header">
+                                    <span class="news-index">0<%= index + 1 %></span>
+                                    <span
+                                        class="news-category-badge <%= item.tipo === 'evento' ? 'badge-evento' : '' %>">
+                                        <i
+                                            class="fas <%= item.tipo === 'evento' ? 'fa-calendar-alt' : 'fa-info-circle' %>"></i>
+                                        <%= item.tipo==='evento' ? 'Evento' : 'Noticia' %>
+                                    </span>
+                                </div>
+
+                                <div class="news-card-main">
+                                    <h3 class="news-card-title">
+                                        <%= item.titulo %>
+                                    </h3>
+                                    <p class="news-card-excerpt">
+                                        <%= item.contenido || item.descripcion ? (item.contenido ||
+                                            item.descripcion).substring(0, 95) : '' %>...
+                                    </p>
+                                    <a href="/<%= item.tipo === 'noticia' ? 'noticias' : 'eventos' %>/<%= item.id %>"
+                                        class="news-card-link">
+                                        <span>VER <%= item.tipo==='noticia' ? 'MÁS' : 'EVENTO' %></span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                        <% }) %>
+                            <% } else { %>
+                                <article class="news-card-premium scroll-reveal"
+                                    style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                                    <div style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"><i
+                                            class="far fa-star"></i></div>
+                                    <h3 style="color: #666;">Sin Contenido Destacado</h3>
+                                    <p>Muy pronto compartiremos lo más relevante de nuestra institución.</p>
+                                </article>
+                                <% } %>
+            </div>
+
+            <div class="news-cta-wrap">
+                <a href="/noticias" class="btn-modern">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Ver Todas las Noticias</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="/eventos" class="btn-modern">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Ver Todos los Eventos</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institutional Stats / Info -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item scroll-reveal">
+                    <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="stat-number" data-target="<%= ajustes.stats_estudiantes %>">0</div>
+                    <div class="stat-label">Estudiantes</div>
+                </div>
+                <div class="stat-item scroll-reveal delay-100">
+                    <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <div class="stat-number" data-target="<%= ajustes.stats_docentes %>">0</div>
+                    <div class="stat-label">Docentes</div>
+                </div>
+                <div class="stat-item scroll-reveal delay-200">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-number" data-target="<%= ajustes.stats_años %>">0</div>
+                    <div class="stat-label">Años de Historia</div>
+                </div>
+                <div class="stat-item scroll-reveal delay-300">
+                    <div class="stat-icon"><i class="fas fa-award"></i></div>
+                    <div class="stat-number" data-target="<%= ajustes.stats_premios %>">0</div>
+                    <div class="stat-label">Premios Ganados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Footer Contact -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <div class="cta-badge">
+                    <i class="fas fa-star"></i> Únete a nuestra comunidad
+                </div>
+                <h2>¿Listo para ser parte del <span>cambio</span>?</h2>
+                <p>Contáctanos hoy mismo y descubre todo lo que tenemos para ofrecerte. Juntos construimos el futuro de
+                    la educación.</p>
+                <div class="cta-buttons">
+                    <a href="/contacto" class="btn btn-white">
+                        <i class="fas fa-paper-plane"></i> Contáctanos
+                    </a>
+                    <a href="tel:+51999999999" class="btn btn-outline-white">
+                        <i class="fas fa-phone"></i> Llamar Ahora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>

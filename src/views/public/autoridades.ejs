@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+
+    <!-- ═══════════════════════════════════════════
+     HERO BANNER
+    ════════════════════════════════════════════ -->
+    <header class="page-hero">
+        <div class="hero-container">
+            <span class="hero-tag"><i class="fas fa-award"></i> Colegio Antonio Raymondi</span>
+            <h1 class="hero-title">NUESTRAS AUTORIDADES</h1>
+            <p class="hero-subtitle">Conoce al equipo directivo y docente que lidera nuestra institución con compromiso
+                y vocación.</p>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f6fa" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+     GRID DE AUTORIDADES
+════════════════════════════════════════════ -->
+    <section class="aut-section">
+        <div class="container">
+            <div class="aut-grid-wrapper">
+
+                <!-- Toolbar -->
+                <div class="aut-toolbar">
+                    <div class="aut-toolbar-left">
+                        <div class="aut-toolbar-icon-wrap"><i class="fas fa-users"></i></div>
+                        <div>
+                            <h2 class="aut-toolbar-title">Equipo Directivo</h2>
+                            <span class="aut-toolbar-count">
+                                <%= autoridades.length %> miembro<%= autoridades.length !==1 ? 's' : '' %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="aut-toolbar-divider"></div>
+
+                <% if (autoridades.length> 0) { %>
+                    <!-- Cards Grid -->
+                    <div class="aut-cards-grid">
+                        <% autoridades.forEach((autoridad, i)=> {
+                            const esDirector = autoridad.cargo.toLowerCase().includes('director');
+                            %>
+                            <div class="aut-card <%= esDirector ? 'aut-card--director' : '' %>">
+                                <div class="aut-card-photo-wrap">
+                                    <% if (autoridad.imagen) { %>
+                                        <img src="<%= autoridad.imagen %>" alt="<%= autoridad.nombre %>"
+                                            class="aut-card-photo">
+                                        <% } else { %>
+                                            <div class="aut-card-photo-placeholder">
+                                                <i class="fas fa-user-tie"></i>
+                                            </div>
+                                            <% } %>
+                                                <div class="aut-card-photo-ring"></div>
+                                </div>
+                                <div class="aut-card-body">
+                                    <h3 class="aut-card-name">
+                                        <%= autoridad.nombre %>
+                                    </h3>
+                                    <span class="aut-card-cargo">
+                                        <%= autoridad.cargo %>
+                                    </span>
+                                    <% if (autoridad.descripcion) { %>
+                                        <p class="aut-card-desc">
+                                            <%= autoridad.descripcion %>
+                                        </p>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                    <% } else { %>
+                        <div class="aut-empty">
+                            <i class="fas fa-user-slash aut-empty-icon"></i>
+                            <h3>Sin autoridades registradas</h3>
+                            <p>Próximamente se publicará la información del equipo directivo.</p>
+                        </div>
+                        <% } %>
+
+            </div><!-- /aut-grid-wrapper -->
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>

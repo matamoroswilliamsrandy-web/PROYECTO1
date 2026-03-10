@@ -1,0 +1,164 @@
+<%- include('../partials/header') %>
+
+    <!-- ═══════════════════════════════════════════
+     HERO BANNER
+    ════════════════════════════════════════════ -->
+    <header class="page-hero">
+        <div class="hero-container">
+            <span class="hero-tag"><i class="fas fa-images"></i> Galería Visual</span>
+            <h1 class="hero-title">GALERÍA INSTITUCIONAL</h1>
+            <p class="hero-subtitle">Momentos, actividades y logros que forman parte de nuestra historia educativa.</p>
+            <% if (imagenes.length> 0) { %>
+                <div class="gal-hero-stat">
+                    <i class="fas fa-camera"></i>
+                    <span><strong>
+                            <%= imagenes.length %>
+                        </strong> foto<%= imagenes.length !==1 ? 's' : '' %></span>
+                </div>
+                <% } %>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f6fa" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+     GALERÍA GRID
+════════════════════════════════════════════ -->
+    <section class="gal-section">
+        <div class="container">
+            <div class="gal-wrapper">
+
+                <!-- Toolbar -->
+                <div class="gal-toolbar">
+                    <div class="gal-toolbar-left">
+                        <div class="gal-toolbar-icon-wrap"><i class="fas fa-th-large"></i></div>
+                        <div>
+                            <h2 class="gal-toolbar-title">Todas las Fotos</h2>
+                            <span class="gal-toolbar-count">
+                                <%= imagenes.length %> imagen<%= imagenes.length !==1 ? 'es' : '' %> en total
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gal-toolbar-divider"></div>
+
+                <% if (imagenes.length> 0) { %>
+                    <!-- GRID -->
+                    <div class="gal-pro-grid" id="galGrid">
+                        <% imagenes.forEach((img, i)=> {
+                            const dateObj = new Date(img.created_at || Date.now());
+                            %>
+                            <div class="gal-pro-card" data-index="<%= i %>">
+                                <img src="<%= img.imagen %>" alt="<%= img.titulo %>" class="gal-pro-img" loading="lazy">
+                                <div class="gal-pro-overlay"></div>
+
+                                <div class="gal-pro-date">
+                                    <span class="gal-pro-day">
+                                        <%= dateObj.getDate() %>
+                                    </span>
+                                    <span class="gal-pro-month">
+                                        <%= dateObj.toLocaleString('es-ES', { month: 'short' }).toUpperCase() %>
+                                    </span>
+                                </div>
+
+                                <div class="gal-pro-content">
+                                    <h3 class="gal-pro-title">
+                                        <%= img.titulo %>
+                                    </h3>
+                                    <div class="gal-pro-meta">
+                                        <span><i class="far fa-clock"></i>
+                                            <%= dateObj.toLocaleDateString('es-PE') %>
+                                        </span>
+                                        <span class="gal-pro-expand"><i class="fas fa-expand-alt"></i> Ampliar</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                    <% } else { %>
+                        <!-- EMPTY STATE -->
+                        <div class="gal-empty">
+                            <i class="fas fa-camera-retro gal-empty-icon"></i>
+                            <h3>La galería está vacía</h3>
+                            <p>Próximamente se publicarán fotos de nuestras actividades institucionales.</p>
+                        </div>
+                        <% } %>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+     LIGHTBOX
+════════════════════════════════════════════ -->
+    <% if (imagenes.length> 0) { %>
+        <div class="gal-lightbox" id="galLightbox" role="dialog" aria-modal="true" aria-label="Ver imagen">
+            <button class="gal-lb-close" id="galLbClose" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+            <button class="gal-lb-nav gal-lb-prev" id="galLbPrev" aria-label="Anterior"><i
+                    class="fas fa-chevron-left"></i></button>
+            <button class="gal-lb-nav gal-lb-next" id="galLbNext" aria-label="Siguiente"><i
+                    class="fas fa-chevron-right"></i></button>
+            <div class="gal-lb-body">
+                <img src="" alt="" class="gal-lb-img" id="galLbImg">
+                <div class="gal-lb-caption" id="galLbCaption"></div>
+                <div class="gal-lb-counter" id="galLbCounter"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const items = [];
+                <% imagenes.forEach(function (img) { %>
+                    items.push({ src: "<%= img.imagen %>", title: "<%= img.titulo %>" });
+                <% }); %>
+                    let current = 0;
+
+                const lb = document.getElementById('galLightbox');
+                const lbImg = document.getElementById('galLbImg');
+                const lbCap = document.getElementById('galLbCaption');
+                const lbCount = document.getElementById('galLbCounter');
+                const lbClose = document.getElementById('galLbClose');
+                const lbPrev = document.getElementById('galLbPrev');
+                const lbNext = document.getElementById('galLbNext');
+
+                function show(index) {
+                    current = (index + items.length) % items.length;
+                    lbImg.src = items[current].src;
+                    lbImg.alt = items[current].title;
+                    lbCap.textContent = items[current].title;
+                    lbCount.textContent = (current + 1) + ' / ' + items.length;
+                    lb.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function close() {
+                    lb.classList.remove('active');
+                    document.body.style.overflow = '';
+                    lbImg.src = '';
+                }
+
+                document.querySelectorAll('.gal-pro-card').forEach(function (el) {
+                    el.addEventListener('click', function () { show(+el.dataset.index); });
+                });
+
+                lbClose.addEventListener('click', close);
+                lbPrev.addEventListener('click', function () { show(current - 1); });
+                lbNext.addEventListener('click', function () { show(current + 1); });
+
+                lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+
+                document.addEventListener('keydown', function (e) {
+                    if (!lb.classList.contains('active')) return;
+                    if (e.key === 'Escape') close();
+                    if (e.key === 'ArrowLeft') show(current - 1);
+                    if (e.key === 'ArrowRight') show(current + 1);
+                });
+            })();
+        </script>
+        <% } %>
+
+            <%- include('../partials/footer') %>

@@ -1,0 +1,216 @@
+<%- include('../partials/admin-header', { path: '/panel-director/noticias' }) %>
+
+    <!-- ── PAGE HEADER ─────────────────────────────── -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="fas fa-pen"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Editar Noticia</h1>
+                <p class="adm-page-sub">Modifica los campos y guarda los cambios</p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/panel-director/noticias" class="adm-header-link">
+                <i class="fas fa-arrow-left"></i> <span>Volver</span>
+            </a>
+        </div>
+    </div>
+
+    <% if (error) { %>
+        <div class="adm-edit-alert adm-edit-alert--error">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+        </div>
+        <% } %>
+
+            <!-- ═══ TWO-COLUMN LAYOUT ════════════════════════ -->
+            <div class="adm-edit-layout">
+
+                <!-- ── LEFT: FORM ─────────────────────────── -->
+                <div class="adm-edit-card">
+                    <div class="adm-edit-card-header">
+                        <i class="far fa-newspaper"></i>
+                        <span>Datos de la Noticia</span>
+                    </div>
+
+                    <form id="edit-form" action="/panel-director/noticias/editar/<%= noticia.id %>" method="POST"
+                        enctype="multipart/form-data" class="adm-edit-form">
+
+                        <div class="adm-field">
+                            <label class="adm-label" for="edit-titulo"><i class="fas fa-heading"></i> Título</label>
+                            <input id="edit-titulo" type="text" name="titulo" class="adm-input" required
+                                value="<%= noticia.titulo %>" oninput="syncPreview()">
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-label" for="edit-contenido"><i class="fas fa-align-left"></i>
+                                Contenido</label>
+                            <textarea id="edit-contenido" name="contenido" rows="7" class="adm-input" required
+                                oninput="syncPreview()"><%= noticia.contenido %></textarea>
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-label"><i class="fas fa-image"></i> Imagen</label>
+                            <% if (noticia.imagen) { %>
+                                <div class="adm-edit-img-preview">
+                                    <img src="<%= noticia.imagen %>" alt="Imagen actual" id="current-img">
+                                    <div class="adm-edit-img-info">
+                                        <span class="adm-edit-img-badge"><i class="fas fa-check-circle"></i> Imagen
+                                            actual</span>
+                                        <p>Sube una nueva imagen si deseas reemplazarla.</p>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                    <div class="adm-edit-no-img">
+                                        <i class="far fa-image"></i><span>Sin imagen — puedes subir una abajo</span>
+                                    </div>
+                                    <% } %>
+                                        <label class="adm-file-label" for="edit-imagen" style="margin-top:10px">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <span id="edit-file-name">Cambiar imagen (opcional)…</span>
+                                            <input id="edit-imagen" type="file" name="imagen" accept="image/*"
+                                                onchange="previewImg(this)">
+                                        </label>
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-featured-toggle-card">
+                                <input type="checkbox" name="destacada" id="toggle-destacada" <%=noticia.destacada
+                                    ? 'checked' : '' %> onchange="syncPreview()">
+                                <span class="adm-premium-switch"></span>
+                                <div class="adm-featured-toggle-icon-box">
+                                    <i class="fas fa-star"></i>
+                                    <div class="adm-featured-toggle-text-wrap">
+                                        <p>Marcar como</p>
+                                        <span>Destacada</span>
+                                        <div class="adm-featured-toggle-hint-text">Aparecerá resaltada en el inicio
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="adm-edit-actions">
+                            <button type="submit" class="adm-btn-submit">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a href="/panel-director/noticias" class="adm-btn-cancel">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ── RIGHT: LIVE PREVIEW SIDEBAR ────────── -->
+                <aside class="adm-edit-sidebar">
+
+                    <!-- Preview card -->
+                    <div class="adm-preview-block">
+                        <div class="adm-preview-header">
+                            <i class="fas fa-eye"></i> Vista previa
+                            <span class="adm-preview-pulse"></span>
+                        </div>
+
+                        <div class="adm-preview-news-card">
+                            <div class="adm-preview-img-wrap">
+                                <img id="preview-img" src="<%= noticia.imagen || '' %>" alt=""
+                                    style="<%= noticia.imagen ? '' : 'display:none' %>">
+                                <div id="preview-no-img" class="adm-preview-no-img"
+                                    style="<%= noticia.imagen ? 'display:none' : '' %>">
+                                    <i class="far fa-newspaper"></i>
+                                </div>
+                                <div id="preview-badge" class="adm-preview-badge"
+                                    style="<%= noticia.destacada ? '' : 'display:none' %>">
+                                    <i class="fas fa-star"></i> Destacado
+                                </div>
+                            </div>
+                            <div class="adm-preview-body">
+                                <h4 id="preview-title">
+                                    <%= noticia.titulo %>
+                                </h4>
+                                <p id="preview-content"></p>
+                                <div class="adm-preview-meta">
+                                    <span><i class="fas fa-calendar"></i>
+                                        <%= new Date().toLocaleDateString('es-PE',
+                                            {day:'2-digit',month:'short',year:'numeric'}) %>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meta info block -->
+                    <div class="adm-sidebar-meta">
+                        <div class="adm-sidebar-meta-title"><i class="fas fa-info-circle"></i> Información</div>
+                        <div class="adm-sidebar-meta-row">
+                            <span>ID</span><strong>#<%= noticia.id %></strong>
+                        </div>
+                        <div class="adm-sidebar-meta-row">
+                            <span>Estado</span>
+                            <strong id="meta-dest-text" class="<%= noticia.destacada ? 'text-green' : 'text-gray' %>">
+                                <%= noticia.destacada ? 'Destacada' : 'Normal' %>
+                            </strong>
+                        </div>
+                    </div>
+
+                    <!-- Tips block -->
+                    <div class="adm-sidebar-tips">
+                        <div class="adm-sidebar-tips-title"><i class="fas fa-lightbulb"></i> Consejos</div>
+                        <ul>
+                            <li>Un título entre <strong>50–80 caracteres</strong> genera más clics.</li>
+                            <li>Incluye imágenes de al menos <strong>800×500 px</strong>.</li>
+                            <li>Marca "Destacada" para mostrarla en el <strong>inicio</strong>.</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+            <script>
+                // ── Live preview sync ──────────────────────────
+                const PLACEHOLDER_IMG = '<%= noticia.imagen || "" %>';
+
+                function syncPreview() {
+                    const title = document.getElementById('edit-titulo').value.trim();
+                    const content = document.getElementById('edit-contenido').value.trim();
+                    const isDestacada = document.getElementById('toggle-destacada').checked;
+
+                    document.getElementById('preview-title').textContent = title || 'Título de la noticia…';
+                    document.getElementById('preview-content').textContent = (content ? content.substring(0, 90) + (content.length > 90 ? '…' : '') : 'El resumen del contenido aparecerá aquí…');
+
+                    // Toggle badge and card active state
+                    const badge = document.getElementById('preview-badge');
+                    const toggleCard = document.querySelector('.adm-featured-toggle-card');
+
+                    if (isDestacada) {
+                        badge.style.display = '';
+                        toggleCard.classList.add('active');
+                    } else {
+                        badge.style.display = 'none';
+                        toggleCard.classList.remove('active');
+                    }
+
+                    const metaDest = document.getElementById('meta-dest-text');
+                    metaDest.className = destacada ? 'text-green' : 'text-gray';
+                }
+
+                function previewImg(input) {
+                    document.getElementById('edit-file-name').textContent = input.files[0]?.name || 'Cambiar imagen (opcional)…';
+                    if (input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            const pImg = document.getElementById('preview-img');
+                            const cImg = document.getElementById('current-img');
+                            const noImg = document.getElementById('preview-no-img');
+                            if (pImg) { pImg.src = e.target.result; pImg.style.display = ''; }
+                            if (cImg) { cImg.src = e.target.result; }
+                            if (noImg) { noImg.style.display = 'none'; }
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                // Initial sync
+                syncPreview();
+            </script>
+
+            <%- include('../partials/admin-footer') %>

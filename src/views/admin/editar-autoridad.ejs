@@ -1,0 +1,208 @@
+<%- include('../partials/admin-header', { path: '/panel-director/autoridades' }) %>
+
+    <!-- ── PAGE HEADER ─────────────────────────────── -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="fas fa-pen"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Editar Autoridad</h1>
+                <p class="adm-page-sub">Modifica los campos y guarda los cambios</p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/panel-director/autoridades" class="adm-header-link">
+                <i class="fas fa-arrow-left"></i> <span>Volver</span>
+            </a>
+        </div>
+    </div>
+
+    <% if (error) { %>
+        <div class="adm-edit-alert adm-edit-alert--error">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+        </div>
+        <% } %>
+
+            <!-- ═══ TWO-COLUMN LAYOUT ════════════════════════ -->
+            <div class="adm-edit-layout">
+
+                <!-- ── LEFT: FORM ─────────────────────────── -->
+                <div class="adm-edit-card">
+                    <div class="adm-edit-card-header">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Datos de la Autoridad</span>
+                    </div>
+
+                    <form id="edit-form" action="/panel-director/autoridades/editar/<%= autoridad.id %>" method="POST"
+                        enctype="multipart/form-data" class="adm-edit-form">
+
+                        <div class="adm-ev-row">
+                            <div class="adm-field">
+                                <label class="adm-label" for="edit-nombre"><i class="fas fa-user"></i> Nombre
+                                    Completo</label>
+                                <input id="edit-nombre" type="text" name="nombre" class="adm-input" required
+                                    value="<%= autoridad.nombre %>" oninput="syncPreview()">
+                            </div>
+                            <div class="adm-field">
+                                <label class="adm-label" for="edit-cargo"><i class="fas fa-briefcase"></i> Cargo</label>
+                                <input id="edit-cargo" type="text" name="cargo" class="adm-input" required
+                                    value="<%= autoridad.cargo %>" oninput="syncPreview()">
+                            </div>
+                        </div>
+
+                        <div class="adm-field" style="max-width:200px">
+                            <label class="adm-label" for="edit-orden"><i class="fas fa-sort-numeric-up"></i> Orden de
+                                Aparición</label>
+                            <input id="edit-orden" type="number" name="orden" class="adm-input"
+                                value="<%= autoridad.orden || 0 %>" min="0" oninput="syncPreview()">
+                            <span style="font-size:0.73rem; color:#94a3b8; margin-top:2px;">Menor número = mayor
+                                prioridad</span>
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-label"><i class="fas fa-camera"></i> Fotografía</label>
+                            <% if (autoridad.imagen) { %>
+                                <div class="adm-edit-img-preview adm-edit-img-preview--avatar">
+                                    <img src="<%= autoridad.imagen %>" alt="Foto actual" id="current-img"
+                                        class="adm-edit-avatar">
+                                    <div class="adm-edit-img-info">
+                                        <span class="adm-edit-img-badge"><i class="fas fa-check-circle"></i> Foto
+                                            actual</span>
+                                        <p>
+                                            <%= autoridad.nombre %>
+                                        </p>
+                                        <small>Sube una nueva foto si deseas reemplazarla.</small>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                    <div class="adm-edit-no-img">
+                                        <i class="fas fa-user-circle" style="font-size:2.5rem; color:#cbd5e1"></i>
+                                        <span>Sin fotografía — puedes subir una abajo</span>
+                                    </div>
+                                    <% } %>
+                                        <label class="adm-file-label" for="edit-imagen" style="margin-top:10px">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                            <span id="edit-file-name">Cambiar fotografía (opcional)…</span>
+                                            <input id="edit-imagen" type="file" name="imagen" accept="image/*"
+                                                onchange="previewImg(this)">
+                                        </label>
+                        </div>
+
+                        <div class="adm-edit-actions">
+                            <button type="submit" class="adm-btn-submit">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a href="/panel-director/autoridades" class="adm-btn-cancel">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- ── RIGHT: LIVE PREVIEW SIDEBAR ────────── -->
+                <aside class="adm-edit-sidebar">
+
+                    <!-- Authority card preview -->
+                    <div class="adm-preview-block">
+                        <div class="adm-preview-header">
+                            <i class="fas fa-eye"></i> Vista previa
+                            <span class="adm-preview-pulse"></span>
+                        </div>
+
+                        <div class="adm-preview-authority-card">
+                            <!-- Avatar -->
+                            <div class="adm-prev-avatar-wrap">
+                                <% if (autoridad.imagen) { %>
+                                    <img id="preview-avatar" src="<%= autoridad.imagen %>" alt=""
+                                        class="adm-prev-avatar-img">
+                                    <div id="preview-avatar-placeholder" class="adm-prev-avatar-ph"
+                                        style="display:none">
+                                        <span id="preview-initial">
+                                            <%= autoridad.nombre.charAt(0).toUpperCase() %>
+                                        </span>
+                                    </div>
+                                    <% } else { %>
+                                        <img id="preview-avatar" src="" alt="" class="adm-prev-avatar-img"
+                                            style="display:none">
+                                        <div id="preview-avatar-placeholder" class="adm-prev-avatar-ph">
+                                            <span id="preview-initial">
+                                                <%= autoridad.nombre.charAt(0).toUpperCase() %>
+                                            </span>
+                                        </div>
+                                        <% } %>
+                                            <div class="adm-prev-avatar-ring"></div>
+                            </div>
+
+                            <h4 id="preview-name" class="adm-prev-name">
+                                <%= autoridad.nombre %>
+                            </h4>
+                            <p id="preview-cargo" class="adm-prev-cargo">
+                                <%= autoridad.cargo %>
+                            </p>
+                            <div class="adm-prev-orden">
+                                <i class="fas fa-sort-amount-up"></i>
+                                Orden: <span id="preview-orden">
+                                    <%= autoridad.orden || 0 %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meta info -->
+                    <div class="adm-sidebar-meta">
+                        <div class="adm-sidebar-meta-title"><i class="fas fa-info-circle"></i> Información</div>
+                        <div class="adm-sidebar-meta-row"><span>ID</span><strong>#<%= autoridad.id %></strong></div>
+                        <div class="adm-sidebar-meta-row"><span>Foto</span>
+                            <strong class="<%= autoridad.imagen ? 'text-green' : 'text-gray' %>">
+                                <%= autoridad.imagen ? 'Cargada' : 'Sin foto' %>
+                            </strong>
+                        </div>
+                    </div>
+
+                    <!-- Tips -->
+                    <div class="adm-sidebar-tips">
+                        <div class="adm-sidebar-tips-title"><i class="fas fa-lightbulb"></i> Consejos</div>
+                        <ul>
+                            <li>Usa una foto <strong>cuadrada</strong> para que se vea perfecto en el círculo.</li>
+                            <li>El cargo debe ser <strong>breve y formal</strong> (máx. 40 caracteres).</li>
+                            <li>Un <strong>orden menor</strong> hace que aparezca primero en la lista.</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+            <script>
+                const HAS_IMG = <%= autoridad.imagen ? 'true' : 'false' %>;
+
+                function syncPreview() {
+                    const nombre = document.getElementById('edit-nombre').value.trim();
+                    const cargo = document.getElementById('edit-cargo').value.trim();
+                    const orden = document.getElementById('edit-orden').value;
+
+                    document.getElementById('preview-name').textContent = nombre || 'Nombre completo…';
+                    document.getElementById('preview-cargo').textContent = cargo || 'Cargo…';
+                    document.getElementById('preview-orden').textContent = orden || '0';
+
+                    const initial = nombre.charAt(0).toUpperCase() || '?';
+                    const initEl = document.getElementById('preview-initial');
+                    if (initEl) initEl.textContent = initial;
+                }
+
+                function previewImg(input) {
+                    document.getElementById('edit-file-name').textContent = input.files[0]?.name || 'Cambiar fotografía (opcional)…';
+                    if (input.files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            const pAvatar = document.getElementById('preview-avatar');
+                            const cImg = document.getElementById('current-img');
+                            const ph = document.getElementById('preview-avatar-placeholder');
+                            if (pAvatar) { pAvatar.src = e.target.result; pAvatar.style.display = ''; }
+                            if (cImg) { cImg.src = e.target.result; }
+                            if (ph) { ph.style.display = 'none'; }
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            </script>
+
+            <%- include('../partials/admin-footer') %>

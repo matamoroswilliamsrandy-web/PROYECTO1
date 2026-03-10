@@ -1,0 +1,184 @@
+<%- include('../partials/header') %>
+
+    <!-- ═══════════════════════════════════════════
+     HERO BANNER
+    ════════════════════════════════════════════ -->
+    <header class="page-hero">
+        <div class="hero-container">
+            <span class="hero-tag"><i class="fas fa-calendar-star"></i> Agenda Institucional</span>
+            <h1 class="hero-title">EVENTOS INSTITUCIONALES</h1>
+            <p class="hero-subtitle">Mantente al día con nuestras actividades académicas, culturales y deportivas.</p>
+
+            <div class="ev-hero-pills">
+                <a href="/eventos?filter=all"
+                    class="ev-pill <%= (!currentFilter || currentFilter === 'all') ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-list"></i> Todos
+                </a>
+                <a href="/eventos?filter=week" class="ev-pill <%= currentFilter === 'week' ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-calendar-week"></i> Esta Semana
+                </a>
+                <a href="/eventos?filter=month"
+                    class="ev-pill <%= currentFilter === 'month' ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-calendar-alt"></i> Este Mes
+                </a>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f6fa" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+     EVENTO DESTACADO (primero de la lista)
+════════════════════════════════════════════ -->
+    <% if (typeof eventosDestacados !=='undefined' && eventosDestacados.length> 0) { %>
+        <section class="ev-section bg-light">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="section-pill ev-pill-red"><i class="fas fa-star"></i> Eventos Destacados</span>
+                    <h2>Eventos Destacados</h2>
+                    <p>Los eventos más importantes de nuestra institución</p>
+                </div>
+                <div class="ev-feat-layout">
+                    <% eventosDestacados.slice(0, 3).forEach((event, i)=> {
+                        const eDate = new Date(event.fecha_evento);
+                        %>
+                        <a href="/eventos/<%= event.id %>"
+                            class="ev-feat-card <%= i === 0 ? 'ev-feat-card--hero' : 'ev-feat-card--side' %>">
+                            <div class="ev-feat-card__img">
+                                <% if (event.imagen) { %>
+                                    <img src="<%= event.imagen %>" alt="<%= event.titulo %>">
+                                    <% } else { %>
+                                        <div class="ev-feat-card__no-img"><i class="far fa-calendar-alt"></i></div>
+                                        <% } %>
+                            </div>
+                            <div class="ev-feat-card__overlay"></div>
+                            <div class="ev-feat-card__badge">
+                                <i class="fas fa-star"></i> Destacado
+                            </div>
+                            <div class="ev-feat-card__date-badge">
+                                <span class="ev-feat-card__date-day">
+                                    <%= eDate.getDate() %>
+                                </span>
+                                <span class="ev-feat-card__date-month">
+                                    <%= eDate.toLocaleString('es-ES', { month: 'short' }).toUpperCase() %>
+                                </span>
+                            </div>
+                            <div class="ev-feat-card__content">
+                                <div class="ev-feat-card__meta">
+                                    <span><i class="far fa-clock"></i>
+                                        <%= event.hora_evento || '09:00' %>
+                                    </span>
+                                    <span><i class="fas fa-map-marker-alt"></i>
+                                        <%= event.lugar %>
+                                    </span>
+                                </div>
+                                <h3 class="ev-feat-card__title">
+                                    <%= event.titulo %>
+                                </h3>
+                                <% if (i===0) { %>
+                                    <p class="ev-feat-card__excerpt">
+                                        <%= event.descripcion ? event.descripcion.substring(0, 150) + '...' : '' %>
+                                    </p>
+                                    <% } %>
+                                        <span class="ev-feat-card__cta">
+                                            Ver Detalles <i class="fas fa-arrow-right"></i>
+                                        </span>
+                            </div>
+                        </a>
+                        <% }) %>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+            <!-- ═══════════════════════════════════════════
+     TODOS LOS EVENTOS
+════════════════════════════════════════════ -->
+            <section class="ev-section">
+                <div class="container">
+                    <div class="ev-grid-wrapper">
+
+                        <!-- Toolbar -->
+                        <div class="ev-toolbar">
+                            <div class="ev-toolbar-left">
+                                <div class="ev-toolbar-icon-wrap"><i class="fas fa-calendar-check"></i></div>
+                                <div>
+                                    <h2 class="ev-toolbar-title">Todos los Eventos</h2>
+                                    <span class="ev-toolbar-count">
+                                        <%= eventos.length %> evento<%= eventos.length !==1 ? 's' : '' %> disponible<%=
+                                                    eventos.length !==1 ? 's' : '' %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="ev-filter-group">
+                                <a href="/eventos?filter=all"
+                                    class="ev-filter-btn <%= (!currentFilter || currentFilter === 'all')   ? 'active' : '' %>">Todos</a>
+                                <a href="/eventos?filter=week"
+                                    class="ev-filter-btn <%= currentFilter === 'week'  ? 'active' : '' %>">Esta
+                                    Semana</a>
+                                <a href="/eventos?filter=month"
+                                    class="ev-filter-btn <%= currentFilter === 'month' ? 'active' : '' %>">Este Mes</a>
+                            </div>
+                        </div>
+                        <div class="ev-toolbar-divider"></div>
+
+                        <% if (eventos && eventos.length> 0) { %>
+                            <!-- Listado Moderno Compacto -->
+                            <div class="ev-compact-list">
+                                <% eventos.slice(0, 25).forEach(function(event, i) { const eDate=new
+                                    Date(event.fecha_evento); %>
+                                    <article class="ev-list-row <%= event.destacado ? 'ev-list-row--featured' : '' %>">
+                                        <div class="ev-list-date">
+                                            <span class="day">
+                                                <%= eDate.getDate() %>
+                                            </span>
+                                            <span class="month">
+                                                <%= eDate.toLocaleString('es-ES', { month: 'short' }).toUpperCase() %>
+                                            </span>
+                                        </div>
+
+                                        <div class="ev-list-info">
+                                            <div class="ev-list-meta">
+                                                <span class="meta-item"><i class="far fa-clock"></i>
+                                                    <%= event.hora_evento || '09:00' %>
+                                                </span>
+                                                <span class="meta-item"><i class="fas fa-map-marker-alt"></i>
+                                                    <%= event.lugar %>
+                                                </span>
+                                                <% if (event.destacado) { %>
+                                                    <span class="badge-row-featured">★ Destacado</span>
+                                                    <% } else if (i===0) { %>
+                                                        <span class="badge-row-next">Próximo</span>
+                                                        <% } %>
+                                            </div>
+                                            <h3 class="ev-list-title">
+                                                <a href="/eventos/<%= event.id %>">
+                                                    <%= event.titulo %>
+                                                </a>
+                                            </h3>
+                                        </div>
+
+                                        <div class="ev-list-action">
+                                            <a href="/eventos/<%= event.id %>" class="btn-row-arrow">
+                                                Ver detalles <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </div>
+                                    </article>
+                                    <% }); %>
+                            </div>
+                            <% } else { %>
+                                <div class="ev-empty">
+                                    <i class="far fa-calendar-times ev-empty-icon"></i>
+                                    <h3>No hay eventos programados</h3>
+                                    <p>Pronto publicaremos nuevas actividades institucionales.</p>
+                                </div>
+                                <% } %>
+
+                    </div><!-- /ev-grid-wrapper -->
+                </div>
+            </section>
+
+            <%- include('../partials/footer') %>

@@ -1,0 +1,219 @@
+<%- include('../partials/admin-header', { path: '/panel-director' }) %>
+
+    <!-- ═══════════════════════════════════════════
+     WELCOME BANNER
+════════════════════════════════════════════ -->
+    <div class="dash-welcome-banner">
+        <div class="dash-welcome-left">
+            <div class="dash-welcome-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div>
+                <p class="dash-welcome-greeting">¡Bienvenido de vuelta!</p>
+                <h1 class="dash-welcome-name">
+                    <%= usuario ? usuario.username : 'Director' %>
+                </h1>
+                <p class="dash-welcome-sub">Panel de administración &bull; IE. Antonio Raymondi</p>
+            </div>
+        </div>
+        <div class="dash-welcome-right">
+            <a href="/" target="_blank" class="dash-btn-site">
+                <i class="fas fa-globe"></i>
+                <span>Ver Página Web</span>
+                <i class="fas fa-external-link-alt dash-btn-ext"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+     STAT CARDS
+════════════════════════════════════════════ -->
+    <div class="dash-stats-grid">
+        <a href="/panel-director/noticias" class="dash-stat-card dash-stat-card--red">
+            <div class="dash-stat-icon-wrap">
+                <i class="far fa-newspaper"></i>
+            </div>
+            <div class="dash-stat-body">
+                <span class="dash-stat-number">
+                    <%= stats.totalNoticias %>
+                </span>
+                <span class="dash-stat-label">Noticias</span>
+            </div>
+            <div class="dash-stat-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="dash-stat-bg-icon"><i class="far fa-newspaper"></i></div>
+        </a>
+        <a href="/panel-director/eventos" class="dash-stat-card dash-stat-card--blue">
+            <div class="dash-stat-icon-wrap">
+                <i class="far fa-calendar-alt"></i>
+            </div>
+            <div class="dash-stat-body">
+                <span class="dash-stat-number">
+                    <%= stats.totalEventos %>
+                </span>
+                <span class="dash-stat-label">Eventos</span>
+            </div>
+            <div class="dash-stat-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="dash-stat-bg-icon"><i class="far fa-calendar-alt"></i></div>
+        </a>
+        <a href="/panel-director/autoridades" class="dash-stat-card dash-stat-card--green">
+            <div class="dash-stat-icon-wrap">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="dash-stat-body">
+                <span class="dash-stat-number">
+                    <%= stats.totalAutoridades %>
+                </span>
+                <span class="dash-stat-label">Autoridades</span>
+            </div>
+            <div class="dash-stat-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="dash-stat-bg-icon"><i class="fas fa-user-tie"></i></div>
+        </a>
+        <a href="/panel-director/galeria" class="dash-stat-card dash-stat-card--purple">
+            <div class="dash-stat-icon-wrap">
+                <i class="far fa-images"></i>
+            </div>
+            <div class="dash-stat-body">
+                <span class="dash-stat-number">
+                    <%= stats.totalImagenes %>
+                </span>
+                <span class="dash-stat-label">Imágenes</span>
+            </div>
+            <div class="dash-stat-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="dash-stat-bg-icon"><i class="far fa-images"></i></div>
+        </a>
+        <a href="/panel-director/contacto" class="dash-stat-card dash-stat-card--orange">
+            <div class="dash-stat-icon-wrap">
+                <i class="far fa-envelope"></i>
+            </div>
+            <div class="dash-stat-body">
+                <span class="dash-stat-number">
+                    <%= stats.totalMensajes %>
+                </span>
+                <span class="dash-stat-label">Mensajes</span>
+            </div>
+            <div class="dash-stat-arrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="dash-stat-bg-icon"><i class="far fa-envelope"></i></div>
+        </a>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+     ACTIVIDAD RECIENTE
+════════════════════════════════════════════ -->
+    <div class="dash-activity-grid">
+
+        <!-- Últimas Noticias -->
+        <div class="dash-activity-card">
+            <div class="dash-activity-header">
+                <div class="dash-activity-header-left">
+                    <div class="dash-activity-icon dash-activity-icon--red">
+                        <i class="far fa-newspaper"></i>
+                    </div>
+                    <h3 class="dash-activity-title">Últimas Noticias</h3>
+                </div>
+                <a href="/panel-director/noticias" class="dash-activity-link">
+                    Ver todas <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="dash-activity-body">
+                <% if (stats.ultimasNoticias.length===0) { %>
+                    <div class="dash-activity-empty">
+                        <i class="far fa-folder-open"></i>
+                        <p>No hay noticias registradas.</p>
+                    </div>
+                    <% } else { %>
+                        <ul class="dash-activity-list">
+                            <% stats.ultimasNoticias.forEach(n=> { %>
+                                <li class="dash-activity-item">
+                                    <div class="dash-activity-item-dot"></div>
+                                    <span class="dash-activity-item-text">
+                                        <%= n.titulo.substring(0, 50) %>
+                                            <%= n.titulo.length> 50 ? '…' : '' %>
+                                    </span>
+                                    <% if (n.destacada) { %>
+                                        <span class="dash-badge dash-badge--red">
+                                            <i class="fas fa-star"></i> Destacada
+                                        </span>
+                                        <% } %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                        <% } %>
+            </div>
+        </div>
+
+        <!-- Próximos Eventos -->
+        <div class="dash-activity-card">
+            <div class="dash-activity-header">
+                <div class="dash-activity-header-left">
+                    <div class="dash-activity-icon dash-activity-icon--blue">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="dash-activity-title">Próximos Eventos</h3>
+                </div>
+                <a href="/panel-director/eventos" class="dash-activity-link">
+                    Ver todos <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="dash-activity-body">
+                <% if (stats.proximosEventos.length===0) { %>
+                    <div class="dash-activity-empty">
+                        <i class="far fa-calendar-times"></i>
+                        <p>No hay eventos registrados.</p>
+                    </div>
+                    <% } else { %>
+                        <ul class="dash-activity-list">
+                            <% stats.proximosEventos.forEach(e=> { %>
+                                <li class="dash-activity-item">
+                                    <div class="dash-activity-item-dot dash-activity-item-dot--blue"></div>
+                                    <span class="dash-activity-item-text">
+                                        <%= e.titulo.substring(0, 45) %>
+                                            <%= e.titulo.length> 45 ? '…' : '' %>
+                                    </span>
+                                    <span class="dash-badge dash-badge--blue">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <%= new Date(e.fecha_evento).toLocaleDateString('es-PE', { day: '2-digit' ,
+                                            month: 'short' , year: 'numeric' }) %>
+                                    </span>
+                                </li>
+                                <% }) %>
+                        </ul>
+                        <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+     ACCIONES RÁPIDAS
+════════════════════════════════════════════ -->
+    <div class="dash-quick-box">
+        <h3 class="dash-quick-title"><i class="fas fa-bolt"></i> Acciones Rápidas</h3>
+        <div class="dash-quick-grid">
+            <a href="/panel-director/noticias/crear" class="dash-quick-btn dash-quick-btn--red">
+                <i class="fas fa-plus-circle"></i>
+                <span>Nueva Noticia</span>
+            </a>
+            <a href="/panel-director/eventos/crear" class="dash-quick-btn dash-quick-btn--blue">
+                <i class="fas fa-calendar-plus"></i>
+                <span>Nuevo Evento</span>
+            </a>
+            <a href="/panel-director/autoridades" class="dash-quick-btn dash-quick-btn--green">
+                <i class="fas fa-user-plus"></i>
+                <span>Autoridades</span>
+            </a>
+            <a href="/panel-director/galeria" class="dash-quick-btn dash-quick-btn--purple">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Subir Foto</span>
+            </a>
+            <a href="/panel-director/contacto" class="dash-quick-btn dash-quick-btn--orange">
+                <i class="fas fa-inbox"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="/" target="_blank" class="dash-quick-btn dash-quick-btn--dark">
+                <i class="fas fa-globe"></i>
+                <span>Ver Página</span>
+            </a>
+        </div>
+    </div>
+
+    <%- include('../partials/admin-footer') %>

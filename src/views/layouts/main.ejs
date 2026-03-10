@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %>Institución Educativa</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- FontAwesome o similar si se requiere -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <div class="logo">IE. Antonio Raymondi</div>
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/noticias">Noticias</a></li>
+                <li><a href="/eventos">Eventos</a></li>
+                <li><a href="/autoridades">Autoridades</a></li>
+                <li><a href="/galeria">Galería</a></li>
+                <li><a href="/contacto">Contacto</a></li>
+                <% if(usuario) { %>
+                    <li><a href="/panel-director">Panel Director</a></li>
+                    <li><a href="/auth/logout">Cerrar Sesión</a></li>
+                <% } else { %>
+                    <li><a href="/auth/login">Iniciar Sesión</a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <%- body %>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Institución Educativa. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

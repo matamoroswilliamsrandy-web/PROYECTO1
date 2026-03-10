@@ -1,0 +1,238 @@
+<%- include('../partials/header') %>
+
+    <!-- ═══════════════════════════════════════════
+     HERO BANNER
+    ════════════════════════════════════════════ -->
+    <header class="page-hero">
+        <div class="hero-container">
+            <span class="hero-tag"><i class="fas fa-newspaper"></i> Actualidad Institucional</span>
+            <h1 class="hero-title">NOTICIAS Y NOVEDADES</h1>
+            <p class="hero-subtitle">Entérate de los últimos acontecimientos y logros de nuestra comunidad educativa.
+            </p>
+
+            <div class="ev-hero-pills">
+                <a href="/noticias?filter=all"
+                    class="ev-pill <%= (!currentFilter || currentFilter === 'all') ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-list"></i> Todas
+                </a>
+                <a href="/noticias?filter=week"
+                    class="ev-pill <%= currentFilter === 'week' ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-calendar-week"></i> Esta Semana
+                </a>
+                <a href="/noticias?filter=month"
+                    class="ev-pill <%= currentFilter === 'month' ? 'ev-pill--active' : '' %>">
+                    <i class="fas fa-calendar-alt"></i> Este Mes
+                </a>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f6fa" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+     ÚLTIMAS NOTICIAS (Destacados)
+════════════════════════════════════════════ -->
+    <% if (typeof topNews !=='undefined' && topNews.length> 0) { %>
+        <section class="news-featured-section">
+            <div class="container">
+                <div class="section-heading">
+                    <span class="section-pill ev-pill-red"><i class="fas fa-fire"></i> Lo Más Reciente</span>
+                    <h2>Noticias Destacadas</h2>
+                    <p>Lo más relevante del Colegio Antonio Raymondi</p>
+                </div>
+
+                <div class="feat-news-layout">
+                    <% topNews.slice(0, 3).forEach((news, i)=> {
+                        const nDate = new Date(news.fecha_publicacion || Date.now());
+                        const dayNames = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+                        %>
+                        <a href="/noticias/<%= news.id %>"
+                            class="feat-card <%= i === 0 ? 'feat-card--hero' : 'feat-card--side' %>">
+                            <div class="feat-card__img">
+                                <% if (news.imagen) { %>
+                                    <img src="<%= news.imagen %>" alt="<%= news.titulo %>">
+                                    <% } else { %>
+                                        <div class="feat-card__no-img"><i class="far fa-newspaper"></i></div>
+                                        <% } %>
+                            </div>
+                            <div class="feat-card__overlay"></div>
+                            <div class="feat-card__badge">
+                                <i class="fas fa-bolt"></i> Destacado
+                            </div>
+                            <div class="feat-card__date-badge">
+                                <span class="feat-card__date-day">
+                                    <%= nDate.getDate() %>
+                                </span>
+                                <span class="feat-card__date-month">
+                                    <%= nDate.toLocaleString('es-ES', { month: 'short' }).toUpperCase() %>
+                                </span>
+                            </div>
+                            <div class="feat-card__content">
+                                <div class="feat-card__meta">
+                                    <span><i class="far fa-clock"></i>
+                                        <%= nDate.toLocaleDateString('es-PE') %>
+                                    </span>
+                                    <span><i class="fas fa-tag"></i> Institucional</span>
+                                </div>
+                                <h3 class="feat-card__title">
+                                    <%= news.titulo %>
+                                </h3>
+                                <% if (i===0) { %>
+                                    <p class="feat-card__excerpt">
+                                        <%= news.contenido ? news.contenido.substring(0, 150) + '...' : '' %>
+                                    </p>
+                                    <% } %>
+                                        <span class="feat-card__cta">
+                                            Leer artículo <i class="fas fa-arrow-right"></i>
+                                        </span>
+                            </div>
+                        </a>
+                        <% }) %>
+                </div>
+            </div>
+        </section>
+        <% } %>
+
+            <!-- ═══════════════════════════════════════════
+     TODAS LAS NOTICIAS
+════════════════════════════════════════════ -->
+            <% const displayNews=noticias && noticias.length> 0 ? noticias : (allNews ? allNews : []); %>
+                <section class="news-section">
+                    <div class="container">
+                        <div class="news-grid-wrapper">
+
+                            <div class="news-toolbar">
+                                <div class="news-toolbar-left">
+                                    <div class="news-toolbar-icon-wrap"><i class="fas fa-th-large"></i></div>
+                                    <div>
+                                        <h2 class="news-toolbar-title">Todas las Noticias</h2>
+                                        <span class="news-toolbar-count">
+                                            <% if (typeof searchQuery !=='undefined' && searchQuery) { %>
+                                                <%= displayNews.length %> resultado<%= displayNews.length !==1 ? 's'
+                                                        : '' %> encontrado<%= displayNews.length !==1 ? 's' : '' %>
+                                                            <% } else { %>
+                                                                <%= displayNews.length %> noticia<%= displayNews.length
+                                                                        !==1 ? 's' : '' %> disponible<%=
+                                                                            displayNews.length !==1 ? 's' : '' %>
+                                                                            <% } %>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="ev-filter-group">
+                                    <a href="/noticias?filter=all"
+                                        class="ev-filter-btn <%= (!currentFilter || currentFilter === 'all') ? 'active' : '' %>">
+                                        Todas
+                                    </a>
+                                    <a href="/noticias?filter=week"
+                                        class="ev-filter-btn <%= currentFilter === 'week' ? 'active' : '' %>">
+                                        Esta Semana
+                                    </a>
+                                    <a href="/noticias?filter=month"
+                                        class="ev-filter-btn <%= currentFilter === 'month' ? 'active' : '' %>">
+                                        Este Mes
+                                    </a>
+                                </div>
+
+                                <% if (typeof searchQuery !=='undefined' && searchQuery) { %>
+                                    <div class="search-badge-wrap">
+                                        <i class="fas fa-search search-badge-icon"></i>
+                                        <span>Resultados para:</span>
+                                        <strong class="search-badge-query">"<%= searchQuery %>"</strong>
+                                        <a href="/noticias" class="btn-clear-search">
+                                            <i class="fas fa-times"></i> Limpiar
+                                        </a>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="news-toolbar-divider"></div>
+
+                            <!-- Listado Moderno Compacto -->
+                            <% if (displayNews.length> 0) { %>
+                                <div class="news-compact-list">
+                                    <% displayNews.slice(0, 25).forEach(news=> {
+                                        const nDate = new Date(news.fecha_publicacion || Date.now());
+                                        %>
+                                        <article class="news-list-row">
+                                            <div class="news-list-date">
+                                                <span class="day">
+                                                    <%= nDate.getDate() %>
+                                                </span>
+                                                <span class="month">
+                                                    <%= nDate.toLocaleString('es-ES', { month: 'short' }).toUpperCase()
+                                                        %>
+                                                </span>
+                                            </div>
+
+                                            <div class="news-list-info">
+                                                <div class="news-list-meta">
+                                                    <span class="meta-item"><i class="far fa-clock"></i>
+                                                        <%= nDate.toLocaleDateString('es-PE') %>
+                                                    </span>
+                                                    <% if (news.destacada) { %>
+                                                        <span class="badge-row-featured">★ Destacada</span>
+                                                        <% } %>
+                                                </div>
+                                                <h3 class="news-list-title">
+                                                    <a href="/noticias/<%= news.id %>">
+                                                        <%= news.titulo %>
+                                                    </a>
+                                                </h3>
+                                            </div>
+
+                                            <div class="news-list-action">
+                                                <a href="/noticias/<%= news.id %>" class="btn-row-arrow">
+                                                    Leer <i class="fas fa-chevron-right"></i>
+                                                </a>
+                                            </div>
+                                        </article>
+                                        <% }) %>
+                                </div>
+
+                                <!-- Paginación -->
+                                <% if (typeof totalPages !=='undefined' && totalPages> 1) { %>
+                                    <div class="news-pagination">
+                                        <% if (currentPage> 0) { %>
+                                            <a href="/noticias?page=<%= currentPage - 1 %>" class="page-btn">
+                                                <i class="fas fa-chevron-left"></i> Anterior
+                                            </a>
+                                            <% } %>
+                                                <% for(let i=0; i < totalPages; i++) { %>
+                                                    <a href="/noticias?page=<%= i %>"
+                                                        class="page-btn <%= i === currentPage ? 'page-btn-active' : '' %>">
+                                                        <%= i + 1 %>
+                                                    </a>
+                                                    <% } %>
+                                                        <% if (currentPage < totalPages - 1) { %>
+                                                            <a href="/noticias?page=<%= currentPage + 1 %>"
+                                                                class="page-btn">
+                                                                Siguiente <i class="fas fa-chevron-right"></i>
+                                                            </a>
+                                                            <% } %>
+                                    </div>
+                                    <% } %>
+
+                                        <% } else { %>
+                                            <div class="news-empty">
+                                                <i class="far fa-newspaper news-empty-icon"></i>
+                                                <h3>No se encontraron noticias</h3>
+                                                <% if (typeof searchQuery !=='undefined' && searchQuery) { %>
+                                                    <p>No hay resultados para "<%= searchQuery %>". Intenta con otro
+                                                            término.</p>
+                                                    <a href="/noticias" class="btn-read-more mt-3">Ver todas las
+                                                        noticias</a>
+                                                    <% } else { %>
+                                                        <p>Pronto publicaremos nuevas noticias de nuestra institución.
+                                                        </p>
+                                                        <% } %>
+                                            </div>
+                                            <% } %>
+
+                        </div><!-- /news-grid-wrapper -->
+                    </div>
+                </section>
+
+                <%- include('../partials/footer') %>

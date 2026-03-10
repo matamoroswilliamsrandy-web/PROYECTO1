@@ -1,0 +1,318 @@
+<%- include('../partials/admin-header', { path: '/panel-director/noticias' }) %>
+
+    <!-- ═══════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════ -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="far fa-newspaper"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Gestión de Noticias</h1>
+                <p class="adm-page-sub" id="news-count">
+                    <%= noticias.length %> noticia<%= noticias.length !==1 ? 's' : '' %> registrada<%= noticias.length
+                                !==1 ? 's' : '' %>
+                </p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/" target="_blank" class="adm-header-link">
+                <i class="fas fa-globe"></i> <span>Ver Sitio</span>
+            </a>
+            <button id="btn-toggle-form" class="adm-btn-new" onclick="toggleForm()">
+                <i class="fas fa-plus" id="btn-icon"></i>
+                <span id="btn-label">Nueva Noticia</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     MAIN LAYOUT: SIDE PANEL + TABLE
+════════════════════════════════════════════════ -->
+    <div class="adm-noticias-layout" id="noticias-layout">
+
+        <!-- ── FORM SIDE PANEL ──────────────────────── -->
+        <aside class="adm-side-panel" id="side-panel" aria-hidden="true">
+            <div class="adm-side-panel-inner">
+
+                <div class="adm-drawer-header">
+                    <div class="adm-drawer-title-group">
+                        <div class="adm-form-panel-icon">
+                            <i class="fas fa-pen-to-square"></i>
+                        </div>
+                        <div>
+                            <h3>Nueva Noticia</h3>
+                            <p>Completa los campos y publica</p>
+                        </div>
+                    </div>
+                    <button class="adm-drawer-close" onclick="toggleForm()" title="Cerrar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form action="/panel-director/noticias/crear" method="POST" enctype="multipart/form-data"
+                    class="adm-drawer-form">
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="titulo">
+                            <i class="fas fa-heading"></i> Título
+                        </label>
+                        <input id="titulo" type="text" name="titulo" class="adm-input" required
+                            placeholder="Título de la noticia…">
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="contenido">
+                            <i class="fas fa-align-left"></i> Contenido
+                        </label>
+                        <textarea id="contenido" name="contenido" rows="6" class="adm-input adm-textarea" required
+                            placeholder="Redacta el contenido…"></textarea>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="imagen">
+                            <i class="fas fa-image"></i> Imagen
+                        </label>
+                        <label class="adm-file-label" for="imagen">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-not">Seleccionar imagen…</span>
+                            <input id="imagen" type="file" name="imagen" accept="image/*"
+                                onchange="document.getElementById('file-name-not').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-featured-toggle-card">
+                            <input type="checkbox" name="destacado">
+                            <span class="adm-premium-switch"></span>
+                            <div class="adm-featured-toggle-icon-box">
+                                <i class="fas fa-star"></i>
+                                <div class="adm-featured-toggle-text-wrap">
+                                    <p>Marcar como</p>
+                                    <span>Destacado</span>
+                                    <div class="adm-featured-toggle-hint-text">Aparecerá en el inicio</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="adm-side-form-actions">
+                        <button type="submit" class="adm-btn-submit">
+                            <i class="fas fa-paper-plane"></i> Publicar
+                        </button>
+                        <button type="button" class="adm-btn-cancel" onclick="toggleForm()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </aside>
+
+        <!-- ── TABLE PANEL ──────────────────────────── -->
+        <section class="adm-table-panel">
+
+            <!-- Search bar -->
+            <div class="adm-table-panel-header">
+                <h3><i class="fas fa-list-ul"></i> Listado de Noticias</h3>
+                <div class="adm-search-wrap">
+                    <i class="fas fa-search adm-search-icon"></i>
+                    <input type="text" id="news-search" class="adm-search-input" placeholder="Buscar noticia…"
+                        oninput="filterNews(this.value)">
+                    <button class="adm-search-clear" id="clear-search" onclick="clearSearch()" title="Limpiar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <span class="adm-count-badge" id="visible-count">
+                    <%= noticias.length %>
+                </span>
+            </div>
+
+            <% if (noticias.length===0) { %>
+                <div class="adm-empty-state">
+                    <div class="adm-empty-icon"><i class="far fa-newspaper"></i></div>
+                    <p>No hay noticias registradas todavía.</p>
+                    <span>Haz clic en <strong>Nueva Noticia</strong> para publicar la primera.</span>
+                </div>
+                <% } else { %>
+
+                    <!-- Desktop table -->
+                    <div class="adm-tbl-wrap" id="tbl-wrap">
+                        <table class="adm-tbl" id="news-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:70px">Imagen</th>
+                                    <th>Título</th>
+                                    <th style="width:130px">Fecha</th>
+                                    <th style="width:110px">Estado</th>
+                                    <th style="width:90px; text-align:center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="news-tbody">
+                                <% noticias.forEach(noticia=> { %>
+                                    <tr class="adm-tbl-row" data-title="<%= noticia.titulo.toLowerCase() %>">
+                                        <td>
+                                            <% if (noticia.imagen) { %>
+                                                <img src="<%= noticia.imagen %>" alt="" class="adm-tbl-thumb">
+                                                <% } else { %>
+                                                    <div class="adm-tbl-thumb adm-tbl-thumb--empty">
+                                                        <i class="far fa-image"></i>
+                                                    </div>
+                                                    <% } %>
+                                        </td>
+                                        <td>
+                                            <span class="adm-tbl-title">
+                                                <%= noticia.titulo %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="adm-meta-item">
+                                                <i class="fas fa-calendar-day"></i>
+                                                <%= new Date(noticia.fecha_publicacion).toLocaleDateString('es-PE', {
+                                                    day:'2-digit', month:'short', year:'numeric' }) %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <% if (noticia.destacada) { %>
+                                                <span class="adm-badge adm-badge--star"><i class="fas fa-star"></i>
+                                                    Destacada</span>
+                                                <% } else { %>
+                                                    <span class="adm-badge adm-badge--gray">Normal</span>
+                                                    <% } %>
+                                        </td>
+                                        <td>
+                                            <div class="adm-tbl-actions">
+                                                <a href="/panel-director/noticias/editar/<%= noticia.id %>"
+                                                    class="adm-action-btn adm-action-btn--edit" title="Editar">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <form action="/panel-director/noticias/eliminar/<%= noticia.id %>"
+                                                    method="POST" onsubmit="return confirm('¿Eliminar esta noticia?');">
+                                                    <button type="submit" class="adm-action-btn adm-action-btn--delete"
+                                                        title="Eliminar">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+
+                        <!-- No results message -->
+                        <div class="adm-no-results" id="no-results" style="display:none;">
+                            <i class="fas fa-search"></i>
+                            <p>No se encontraron noticias que coincidan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Mobile cards -->
+                    <div class="adm-mobile-list" id="mobile-list">
+                        <% noticias.forEach(noticia=> { %>
+                            <div class="adm-news-item" data-title="<%= noticia.titulo.toLowerCase() %>">
+                                <div class="adm-news-thumb">
+                                    <% if (noticia.imagen) { %>
+                                        <img src="<%= noticia.imagen %>" alt="<%= noticia.titulo %>">
+                                        <% } else { %>
+                                            <div class="adm-news-thumb-placeholder"><i class="far fa-image"></i></div>
+                                            <% } %>
+                                                <% if (noticia.destacada) { %>
+                                                    <span class="adm-thumb-star"><i class="fas fa-star"></i></span>
+                                                    <% } %>
+                                </div>
+                                <div class="adm-news-body">
+                                    <p class="adm-news-title">
+                                        <%= noticia.titulo %>
+                                    </p>
+                                    <div class="adm-news-meta">
+                                        <span class="adm-meta-item">
+                                            <i class="fas fa-calendar-day"></i>
+                                            <%= new Date(noticia.fecha_publicacion).toLocaleDateString('es-PE', {
+                                                day:'2-digit', month:'short', year:'numeric' }) %>
+                                        </span>
+                                        <% if (noticia.destacada) { %>
+                                            <span class="adm-badge adm-badge--star"><i class="fas fa-star"></i>
+                                                Destacada</span>
+                                            <% } else { %>
+                                                <span class="adm-badge adm-badge--gray">Normal</span>
+                                                <% } %>
+                                    </div>
+                                </div>
+                                <div class="adm-news-actions">
+                                    <a href="/panel-director/noticias/editar/<%= noticia.id %>"
+                                        class="adm-action-btn adm-action-btn--edit"><i class="fas fa-pen"></i></a>
+                                    <form action="/panel-director/noticias/eliminar/<%= noticia.id %>" method="POST"
+                                        style="display:inline;" onsubmit="return confirm('¿Eliminar?');">
+                                        <button type="submit" class="adm-action-btn adm-action-btn--delete"><i
+                                                class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                    <% } %>
+        </section>
+
+    </div><!-- end .adm-noticias-layout -->
+
+    <!-- ── SCRIPTS ────────────────────────────────── -->
+    <script>
+        /* ── Toggle side panel ── */
+        function toggleForm() {
+            const layout = document.getElementById('noticias-layout');
+            const panel = document.getElementById('side-panel');
+            const icon = document.getElementById('btn-icon');
+            const label = document.getElementById('btn-label');
+            const isOpen = layout.classList.toggle('panel-open');
+
+            panel.setAttribute('aria-hidden', String(!isOpen));
+            icon.className = isOpen ? 'fas fa-times' : 'fas fa-plus';
+            label.textContent = isOpen ? 'Cerrar' : 'Nueva Noticia';
+
+            if (isOpen) {
+                setTimeout(() => document.getElementById('titulo')?.focus(), 350);
+            }
+        }
+
+        /* ── Live search ── */
+        function filterNews(query) {
+            const q = query.toLowerCase().trim();
+            const rows = document.querySelectorAll('#news-tbody .adm-tbl-row');
+            const cards = document.querySelectorAll('#mobile-list .adm-news-item');
+            const noRes = document.getElementById('no-results');
+            const badge = document.getElementById('visible-count');
+            const clearBtn = document.getElementById('clear-search');
+
+            let visible = 0;
+            const filter = (els) => {
+                els.forEach(el => {
+                    const match = !q || el.dataset.title.includes(q);
+                    el.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+            };
+
+            filter(rows);
+            // reset visible for mobile (rows already counted)
+            visible = 0;
+            rows.forEach(r => { if (r.style.display !== 'none') visible++; });
+            cards.forEach(c => { c.style.display = (c.dataset.title.includes(q) || !q) ? '' : 'none'; });
+
+            badge.textContent = visible;
+            noRes.style.display = (visible === 0 && q) ? 'flex' : 'none';
+            clearBtn.style.opacity = q ? '1' : '0';
+            clearBtn.style.pointerEvents = q ? 'auto' : 'none';
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('news-search');
+            input.value = '';
+            filterNews('');
+            input.focus();
+        }
+    </script>
+
+    <%- include('../partials/admin-footer') %>

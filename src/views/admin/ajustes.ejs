@@ -1,0 +1,1369 @@
+<%- include('../partials/admin-header', { path: '/panel-director/ajustes' }) %>
+
+    <!-- ── PAGE HEADER ── -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Ajustes del Sitio</h1>
+                <p class="adm-page-sub">Controla el contenido visual de todas las páginas institucionales</p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/" target="_blank" class="aj-preview-btn">
+                <i class="fas fa-eye"></i> Vista Previa
+            </a>
+        </div>
+    </div>
+
+    <!-- ── ALERTS ── -->
+    <% if (success) { %>
+        <div class="aj-alert aj-alert--success">
+            <i class="fas fa-check-circle"></i>
+            <span>
+                <%= success %>
+            </span>
+        </div>
+        <% } %>
+            <% if (error) { %>
+                <div class="aj-alert aj-alert--error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>
+                        <%= error %>
+                    </span>
+                </div>
+                <% } %>
+
+                    <!-- ── TAB NAVIGATION ── -->
+                    <div class="aj-tabs-bar">
+                        <button class="aj-tab active" data-tab="tab-stats">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Estadísticas</span>
+                        </button>
+                        <button class="aj-tab" data-tab="tab-ticker">
+                            <i class="fas fa-bullhorn"></i>
+                            <span>Anuncios</span>
+                        </button>
+                        <button class="aj-tab" data-tab="tab-propuesta">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Prop. Educativa</span>
+                        </button>
+                        <button class="aj-tab" data-tab="tab-mision">
+                            <i class="fas fa-bullseye"></i>
+                            <span>Misión y Visión</span>
+                        </button>
+                        <button class="aj-tab" data-tab="tab-historia">
+                            <i class="fas fa-landmark"></i>
+                            <span>Historia</span>
+                        </button>
+                    </div>
+
+
+
+                    <!-- ════════════════════════════════════════════
+     TAB 2: ESTADÍSTICAS
+═════════════════════════════════════════════ -->
+                    <div id="tab-stats" class="aj-tab-panel active">
+                        <form action="/panel-director/ajustes/guardar" method="POST">
+
+                            <div class="aj-section-header">
+                                <div class="aj-section-icon" style="background:#fef2f2; color:#c0392b;">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div>
+                                    <h2>Estadísticas Institucionales</h2>
+                                    <p>Contadores que aparecen en la sección de impacto de la página de inicio</p>
+                                </div>
+                            </div>
+
+                            <div class="aj-stats-grid">
+                                <div class="aj-stat-card">
+                                    <div class="aj-stat-icon" style="background:#fef2f2; color:#c0392b;">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                    <label class="aj-label">Estudiantes</label>
+                                    <input type="number" name="stats_estudiantes" class="aj-input aj-stat-input"
+                                        value="<%= ajustes.stats_estudiantes %>">
+                                </div>
+
+                                <div class="aj-stat-card">
+                                    <div class="aj-stat-icon" style="background:#fee2e2; color:#dc2626;">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </div>
+                                    <label class="aj-label">Docentes</label>
+                                    <input type="number" name="stats_docentes" class="aj-input aj-stat-input"
+                                        value="<%= ajustes.stats_docentes %>">
+                                </div>
+
+                                <div class="aj-stat-card">
+                                    <div class="aj-stat-icon" style="background:#fef2f2; color:#c0392b;">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <label class="aj-label">Años de Trayectoria</label>
+                                    <input type="number" name="stats_años" class="aj-input aj-stat-input"
+                                        value="<%= ajustes.stats_años %>">
+                                </div>
+
+                                <div class="aj-stat-card">
+                                    <div class="aj-stat-icon" style="background:#fef2f2; color:#c0392b;">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <label class="aj-label">Premios Ganados</label>
+                                    <input type="number" name="stats_premios" class="aj-input aj-stat-input"
+                                        value="<%= ajustes.stats_premios %>">
+                                </div>
+                            </div>
+
+                            <div class="aj-form-footer">
+                                <button type="submit" class="aj-btn aj-btn--dark">
+                                    <i class="fas fa-save"></i> Guardar Estadísticas
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ════════════════════════════════════════════
+     TAB 3: CINTA DE ANUNCIOS
+═════════════════════════════════════════════ -->
+                    <div id="tab-ticker" class="aj-tab-panel">
+                        <form action="/panel-director/ajustes/guardar" method="POST">
+
+                            <div class="aj-section-header">
+                                <div class="aj-section-icon" style="background:#fef2f2; color:#c0392b;">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <div>
+                                    <h2>Cinta de Anuncios</h2>
+                                    <p>Los 3 mensajes que se desplazan en la barra roja de la parte superior del inicio
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="aj-ticker-list">
+                                <% [1,2,3].forEach(n=> { %>
+                                    <div class="aj-ticker-row">
+                                        <div class="aj-ticker-num">
+                                            <%= n %>
+                                        </div>
+                                        <div class="aj-field" style="flex:1;">
+                                            <label class="aj-label"><i class="fas fa-comment-dots"></i> Mensaje <%= n %>
+                                            </label>
+                                            <input type="text" name="ticker_text<%= n %>" class="aj-input"
+                                                value="<%= ajustes['ticker_text' + n] %>"
+                                                placeholder="Ej: ¡Matrículas Abiertas 2026!">
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+
+                            <div class="aj-ticker-preview">
+                                <span class="aj-ticker-preview-label"><i class="fas fa-eye"></i> Vista previa en tiempo
+                                    real:</span>
+                                <div class="aj-ticker-demo">
+                                    <span id="td1">
+                                        <%= ajustes.ticker_text1 %>
+                                    </span>
+                                    <span>·</span>
+                                    <span id="td2">
+                                        <%= ajustes.ticker_text2 %>
+                                    </span>
+                                    <span>·</span>
+                                    <span id="td3">
+                                        <%= ajustes.ticker_text3 %>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="aj-form-footer">
+                                <button type="submit" class="aj-btn aj-btn--primary">
+                                    <i class="fas fa-save"></i> Guardar Anuncios
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ════════════════════════════════════════════
+     TAB 4: PROPUESTA EDUCATIVA
+═════════════════════════════════════════════ -->
+                    <div id="tab-propuesta" class="aj-tab-panel">
+                        <form action="/panel-director/ajustes/guardar" method="POST" enctype="multipart/form-data">
+
+                            <div class="aj-section-header">
+                                <div class="aj-section-icon" style="background:#fef2f2; color:#c0392b;">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <h2>Propuesta Educativa</h2>
+                                    <p>Edita el contenido de la página y su tarjeta en la portada</p>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta en Portada -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-id-card"></i> Tarjeta en Portada (Cuadro 1)
+                                </div>
+                                <div class="aj-two-col">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Título en Tarjeta</label>
+                                        <input type="text" name="card1_titulo" class="aj-input"
+                                            value="<%= ajustes.card1_titulo %>">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Texto del Botón</label>
+                                        <input type="text" name="card1_btn" class="aj-input"
+                                            value="<%= ajustes.card1_btn %>">
+                                    </div>
+                                </div>
+                                <div class="aj-two-col--img"
+                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Descripción Breve</label>
+                                        <textarea name="card1_desc" class="aj-input aj-textarea"
+                                            rows="4"><%= ajustes.card1_desc %></textarea>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen de Fondo</label>
+                                        <div class="aj-uploader" style="height:120px;">
+                                            <img src="<%= ajustes.card1_img %>" class="aj-uploader-img" id="prev-card1">
+                                            <label class="aj-uploader-overlay" for="card1_img">
+                                                <i class="fas fa-camera"></i>
+                                                <input type="file" id="card1_img" name="card1_img" accept="image/*"
+                                                    onchange="ajPreview(this,'prev-card1')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hero -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-layer-group"></i> Sección Hero (portada)
+                                </div>
+                                <div class="aj-two-col">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Título Hero</label>
+                                        <input type="text" name="pe_hero_title" class="aj-input"
+                                            value="<%= ajustes.pe_hero_title %>" placeholder="Propuesta Educativa">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Subtítulo Hero</label>
+                                        <input type="text" name="pe_hero_sub" class="aj-input"
+                                            value="<%= ajustes.pe_hero_sub %>" placeholder="Un modelo pedagógico...">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sección Principal -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-align-left"></i> Sección Principal</div>
+                                <div class="aj-two-col aj-two-col--img">
+                                    <div>
+                                        <div class="aj-field">
+                                            <label class="aj-label">Título</label>
+                                            <input type="text" name="pe_seccion1_titulo" class="aj-input"
+                                                value="<%= ajustes.pe_seccion1_titulo %>">
+                                        </div>
+                                        <div class="aj-field" style="margin-top:14px;">
+                                            <label class="aj-label">Descripción</label>
+                                            <textarea name="pe_seccion1_desc" class="aj-input aj-textarea"
+                                                rows="5"><%= ajustes.pe_seccion1_desc %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen Principal</label>
+                                        <div class="aj-uploader aj-uploader--tall">
+                                            <img src="<%= ajustes.pe_img1 %>" class="aj-uploader-img" id="prev-pe1">
+                                            <label class="aj-uploader-overlay" for="pe_img1">
+                                                <i class="fas fa-camera"></i>
+                                                <span>Cambiar imagen</span>
+                                                <input type="file" id="pe_img1" name="pe_img1" accept="image/*"
+                                                    onchange="ajPreview(this,'prev-pe1')">
+                                            </label>
+                                        </div>
+                                        <p class="aj-hint">Recomendado 800×600 px</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pilares -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-th"></i> Pilares del Modelo Educativo (4)
+                                </div>
+                                <div class="aj-four-col">
+                                    <% [1,2,3,4].forEach(p=> { %>
+                                        <div class="aj-pilar-card">
+                                            <div class="aj-pilar-num">
+                                                <%= p %>
+                                            </div>
+                                            <div class="aj-field">
+                                                <label class="aj-label">Título</label>
+                                                <input type="text" name="pe_pil<%= p %>_t" class="aj-input"
+                                                    value="<%= ajustes['pe_pil'+p+'_t'] %>">
+                                            </div>
+                                            <div class="aj-field">
+                                                <label class="aj-label">Descripción</label>
+                                                <textarea name="pe_pil<%= p %>_d" class="aj-input aj-textarea"
+                                                    rows="3"><%= ajustes['pe_pil'+p+'_d'] %></textarea>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                            </div>
+
+                            <div class="aj-form-footer">
+                                <button type="submit" class="aj-btn aj-btn--primary">
+                                    <i class="fas fa-save"></i> Guardar Propuesta Educativa
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ════════════════════════════════════════════
+     TAB 5: MISIÓN Y VISIÓN
+═════════════════════════════════════════════ -->
+                    <div id="tab-mision" class="aj-tab-panel">
+                        <form action="/panel-director/ajustes/guardar" method="POST" enctype="multipart/form-data">
+
+                            <div class="aj-section-header">
+                                <div class="aj-section-icon" style="background:#fef2f2; color:#c0392b;">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div>
+                                    <h2>Misión y Visión</h2>
+                                    <p>Edita los propósitos institucionales y su tarjeta en la portada</p>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta en Portada -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-id-card"></i> Tarjeta en Portada (Cuadro 2)
+                                </div>
+                                <div class="aj-two-col">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Título en Tarjeta</label>
+                                        <input type="text" name="card2_titulo" class="aj-input"
+                                            value="<%= ajustes.card2_titulo %>">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Texto del Botón</label>
+                                        <input type="text" name="card2_btn" class="aj-input"
+                                            value="<%= ajustes.card2_btn %>">
+                                    </div>
+                                </div>
+                                <div class="aj-two-col--img"
+                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Descripción Breve</label>
+                                        <textarea name="card2_desc" class="aj-input aj-textarea"
+                                            rows="4"><%= ajustes.card2_desc %></textarea>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen de Fondo</label>
+                                        <div class="aj-uploader" style="height:120px;">
+                                            <img src="<%= ajustes.card2_img %>" class="aj-uploader-img" id="prev-card2">
+                                            <label class="aj-uploader-overlay" for="card2_img">
+                                                <i class="fas fa-camera"></i>
+                                                <input type="file" id="card2_img" name="card2_img" accept="image/*"
+                                                    onchange="ajPreview(this,'prev-card2')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Misión -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-rocket"></i> Misión
+                                </div>
+                                <div class="aj-two-col aj-two-col--img">
+                                    <div>
+                                        <div class="aj-field">
+                                            <label class="aj-label">Título Misión</label>
+                                            <input type="text" name="mv_mision_titulo" class="aj-input"
+                                                value="<%= ajustes.mv_mision_titulo %>">
+                                        </div>
+                                        <div class="aj-field" style="margin-top:14px;">
+                                            <label class="aj-label">Descripción Misión</label>
+                                            <textarea name="mv_mision_desc" class="aj-input aj-textarea"
+                                                rows="4"><%= ajustes.mv_mision_desc %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen Misión</label>
+                                        <div class="aj-uploader aj-uploader--tall">
+                                            <img src="<%= ajustes.mv_mision_img %>" class="aj-uploader-img"
+                                                id="prev-mv-m">
+                                            <label class="aj-uploader-overlay" for="mv_mision_img">
+                                                <i class="fas fa-camera"></i>
+                                                <span>Cambiar imagen</span>
+                                                <input type="file" id="mv_mision_img" name="mv_mision_img"
+                                                    accept="image/*" onchange="ajPreview(this,'prev-mv-m')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Visión -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-star"></i> Visión
+                                </div>
+                                <div class="aj-two-col aj-two-col--img">
+                                    <div>
+                                        <div class="aj-field">
+                                            <label class="aj-label">Título Visión</label>
+                                            <input type="text" name="mv_vision_titulo" class="aj-input"
+                                                value="<%= ajustes.mv_vision_titulo %>">
+                                        </div>
+                                        <div class="aj-field" style="margin-top:14px;">
+                                            <label class="aj-label">Descripción Visión</label>
+                                            <textarea name="mv_vision_desc" class="aj-input aj-textarea"
+                                                rows="4"><%= ajustes.mv_vision_desc %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen Visión</label>
+                                        <div class="aj-uploader aj-uploader--tall">
+                                            <img src="<%= ajustes.mv_vision_img %>" class="aj-uploader-img"
+                                                id="prev-mv-v">
+                                            <label class="aj-uploader-overlay" for="mv_vision_img">
+                                                <i class="fas fa-camera"></i>
+                                                <span>Cambiar imagen</span>
+                                                <input type="file" id="mv_vision_img" name="mv_vision_img"
+                                                    accept="image/*" onchange="ajPreview(this,'prev-mv-v')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="aj-form-footer">
+                                <button type="submit" class="aj-btn aj-btn--primary">
+                                    <i class="fas fa-save"></i> Guardar Misión y Visión
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ════════════════════════════════════════════
+     TAB 6: HISTORIA
+═════════════════════════════════════════════ -->
+                    <div id="tab-historia" class="aj-tab-panel">
+                        <form action="/panel-director/ajustes/guardar" method="POST" enctype="multipart/form-data">
+
+                            <div class="aj-section-header">
+                                <div class="aj-section-icon" style="background:#fef2f2; color:#c0392b;">
+                                    <i class="fas fa-landmark"></i>
+                                </div>
+                                <div>
+                                    <h2>Historia Institucional</h2>
+                                    <p>Edita el legado de la institución y su tarjeta en la portada</p>
+                                </div>
+                            </div>
+
+                            <!-- Tarjeta en Portada -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-id-card"></i> Tarjeta en Portada (Cuadro 3)
+                                </div>
+                                <div class="aj-two-col">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Título en Tarjeta</label>
+                                        <input type="text" name="card3_titulo" class="aj-input"
+                                            value="<%= ajustes.card3_titulo %>">
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Texto del Botón</label>
+                                        <input type="text" name="card3_btn" class="aj-input"
+                                            value="<%= ajustes.card3_btn %>">
+                                    </div>
+                                </div>
+                                <div class="aj-two-col--img"
+                                    style="margin-top:15px; display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                                    <div class="aj-field">
+                                        <label class="aj-label">Descripción Breve</label>
+                                        <textarea name="card3_desc" class="aj-input aj-textarea"
+                                            rows="4"><%= ajustes.card3_desc %></textarea>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen de Fondo</label>
+                                        <div class="aj-uploader" style="height:120px;">
+                                            <img src="<%= ajustes.card3_img %>" class="aj-uploader-img" id="prev-card3">
+                                            <label class="aj-uploader-overlay" for="card3_img">
+                                                <i class="fas fa-camera"></i>
+                                                <input type="file" id="card3_img" name="card3_img" accept="image/*"
+                                                    onchange="ajPreview(this,'prev-card3')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hero + Sección 1 -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-layer-group"></i> Sección Principal</div>
+                                <div class="aj-field" style="margin-bottom:14px;">
+                                    <label class="aj-label">Subtítulo del Hero</label>
+                                    <input type="text" name="hist_hero_sub" class="aj-input"
+                                        value="<%= ajustes.hist_hero_sub %>">
+                                </div>
+                                <div class="aj-two-col aj-two-col--img">
+                                    <div>
+                                        <div class="aj-field">
+                                            <label class="aj-label">Título Sección 1</label>
+                                            <input type="text" name="hist_seccion1_titulo" class="aj-input"
+                                                value="<%= ajustes.hist_seccion1_titulo %>">
+                                        </div>
+                                        <div class="aj-field" style="margin-top:14px;">
+                                            <label class="aj-label">Descripción Sección 1</label>
+                                            <textarea name="hist_seccion1_desc" class="aj-input aj-textarea"
+                                                rows="5"><%= ajustes.hist_seccion1_desc %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="aj-field">
+                                        <label class="aj-label">Imagen Historia</label>
+                                        <div class="aj-uploader aj-uploader--tall">
+                                            <img src="<%= ajustes.hist_img1 %>" class="aj-uploader-img" id="prev-hist1">
+                                            <label class="aj-uploader-overlay" for="hist_img1">
+                                                <i class="fas fa-camera"></i>
+                                                <span>Cambiar imagen</span>
+                                                <input type="file" id="hist_img1" name="hist_img1" accept="image/*"
+                                                    onchange="ajPreview(this,'prev-hist1')">
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Línea de Tiempo -->
+                            <div class="aj-group">
+                                <div class="aj-group-title"><i class="fas fa-stream"></i> Línea de Tiempo — 3 Hitos
+                                </div>
+                                <div class="aj-three-col">
+                                    <% [1,2,3].forEach(n=> { %>
+                                        <div class="aj-timeline-card">
+                                            <div class="aj-timeline-dot">
+                                                <%= n %>
+                                            </div>
+                                            <div class="aj-field">
+                                                <label class="aj-label">Año</label>
+                                                <input type="text" name="hist_t<%= n %>_anio"
+                                                    class="aj-input aj-year-input"
+                                                    value="<%= ajustes['hist_t'+n+'_anio'] %>" placeholder="Ej: 1985">
+                                            </div>
+                                            <div class="aj-field">
+                                                <label class="aj-label">Título del Hito</label>
+                                                <input type="text" name="hist_t<%= n %>_titulo" class="aj-input"
+                                                    value="<%= ajustes['hist_t'+n+'_titulo'] %>">
+                                            </div>
+                                            <div class="aj-field">
+                                                <label class="aj-label">Descripción</label>
+                                                <textarea name="hist_t<%= n %>_desc" class="aj-input aj-textarea"
+                                                    rows="3"><%= ajustes['hist_t'+n+'_desc'] %></textarea>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                </div>
+                            </div>
+
+                            <div class="aj-form-footer">
+                                <button type="submit" class="aj-btn aj-btn--primary">
+                                    <i class="fas fa-save"></i> Guardar Historia
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ══ STYLES ══════════════════════════════════════════════════════════ -->
+                    <style>
+                        /* ── Variables ── */
+                        :root {
+                            --aj-red: #c0392b;
+                            --aj-navy: #0f172a;
+                            --aj-slate: #475569;
+                            --aj-border: #e2e8f0;
+                            --aj-bg: #f8fafc;
+                            --aj-card: #ffffff;
+                            --aj-radius: 20px;
+                            --aj-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+                            --aj-shadow-hover: 0 12px 40px rgba(15, 23, 42, 0.10);
+                            --aj-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                        }
+
+                        /* ── Alerts ── */
+                        .aj-alert {
+                            display: flex;
+                            align-items: center;
+                            gap: 14px;
+                            padding: 16px 22px;
+                            border-radius: 14px;
+                            font-weight: 700;
+                            font-size: 0.95rem;
+                            margin-bottom: 24px;
+                            animation: ajSlideDown 0.4s ease both;
+                        }
+
+                        .aj-alert--success {
+                            background: #f0fdf4;
+                            border: 1px solid #bbf7d0;
+                            color: #15803d;
+                        }
+
+                        .aj-alert--error {
+                            background: #fef2f2;
+                            border: 1px solid #fecaca;
+                            color: #dc2626;
+                        }
+
+                        .aj-alert i {
+                            font-size: 1.2rem;
+                        }
+
+                        @keyframes ajSlideDown {
+                            from {
+                                opacity: 0;
+                                transform: translateY(-12px);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+
+                        /* ── Preview button ── */
+                        .aj-preview-btn {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            background: #f1f5f9;
+                            border: 1px solid var(--aj-border);
+                            color: var(--aj-navy);
+                            padding: 10px 20px;
+                            border-radius: 12px;
+                            font-weight: 700;
+                            font-size: 0.88rem;
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-preview-btn:hover {
+                            background: var(--aj-navy);
+                            color: white;
+                            border-color: var(--aj-navy);
+                        }
+
+                        /* ══════════════════════════════════════
+   TAB NAVIGATION
+══════════════════════════════════════ */
+                        .aj-tabs-bar {
+                            display: flex;
+                            gap: 6px;
+                            background: #f1f5f9;
+                            border-radius: 16px;
+                            padding: 6px;
+                            margin-bottom: 32px;
+                            overflow-x: auto;
+                            scrollbar-width: none;
+                        }
+
+                        .aj-tabs-bar::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                        .aj-tab {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 18px;
+                            border-radius: 12px;
+                            border: none;
+                            background: transparent;
+                            color: var(--aj-slate);
+                            font-weight: 700;
+                            font-size: 0.85rem;
+                            cursor: pointer;
+                            white-space: nowrap;
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-tab i {
+                            font-size: 0.8rem;
+                        }
+
+                        .aj-tab:hover {
+                            background: white;
+                            color: var(--aj-navy);
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+                        }
+
+                        .aj-tab.active {
+                            background: white;
+                            color: var(--aj-red);
+                            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+                        }
+
+                        /* ══════════════════════════════════════
+   TAB PANELS
+══════════════════════════════════════ */
+                        .aj-tab-panel {
+                            display: none;
+                            animation: ajFadeIn 0.35s ease both;
+                        }
+
+                        .aj-tab-panel.active {
+                            display: block;
+                        }
+
+                        @keyframes ajFadeIn {
+                            from {
+                                opacity: 0;
+                                transform: translateY(10px);
+                            }
+
+                            to {
+                                opacity: 1;
+                                transform: translateY(0);
+                            }
+                        }
+
+                        /* ══════════════════════════════════════
+   SECTION HEADER
+══════════════════════════════════════ */
+                        .aj-section-header {
+                            display: flex;
+                            align-items: center;
+                            gap: 18px;
+                            margin-bottom: 32px;
+                            padding-bottom: 24px;
+                            border-bottom: 1px solid var(--aj-border);
+                        }
+
+                        .aj-section-icon {
+                            width: 52px;
+                            height: 52px;
+                            border-radius: 14px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.3rem;
+                            flex-shrink: 0;
+                        }
+
+                        .aj-section-header h2 {
+                            margin: 0 0 4px;
+                            font-size: 1.4rem;
+                            font-weight: 900;
+                            color: var(--aj-navy);
+                            letter-spacing: -0.5px;
+                        }
+
+                        .aj-section-header p {
+                            margin: 0;
+                            font-size: 0.9rem;
+                            color: var(--aj-slate);
+                        }
+
+                        /* ══════════════════════════════════════
+   GROUP BOXES
+══════════════════════════════════════ */
+                        .aj-group {
+                            background: var(--aj-card);
+                            border: 1px solid var(--aj-border);
+                            border-radius: var(--aj-radius);
+                            padding: 28px 30px;
+                            margin-bottom: 20px;
+                            box-shadow: var(--aj-shadow);
+                            transition: box-shadow 0.3s ease;
+                        }
+
+                        .aj-group:hover {
+                            box-shadow: var(--aj-shadow-hover);
+                        }
+
+                        .aj-group-title {
+                            font-size: 0.8rem;
+                            font-weight: 900;
+                            letter-spacing: 1.5px;
+                            text-transform: uppercase;
+                            color: var(--aj-slate);
+                            margin-bottom: 20px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+
+                        .aj-group-title i {
+                            color: var(--aj-red);
+                        }
+
+                        /* ══════════════════════════════════════
+   FORM FIELDS
+══════════════════════════════════════ */
+                        .aj-field {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 7px;
+                        }
+
+                        .aj-label {
+                            font-size: 0.78rem;
+                            font-weight: 800;
+                            text-transform: uppercase;
+                            letter-spacing: 0.8px;
+                            color: #64748b;
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+                        }
+
+                        .aj-label i {
+                            color: var(--aj-red);
+                            font-size: 0.7rem;
+                        }
+
+                        .aj-input {
+                            width: 100%;
+                            padding: 11px 14px;
+                            border: 1.5px solid var(--aj-border);
+                            border-radius: 12px;
+                            font-size: 0.93rem;
+                            font-weight: 500;
+                            color: var(--aj-navy);
+                            background: #f8fafc;
+                            transition: var(--aj-transition);
+                            box-sizing: border-box;
+                            font-family: inherit;
+                            outline: none;
+                        }
+
+                        .aj-input:focus {
+                            border-color: var(--aj-red);
+                            background: white;
+                            box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.10);
+                        }
+
+                        .aj-textarea {
+                            resize: vertical;
+                            min-height: 80px;
+                        }
+
+                        /* ══════════════════════════════════════
+   GRID LAYOUTS
+══════════════════════════════════════ */
+                        .aj-three-col {
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 20px;
+                        }
+
+                        .aj-two-col {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 18px;
+                        }
+
+                        .aj-two-col--img {
+                            grid-template-columns: 1.3fr 0.7fr;
+                            align-items: start;
+                        }
+
+                        .aj-four-col {
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            gap: 16px;
+                        }
+
+                        /* ══════════════════════════════════════
+   CARDS (Highlights tab)
+══════════════════════════════════════ */
+                        .aj-card {
+                            background: var(--aj-card);
+                            border: 1px solid var(--aj-border);
+                            border-top: 3px solid var(--card-accent, var(--aj-red));
+                            border-radius: var(--aj-radius);
+                            padding: 24px;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 16px;
+                            box-shadow: var(--aj-shadow);
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-card--hover:hover {
+                            box-shadow: var(--aj-shadow-hover);
+                            transform: translateY(-4px);
+                        }
+
+                        .aj-card-badge {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 7px;
+                            border-radius: 50px;
+                            padding: 5px 14px;
+                            font-size: 0.72rem;
+                            font-weight: 900;
+                            letter-spacing: 0.5px;
+                            text-transform: uppercase;
+                            width: fit-content;
+                        }
+
+                        /* ══════════════════════════════════════
+   IMAGE UPLOADER
+══════════════════════════════════════ */
+                        .aj-uploader {
+                            position: relative;
+                            width: 100%;
+                            height: 170px;
+                            border-radius: 14px;
+                            overflow: hidden;
+                            border: 2px dashed var(--aj-border);
+                            background: var(--aj-bg);
+                            transition: var(--aj-transition);
+                            cursor: pointer;
+                        }
+
+                        .aj-uploader--tall {
+                            height: 220px;
+                        }
+
+                        .aj-uploader:hover {
+                            border-color: var(--aj-red);
+                        }
+
+                        .aj-uploader-img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            opacity: 0.85;
+                            transition: opacity 0.3s;
+                        }
+
+                        .aj-uploader:hover .aj-uploader-img {
+                            opacity: 0.5;
+                        }
+
+                        .aj-uploader-overlay {
+                            position: absolute;
+                            inset: 0;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 8px;
+                            background: rgba(15, 23, 42, 0);
+                            color: transparent;
+                            font-weight: 800;
+                            font-size: 0.85rem;
+                            cursor: pointer;
+                            transition: var(--aj-transition);
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                        }
+
+                        .aj-uploader:hover .aj-uploader-overlay {
+                            background: rgba(15, 23, 42, 0.55);
+                            color: white;
+                        }
+
+                        .aj-uploader-overlay i {
+                            font-size: 1.6rem;
+                        }
+
+                        .aj-uploader-overlay input {
+                            display: none;
+                        }
+
+                        .aj-hint {
+                            font-size: 0.72rem;
+                            color: #94a3b8;
+                            font-weight: 600;
+                            text-align: center;
+                            margin-top: 5px;
+                        }
+
+                        /* ══════════════════════════════════════
+   STATS GRID
+══════════════════════════════════════ */
+                        .aj-stats-grid {
+                            display: grid;
+                            grid-template-columns: repeat(4, 1fr);
+                            gap: 16px;
+                            margin-bottom: 24px;
+                        }
+
+                        .aj-stat-card {
+                            background: var(--aj-card);
+                            border: 1px solid var(--aj-border);
+                            border-radius: var(--aj-radius);
+                            padding: 24px 18px;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 14px;
+                            box-shadow: var(--aj-shadow);
+                            text-align: center;
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-stat-card:hover {
+                            box-shadow: var(--aj-shadow-hover);
+                            transform: translateY(-3px);
+                        }
+
+                        .aj-stat-icon {
+                            width: 54px;
+                            height: 54px;
+                            border-radius: 14px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.35rem;
+                        }
+
+                        .aj-stat-input {
+                            font-size: 1.8rem !important;
+                            font-weight: 900 !important;
+                            text-align: center;
+                            padding: 8px !important;
+                            color: var(--aj-navy) !important;
+                        }
+
+                        /* ══════════════════════════════════════
+   TICKER
+══════════════════════════════════════ */
+                        .aj-ticker-list {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 12px;
+                            margin-bottom: 20px;
+                        }
+
+                        .aj-ticker-row {
+                            display: flex;
+                            align-items: center;
+                            gap: 16px;
+                            background: var(--aj-card);
+                            border: 1px solid var(--aj-border);
+                            border-radius: 14px;
+                            padding: 18px 20px;
+                            box-shadow: var(--aj-shadow);
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-ticker-row:hover {
+                            box-shadow: var(--aj-shadow-hover);
+                        }
+
+                        .aj-ticker-num {
+                            width: 36px;
+                            height: 36px;
+                            min-width: 36px;
+                            background: var(--aj-red);
+                            color: white;
+                            border-radius: 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: 900;
+                            font-size: 1rem;
+                        }
+
+                        .aj-ticker-preview {
+                            background: var(--aj-navy);
+                            border-radius: 14px;
+                            padding: 16px 20px;
+                            margin-bottom: 24px;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                        }
+
+                        .aj-ticker-preview-label {
+                            font-size: 0.75rem;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            letter-spacing: 1px;
+                            color: rgba(255, 255, 255, 0.45);
+                            display: flex;
+                            align-items: center;
+                            gap: 6px;
+                        }
+
+                        .aj-ticker-demo {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                            align-items: center;
+                            color: white;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                        }
+
+                        .aj-ticker-demo span:nth-child(even) {
+                            color: rgba(255, 255, 255, 0.3);
+                            font-size: 1.2rem;
+                        }
+
+                        /* ══════════════════════════════════════
+   PILARES CARDS
+══════════════════════════════════════ */
+                        .aj-pilar-card {
+                            background: var(--aj-bg);
+                            border: 1px solid var(--aj-border);
+                            border-radius: 16px;
+                            padding: 20px;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 14px;
+                            position: relative;
+                            overflow: hidden;
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-pilar-card:hover {
+                            background: white;
+                            border-color: rgba(192, 57, 43, 0.2);
+                            box-shadow: var(--aj-shadow-hover);
+                            transform: translateY(-3px);
+                        }
+
+                        .aj-pilar-num {
+                            font-size: 4rem;
+                            font-weight: 900;
+                            color: rgba(192, 57, 43, 0.06);
+                            position: absolute;
+                            top: -10px;
+                            right: 10px;
+                            line-height: 1;
+                            pointer-events: none;
+                        }
+
+                        /* ══════════════════════════════════════
+   TIMELINE CARDS
+══════════════════════════════════════ */
+                        .aj-timeline-card {
+                            background: var(--aj-card);
+                            border: 1px solid var(--aj-border);
+                            border-top: 3px solid var(--aj-red);
+                            border-radius: 16px;
+                            padding: 22px;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 14px;
+                            position: relative;
+                            box-shadow: var(--aj-shadow);
+                            transition: var(--aj-transition);
+                        }
+
+                        .aj-timeline-card:hover {
+                            box-shadow: var(--aj-shadow-hover);
+                            transform: translateY(-3px);
+                        }
+
+                        .aj-timeline-dot {
+                            position: absolute;
+                            top: -1px;
+                            right: 20px;
+                            background: var(--aj-red);
+                            color: white;
+                            width: 32px;
+                            height: 32px;
+                            border-radius: 0 0 10px 10px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: 900;
+                            font-size: 0.9rem;
+                            box-shadow: 0 4px 10px rgba(192, 57, 43, 0.3);
+                        }
+
+                        .aj-year-input {
+                            font-size: 1.4rem !important;
+                            font-weight: 900 !important;
+                            text-align: center;
+                            color: var(--aj-red) !important;
+                            background: #fef2f2 !important;
+                            border-color: rgba(192, 57, 43, 0.2) !important;
+                        }
+
+                        .aj-year-input:focus {
+                            border-color: var(--aj-red) !important;
+                        }
+
+                        /* ══════════════════════════════════════
+   FORM FOOTER
+══════════════════════════════════════ */
+                        .aj-form-footer {
+                            display: flex;
+                            justify-content: flex-end;
+                            padding-top: 24px;
+                            border-top: 1px solid var(--aj-border);
+                            margin-top: 12px;
+                        }
+
+                        .aj-btn {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 10px;
+                            padding: 13px 30px;
+                            border: none;
+                            border-radius: 14px;
+                            font-weight: 800;
+                            font-size: 0.92rem;
+                            cursor: pointer;
+                            transition: var(--aj-transition);
+                            color: white;
+                            letter-spacing: 0.3px;
+                        }
+
+                        .aj-btn--primary {
+                            background: linear-gradient(135deg, var(--aj-red), #a93226);
+                            box-shadow: 0 6px 20px rgba(192, 57, 43, 0.28);
+                        }
+
+                        .aj-btn--primary:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 10px 28px rgba(192, 57, 43, 0.38);
+                            filter: brightness(1.06);
+                        }
+
+                        .aj-btn--dark {
+                            background: var(--aj-navy);
+                            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
+                        }
+
+                        .aj-btn--dark:hover {
+                            background: #1e293b;
+                            transform: translateY(-2px);
+                            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.22);
+                        }
+
+                        /* ── Edit page button (inside highlight cards) ── */
+                        .aj-edit-page-btn {
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            width: 100%;
+                            padding: 12px 16px;
+                            border: 1.5px solid var(--btn-color, #c0392b);
+                            border-radius: 12px;
+                            background: transparent;
+                            color: var(--btn-color, #c0392b);
+                            font-weight: 800;
+                            font-size: 0.83rem;
+                            cursor: pointer;
+                            transition: all 0.25s ease;
+                            margin-top: 4px;
+                            text-align: left;
+                            font-family: inherit;
+                        }
+
+                        .aj-edit-page-btn:hover {
+                            background: var(--btn-color, #c0392b);
+                            color: white;
+                            transform: translateY(-2px);
+                            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+                        }
+
+                        /* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+                        @media (max-width: 1280px) {
+                            .aj-four-col {
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+
+                            .aj-stats-grid {
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+                        }
+
+                        @media (max-width: 1024px) {
+                            .aj-three-col {
+                                grid-template-columns: 1fr;
+                            }
+
+                            .aj-two-col {
+                                grid-template-columns: 1fr;
+                            }
+
+                            .aj-two-col--img {
+                                grid-template-columns: 1fr;
+                            }
+                        }
+
+                        @media (max-width: 768px) {
+                            .aj-four-col {
+                                grid-template-columns: 1fr;
+                            }
+
+                            .aj-stats-grid {
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+
+                            .aj-tab span {
+                                display: none;
+                            }
+
+                            .aj-tab {
+                                padding: 10px 14px;
+                            }
+                        }
+                    </style>
+
+                    <!-- ══ SCRIPTS ══════════════════════════════════════════════════════════ -->
+                    <script>
+                        // Tab switching
+                        // Jump to a specific tab programmatically
+                        function switchTab(tabId) {
+                            const btn = document.querySelector(`[data-tab="${tabId}"]`);
+                            if (btn) {
+                                btn.click();
+                                document.querySelector('.aj-tabs-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+
+                        document.querySelectorAll('.aj-tab').forEach(tab => {
+                            tab.addEventListener('click', () => {
+                                const target = tab.dataset.tab;
+                                document.querySelectorAll('.aj-tab').forEach(t => t.classList.remove('active'));
+                                document.querySelectorAll('.aj-tab-panel').forEach(p => p.classList.remove('active'));
+                                tab.classList.add('active');
+                                document.getElementById(target).classList.add('active');
+                            });
+                        });
+
+                        // Image preview
+                        function ajPreview(input, previewId) {
+                            if (input.files && input.files[0]) {
+                                const reader = new FileReader();
+                                reader.onload = e => {
+                                    document.getElementById(previewId).src = e.target.result;
+                                };
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+
+                        // Ticker live preview
+                        ['1', '2', '3'].forEach(n => {
+                            const inp = document.querySelector(`[name="ticker_text${n}"]`);
+                            const prev = document.getElementById('td' + n);
+                            if (inp && prev) {
+                                inp.addEventListener('input', () => { prev.textContent = inp.value; });
+                            }
+                        });
+
+                        // Activate tab from URL hash
+                        const hash = window.location.hash;
+                        if (hash) {
+                            const target = hash.replace('#', '');
+                            const tabBtn = document.querySelector(`[data-tab="${target}"]`);
+                            if (tabBtn) tabBtn.click();
+                        }
+
+                        // Keep backward compat for old toggleEditor calls (not used in new design)
+                        function previewImage(input, id) { ajPreview(input, id); }
+                    </script>
+
+                    <%- include('../partials/admin-footer') %>

@@ -1,0 +1,159 @@
+<%- include('../partials/header') %>
+
+    <!-- ═══════════════════════════════════════════
+     HERO BANNER
+    ════════════════════════════════════════════ -->
+    <header class="page-hero">
+        <div class="hero-container">
+            <span class="hero-tag"><i class="fas fa-headset"></i> Atención al Usuario</span>
+            <h1 class="hero-title">CONTÁCTANOS</h1>
+            <p class="hero-subtitle">Estamos aquí para escucharte. Envíanos tus dudas, sugerencias o consultas
+                institucionales.</p>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f5f6fa" />
+            </svg>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════
+     CONTENIDO PRINCIPAL
+════════════════════════════════════════════ -->
+    <section class="con-section">
+        <div class="container">
+            <div class="con-layout">
+
+                <!-- ── FORMULARIO ──────────────────────────── -->
+                <div class="con-form-box">
+                    <div class="con-form-header">
+                        <div class="con-form-icon"><i class="fas fa-paper-plane"></i></div>
+                        <div>
+                            <h2 class="con-form-title">Envíanos un mensaje</h2>
+                            <p class="con-form-subtitle">Campos marcados con <span class="con-required-mark">*</span>
+                                son obligatorios</p>
+                        </div>
+                    </div>
+                    <div class="con-divider"></div>
+
+                    <!-- Alertas -->
+                    <% if (typeof success !=='undefined' && success) { %>
+                        <div class="con-alert con-alert--success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>
+                                <%= success %>
+                            </span>
+                        </div>
+                        <% } %>
+                            <% if (typeof error !=='undefined' && error) { %>
+                                <div class="con-alert con-alert--error">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    <span>
+                                        <%= error %>
+                                    </span>
+                                </div>
+                                <% } %>
+
+                                    <form action="/contacto" method="POST" class="con-form">
+                                        <div class="con-form-row">
+                                            <div class="con-field">
+                                                <label class="con-label" for="nombre">
+                                                    Nombre completo <span class="con-required-mark">*</span>
+                                                </label>
+                                                <div class="con-input-wrap">
+                                                    <i class="fas fa-user con-input-icon"></i>
+                                                    <input type="text" id="nombre" name="nombre" class="con-input"
+                                                        placeholder="Tu nombre completo" required>
+                                                </div>
+                                            </div>
+                                            <div class="con-field">
+                                                <label class="con-label" for="email">
+                                                    Correo electrónico <span class="con-required-mark">*</span>
+                                                </label>
+                                                <div class="con-input-wrap">
+                                                    <i class="fas fa-envelope con-input-icon"></i>
+                                                    <input type="email" id="email" name="email" class="con-input"
+                                                        placeholder="tu@correo.com" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="con-field">
+                                            <label class="con-label" for="asunto">Asunto</label>
+                                            <div class="con-input-wrap">
+                                                <i class="fas fa-tag con-input-icon"></i>
+                                                <input type="text" id="asunto" name="asunto" class="con-input"
+                                                    placeholder="¿Sobre qué quieres escribirnos?">
+                                            </div>
+                                        </div>
+                                        <div class="con-field">
+                                            <label class="con-label" for="mensaje">
+                                                Mensaje <span class="con-required-mark">*</span>
+                                            </label>
+                                            <div class="con-input-wrap con-input-wrap--textarea">
+                                                <i class="fas fa-comment-dots con-input-icon con-input-icon--top"></i>
+                                                <textarea id="mensaje" name="mensaje" class="con-input con-textarea"
+                                                    placeholder="Escribe tu mensaje aquí..." rows="5"
+                                                    required></textarea>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="con-btn-submit">
+                                            <i class="fas fa-paper-plane"></i>
+                                            Enviar mensaje
+                                        </button>
+                                    </form>
+                </div>
+
+                <!-- ── INFO DE CONTACTO ────────────────────── -->
+                <aside class="con-info-box">
+                    <h3 class="con-info-title">Información de contacto</h3>
+                    <p class="con-info-subtitle">Puedes visitarnos o comunicarte con nosotros directamente.</p>
+
+                    <div class="con-info-cards">
+                        <div class="con-info-card">
+                            <div class="con-info-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="con-info-card-body">
+                                <span class="con-info-card-label">Dirección</span>
+                                <span class="con-info-card-value">Av. Principal 123, Ciudad</span>
+                            </div>
+                        </div>
+                        <div class="con-info-card">
+                            <div class="con-info-card-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="con-info-card-body">
+                                <span class="con-info-card-label">Teléfono</span>
+                                <span class="con-info-card-value">(01) 234-5678</span>
+                            </div>
+                        </div>
+                        <div class="con-info-card">
+                            <div class="con-info-card-icon"><i class="fas fa-clock"></i></div>
+                            <div class="con-info-card-body">
+                                <span class="con-info-card-label">Horario de atención</span>
+                                <span class="con-info-card-value">Lun – Vie: 7:30 am – 4:00 pm</span>
+                            </div>
+                        </div>
+                        <div class="con-info-card">
+                            <div class="con-info-card-icon"><i class="fas fa-envelope-open-text"></i></div>
+                            <div class="con-info-card-body">
+                                <span class="con-info-card-label">Respuesta estimada</span>
+                                <span class="con-info-card-value">En menos de 24 horas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Redes sociales -->
+                    <div class="con-socials">
+                        <span class="con-socials-label">Síguenos</span>
+                        <div class="con-socials-row">
+                            <a href="#" class="con-social-btn" aria-label="Facebook"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="con-social-btn" aria-label="Instagram"><i
+                                    class="fab fa-instagram"></i></a>
+                            <a href="#" class="con-social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </aside>
+
+            </div><!-- /con-layout -->
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>

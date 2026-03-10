@@ -1,0 +1,197 @@
+<%- include('../partials/admin-header', { path: '/panel-director/galeria' }) %>
+
+    <!-- ═══════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════ -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="fas fa-images"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Gestión de Galería</h1>
+                <p class="adm-page-sub">
+                    <%= imagenes.length %> imagen<%= imagenes.length !==1 ? 'es' : '' %> en galería
+                </p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/" target="_blank" class="adm-header-link">
+                <i class="fas fa-globe"></i> <span>Ver Sitio</span>
+            </a>
+            <button id="btn-toggle-form" class="adm-btn-new" onclick="toggleForm()">
+                <i class="fas fa-plus" id="btn-icon"></i>
+                <span id="btn-label">Subir Imagen</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     MAIN LAYOUT: SIDE PANEL + GALLERY GRID
+════════════════════════════════════════════════ -->
+    <div class="adm-noticias-layout" id="noticias-layout">
+
+        <!-- ── FORM SIDE PANEL ──────────────────────── -->
+        <aside class="adm-side-panel" id="side-panel" aria-hidden="true">
+            <div class="adm-side-panel-inner">
+
+                <div class="adm-drawer-header">
+                    <div class="adm-drawer-title-group">
+                        <div class="adm-form-panel-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Subir Imagen</h3>
+                            <p>Agrega una imagen a la galería</p>
+                        </div>
+                    </div>
+                    <button class="adm-drawer-close" onclick="toggleForm()" title="Cerrar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form action="/panel-director/galeria/subir" method="POST" enctype="multipart/form-data"
+                    class="adm-drawer-form">
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="gal-titulo">
+                            <i class="fas fa-tag"></i> Título o Descripción <span
+                                style="font-weight:400; color:#94a3b8">(Opcional)</span>
+                        </label>
+                        <input id="gal-titulo" type="text" name="titulo" class="adm-input"
+                            placeholder="Ej. Desfile Fiestas Patrias…">
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="gal-imagen">
+                            <i class="fas fa-image"></i> Seleccionar Imagen
+                        </label>
+                        <label class="adm-file-label" for="gal-imagen">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="gal-file-name">Seleccionar imagen…</span>
+                            <input id="gal-imagen" type="file" name="imagen" accept="image/*" required
+                                onchange="document.getElementById('gal-file-name').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-side-form-actions">
+                        <button type="submit" class="adm-btn-submit">
+                            <i class="fas fa-upload"></i> Subir a Galería
+                        </button>
+                        <button type="button" class="adm-btn-cancel" onclick="toggleForm()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </aside>
+
+        <!-- ── GALLERY PANEL ────────────────────────── -->
+        <section class="adm-table-panel">
+
+            <!-- Search bar -->
+            <div class="adm-table-panel-header">
+                <h3><i class="fas fa-images"></i> Imágenes</h3>
+                <div class="adm-search-wrap">
+                    <i class="fas fa-search adm-search-icon"></i>
+                    <input type="text" id="gal-search" class="adm-search-input" placeholder="Buscar imagen…"
+                        oninput="filterGal(this.value)">
+                    <button class="adm-search-clear" id="gal-clear-search" onclick="clearGalSearch()" title="Limpiar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <span class="adm-count-badge" id="gal-visible-count">
+                    <%= imagenes.length %>
+                </span>
+            </div>
+
+            <% if (imagenes.length===0) { %>
+                <div class="adm-empty-state">
+                    <div class="adm-empty-icon"><i class="fas fa-images"></i></div>
+                    <p>No hay imágenes en la galería todavía.</p>
+                    <span>Haz clic en <strong>Subir Imagen</strong> para agregar la primera.</span>
+                </div>
+                <% } else { %>
+
+                    <!-- Gallery grid -->
+                    <div class="adm-gal-grid" id="gal-grid">
+                        <% imagenes.forEach(img=> { %>
+                            <div class="adm-gal-card" data-titulo="<%= (img.titulo || '').toLowerCase() %>">
+                                <div class="adm-gal-thumb">
+                                    <img src="<%= img.imagen %>" alt="<%= img.titulo || 'Imagen' %>">
+                                    <div class="adm-gal-overlay">
+                                        <form action="/panel-director/galeria/eliminar/<%= img.id %>" method="POST"
+                                            onsubmit="return confirm('¿Eliminar esta imagen?');">
+                                            <button type="submit" class="adm-gal-delete-btn" title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <% if (img.titulo) { %>
+                                    <p class="adm-gal-caption">
+                                        <%= img.titulo %>
+                                    </p>
+                                    <% } %>
+                            </div>
+                            <% }) %>
+                    </div>
+
+                    <div class="adm-no-results" id="gal-no-results" style="display:none;">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron imágenes que coincidan.</p>
+                    </div>
+
+                    <% } %>
+        </section>
+
+    </div>
+
+    <!-- ── SCRIPTS ────────────────────────────────── -->
+    <script>
+        function toggleForm() {
+            const layout = document.getElementById('noticias-layout');
+            const panel = document.getElementById('side-panel');
+            const icon = document.getElementById('btn-icon');
+            const label = document.getElementById('btn-label');
+            const isOpen = layout.classList.toggle('panel-open');
+
+            panel.setAttribute('aria-hidden', String(!isOpen));
+            icon.className = isOpen ? 'fas fa-times' : 'fas fa-plus';
+            label.textContent = isOpen ? 'Cerrar' : 'Subir Imagen';
+
+            if (isOpen) {
+                setTimeout(() => document.getElementById('gal-titulo')?.focus(), 350);
+            }
+        }
+
+        function filterGal(query) {
+            const q = query.toLowerCase().trim();
+            const cards = document.querySelectorAll('#gal-grid .adm-gal-card');
+            const noRes = document.getElementById('gal-no-results');
+            const badge = document.getElementById('gal-visible-count');
+            const clearBtn = document.getElementById('gal-clear-search');
+
+            let visible = 0;
+            cards.forEach(c => {
+                const match = !q || c.dataset.titulo.includes(q);
+                c.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+
+            badge.textContent = visible;
+            noRes.style.display = (visible === 0 && q) ? 'flex' : 'none';
+            clearBtn.style.opacity = q ? '1' : '0';
+            clearBtn.style.pointerEvents = q ? 'auto' : 'none';
+        }
+
+        function clearGalSearch() {
+            const input = document.getElementById('gal-search');
+            input.value = '';
+            filterGal('');
+            input.focus();
+        }
+    </script>
+
+    <%- include('../partials/admin-footer') %>

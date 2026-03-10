@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= typeof title !=='undefined' ? title + ' | ' : '' %>IE. Antonio Raymondi
+    </title>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Unified Hero CSS -->
+    <link rel="stylesheet" href="/css/components/page-hero.css">
+    <!-- WhatsApp Floating Button CSS -->
+    <link rel="stylesheet" href="/css/components/whatsapp.css">
+</head>
+
+<body>
+
+    <header id="main-header">
+        <div class="container">
+            <nav class="nav-container">
+                <a href="/" class="logo">
+                    <img src="/img/logo.png" alt="Logo">
+                    <div class="logo-text">
+                        IE. <span>Antonio Raymondi</span>
+                    </div>
+                </a>
+
+                <div class="nav-wrapper">
+                    <!-- Cabecera exclusiva para el menú móvil -->
+                    <div class="mobile-menu-header">
+                        <img src="/img/logo.png" alt="Logo">
+                        <div class="logo-text">
+                            IE. <span>A. Raymondi</span>
+                        </div>
+                    </div>
+
+                    <ul class="nav-links">
+                        <li>
+                            <a href="/" class="<%= typeof path !== 'undefined' && path === '/' ? 'active' : '' %>">
+                                <i class="fas fa-home"></i> <span>Inicio</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/noticias"
+                                class="<%= typeof path !== 'undefined' && path.includes('/noticias') ? 'active' : '' %>">
+                                <i class="far fa-newspaper"></i> <span>Noticias</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/eventos"
+                                class="<%= typeof path !== 'undefined' && path.includes('/eventos') ? 'active' : '' %>">
+                                <i class="far fa-calendar-alt"></i> <span>Eventos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/autoridades"
+                                class="<%= typeof path !== 'undefined' && path.includes('/autoridades') ? 'active' : '' %>">
+                                <i class="fas fa-user-tie"></i> <span>Autoridades</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/galeria"
+                                class="<%= typeof path !== 'undefined' && path.includes('/galeria') ? 'active' : '' %>">
+                                <i class="far fa-images"></i> <span>Galería</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/contacto"
+                                class="<%= typeof path !== 'undefined' && path.includes('/contacto') ? 'active' : '' %>">
+                                <i class="far fa-envelope"></i> <span>Contacto</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="nav-actions">
+                        <% if(typeof usuario !=='undefined' && usuario) { %>
+                            <a href="/panel-director" class="btn-login">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Panel</span>
+                            </a>
+                            <% } else { %>
+                                <a href="/auth/login" class="btn-login">
+                                    <i class="fas fa-user"></i>
+                                    <span>Acceso Director</span>
+                                </a>
+                                <% } %>
+                    </div>
+                </div>
+
+                <div class="menu-toggle" id="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main>

@@ -1,0 +1,25 @@
+/* Main Stylesheet - Aggregator */
+
+/* 1. Base & Variables */
+@import url('./base/variables.css');
+@import url('./base/base.css');
+
+/* 2. Layout */
+@import url('./layout/navbar.css');
+@import url('./layout/footer.css');
+
+/* 3. Components */
+@import url('./components/buttons.css');
+@import url('./components/cards.css');
+
+/* 4. Pages */
+@import url('./pages/home.css');
+@import url('./pages/admin.css');
+@import url('./pages/noticias.css');
+@import url('./pages/eventos.css');
+@import url('./pages/autoridades.css');
+@import url('./pages/galeria.css');
+@import url('./pages/contacto.css');
+
+/* NOTE: Footer styles are in layout/footer.css */
+/* NOTE: bg-pattern is defined in home.css */

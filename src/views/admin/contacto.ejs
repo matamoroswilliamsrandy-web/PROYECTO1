@@ -1,0 +1,209 @@
+<%- include('../partials/admin-header', { path: '/panel-director/contacto' }) %>
+
+    <!-- ═══════════════════════════════════════════════
+     PAGE HEADER  (sin botón de formulario — solo lectura)
+════════════════════════════════════════════════ -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="far fa-envelope-open"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Mensajes de Contacto</h1>
+                <p class="adm-page-sub">
+                    <%= mensajes.length %> mensaje<%= mensajes.length !==1 ? 's' : '' %> recibido<%= mensajes.length
+                                !==1 ? 's' : '' %>
+                </p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/" target="_blank" class="adm-header-link">
+                <i class="fas fa-globe"></i> <span>Ver Sitio</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     TABLE (solo lectura, sin panel lateral)
+════════════════════════════════════════════════ -->
+    <section class="adm-table-panel" style="flex:1">
+
+        <!-- Search bar -->
+        <div class="adm-table-panel-header">
+            <h3><i class="fas fa-inbox"></i> Bandeja de entrada</h3>
+            <div class="adm-search-wrap">
+                <i class="fas fa-search adm-search-icon"></i>
+                <input type="text" id="msg-search" class="adm-search-input"
+                    placeholder="Buscar por nombre, email o asunto…" oninput="filterMsg(this.value)">
+                <button class="adm-search-clear" id="msg-clear-search" onclick="clearMsgSearch()" title="Limpiar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <span class="adm-count-badge" id="msg-visible-count">
+                <%= mensajes.length %>
+            </span>
+        </div>
+
+        <% if (mensajes.length===0) { %>
+            <div class="adm-empty-state">
+                <div class="adm-empty-icon"><i class="far fa-inbox"></i></div>
+                <p>No hay mensajes recibidos todavía.</p>
+                <span>Cuando alguien envíe el formulario de contacto aparecerá aquí.</span>
+            </div>
+            <% } else { %>
+
+                <!-- Desktop table -->
+                <div class="adm-tbl-wrap">
+                    <table class="adm-tbl" id="msg-table">
+                        <thead>
+                            <tr>
+                                <th style="width:160px">Remitente</th>
+                                <th style="width:190px">Email</th>
+                                <th style="width:160px">Asunto</th>
+                                <th>Mensaje</th>
+                                <th style="width:100px">Fecha</th>
+                                <th style="width:70px; text-align:center">Borrar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="msg-tbody">
+                            <% mensajes.forEach(msg=> { %>
+                                <tr class="adm-tbl-row"
+                                    data-search="<%= msg.nombre.toLowerCase() %> <%= msg.email.toLowerCase() %> <%= (msg.asunto||'').toLowerCase() %>">
+                                    <td>
+                                        <div style="display:flex; align-items:center; gap:8px;">
+                                            <div class="adm-msg-avatar">
+                                                <%= msg.nombre.charAt(0).toUpperCase() %>
+                                            </div>
+                                            <span class="adm-tbl-title" style="-webkit-line-clamp:1; line-clamp:1">
+                                                <%= msg.nombre %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="mailto:<%= msg.email %>" class="adm-msg-email">
+                                            <i class="fas fa-envelope" style="font-size:0.75rem;"></i>
+                                            <%= msg.email %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="adm-meta-item" style="font-size:0.83rem">
+                                            <%= msg.asunto || '—' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="adm-msg-preview">
+                                            <%= msg.mensaje.substring(0, 90) %>
+                                                <%= msg.mensaje.length> 90 ? '…' : '' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="adm-meta-item" style="font-size:0.78rem; white-space:nowrap">
+                                            <i class="fas fa-calendar-day"></i>
+                                            <%= new Date(msg.fecha_envio).toLocaleDateString('es-PE', { day:'2-digit',
+                                                month:'short', year:'numeric' }) %>
+                                        </span>
+                                    </td>
+                                    <td style="text-align:center">
+                                        <form action="/panel-director/contacto/eliminar/<%= msg.id %>" method="POST"
+                                            onsubmit="return confirm('¿Eliminar este mensaje?');">
+                                            <button type="submit" class="adm-action-btn adm-action-btn--delete"
+                                                title="Eliminar">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+
+                    <div class="adm-no-results" id="msg-no-results" style="display:none;">
+                        <i class="fas fa-search"></i>
+                        <p>No se encontraron mensajes que coincidan.</p>
+                    </div>
+                </div>
+
+                <!-- Mobile cards -->
+                <div class="adm-mobile-list" id="msg-mobile-list">
+                    <% mensajes.forEach(msg=> { %>
+                        <div class="adm-msg-card adm-news-item"
+                            data-search="<%= msg.nombre.toLowerCase() %> <%= msg.email.toLowerCase() %> <%= (msg.asunto||'').toLowerCase() %>">
+                            <div class="adm-msg-avatar adm-msg-avatar--lg">
+                                <%= msg.nombre.charAt(0).toUpperCase() %>
+                            </div>
+                            <div class="adm-news-body" style="min-width:0">
+                                <p class="adm-news-title">
+                                    <%= msg.nombre %>
+                                </p>
+                                <div class="adm-news-meta">
+                                    <span class="adm-meta-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <a href="mailto:<%= msg.email %>" class="adm-msg-email">
+                                            <%= msg.email %>
+                                        </a>
+                                    </span>
+                                    <% if (msg.asunto) { %><span class="adm-meta-item"><i class="fas fa-tag"></i>
+                                            <%= msg.asunto %>
+                                        </span>
+                                        <% } %>
+                                </div>
+                                <p class="adm-msg-preview" style="margin-top:4px">
+                                    <%= msg.mensaje.substring(0, 80) %>
+                                        <%= msg.mensaje.length> 80 ? '…' : '' %>
+                                </p>
+                                <span class="adm-meta-item" style="font-size:0.73rem; margin-top:4px; display:flex">
+                                    <i class="fas fa-calendar-day"></i>
+                                    <%= new Date(msg.fecha_envio).toLocaleDateString('es-PE', { day:'2-digit',
+                                        month:'short', year:'numeric' }) %>
+                                </span>
+                            </div>
+                            <div class="adm-news-actions" style="align-self:flex-start">
+                                <form action="/panel-director/contacto/eliminar/<%= msg.id %>" method="POST"
+                                    onsubmit="return confirm('¿Eliminar?');">
+                                    <button type="submit" class="adm-action-btn adm-action-btn--delete"
+                                        title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+
+                <% } %>
+    </section>
+
+    <script>
+        function filterMsg(query) {
+            const q = query.toLowerCase().trim();
+            const rows = document.querySelectorAll('#msg-tbody .adm-tbl-row');
+            const cards = document.querySelectorAll('#msg-mobile-list .adm-news-item');
+            const noRes = document.getElementById('msg-no-results');
+            const badge = document.getElementById('msg-visible-count');
+            const clearBtn = document.getElementById('msg-clear-search');
+
+            let visible = 0;
+            rows.forEach(r => {
+                const match = !q || r.dataset.search.includes(q);
+                r.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            cards.forEach(c => {
+                c.style.display = (!q || c.dataset.search.includes(q)) ? '' : 'none';
+            });
+
+            badge.textContent = visible;
+            noRes.style.display = (visible === 0 && q) ? 'flex' : 'none';
+            clearBtn.style.opacity = q ? '1' : '0';
+            clearBtn.style.pointerEvents = q ? 'auto' : 'none';
+        }
+
+        function clearMsgSearch() {
+            const input = document.getElementById('msg-search');
+            input.value = '';
+            filterMsg('');
+            input.focus();
+        }
+    </script>
+
+    <%- include('../partials/admin-footer') %>

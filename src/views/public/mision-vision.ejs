@@ -1,0 +1,152 @@
+<%- include('../partials/header') %>
+
+    <link rel="stylesheet" href="/css/pages/institutional.css">
+
+    <div class="inst-page-wrapper">
+        <div class="inst-content-layer">
+
+            <!-- ── HERO INMERSIVO ── -->
+            <section class="inst-hero">
+                <div class="inst-hero-bg">
+                    <img src="/img/hero-estudiantes.jpg" alt="Misión y Visión">
+                </div>
+                <div class="inst-hero-overlay"></div>
+
+                <div class="inst-hero-content">
+                    <div class="inst-hero-glass-card scroll-reveal">
+                        <div class="inst-badge">
+                            <i class="fas fa-bullseye"></i> Propósito Institucional
+                        </div>
+                        <h1 class="inst-hero-title">Misión y Visión</h1>
+                        <p class="inst-hero-sub">Nuestros principios fundamentales que guían cada paso en la formación
+                            de los líderes del mañana.</p>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="inst-breadcrumb">
+                    <a href="/">Inicio</a>
+                    <span class="inst-breadcrumb-sep">//</span>
+                    <span class="inst-breadcrumb-current">Misión y Visión</span>
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 1: MISIÓN Y VISIÓN (Módulos Inmersivos) ── -->
+            <section class="inst-section">
+                <div class="inst-glow-orb"></div>
+                <div class="inst-glow-orb right" style="top: 80%;"></div>
+                <div class="container">
+
+                    <div class="mv-container">
+                        <!-- Misión -->
+                        <div class="mv-glass-block mision scroll-reveal">
+                            <div class="mv-content-wrap">
+                                <div class="mv-label">
+                                    <i class="fas fa-rocket"></i> Nuestra Misión
+                                </div>
+                                <h2>
+                                    <%= ajustes.mv_mision_titulo %>
+                                </h2>
+                                <p>
+                                    <%= ajustes.mv_mision_desc %>
+                                </p>
+
+                                <ul class="mv-checklist">
+                                    <li><i class="fas fa-check-circle"></i> Excelencia académica rigurosa</li>
+                                    <li><i class="fas fa-check-circle"></i> Formación en valores y ética</li>
+                                    <li><i class="fas fa-check-circle"></i> Desarrollo integral del estudiante</li>
+                                </ul>
+                            </div>
+                            <div class="mv-deco-letter">M</div>
+                        </div>
+
+                        <!-- Visión -->
+                        <div class="mv-glass-block vision scroll-reveal">
+                            <div class="mv-content-wrap">
+                                <div class="mv-label">
+                                    <i class="fas fa-eye"></i> Nuestra Visión
+                                </div>
+                                <h2>
+                                    <%= ajustes.mv_vision_titulo %>
+                                </h2>
+                                <p>
+                                    <%= ajustes.mv_vision_desc %>
+                                </p>
+
+                                <ul class="mv-checklist">
+                                    <li><i class="fas fa-star"></i> Liderazgo en innovación</li>
+                                    <li><i class="fas fa-star"></i> Reconocimiento internacional</li>
+                                    <li><i class="fas fa-star"></i> Impacto a la sociedad</li>
+                                </ul>
+                            </div>
+                            <div class="mv-deco-letter">V</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 2: VALORES INSTITUCIONALES (Bento Grid) ── -->
+            <section class="inst-section">
+                <div class="container">
+                    <div class="inst-section-header scroll-reveal">
+                        <span class="inst-eyebrow">Esencia</span>
+                        <h2>Valores Institucionales</h2>
+                    </div>
+
+                    <div class="inst-bento-grid">
+                        <div class="inst-bento-card bento-small scroll-reveal">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                                <h3>Respeto</h3>
+                                <p>Valoramos la diversidad y la dignidad de cada persona, forjando un ambiente de sana
+                                    convivencia.</p>
+                            </div>
+                        </div>
+
+                        <div class="inst-bento-card bento-small scroll-reveal delay-100">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-shield-alt"></i></div>
+                                <h3>Integridad</h3>
+                                <p>Actuamos con honestidad, coherencia y transparencia absoluta en cada aspecto de
+                                    nuestra labor.</p>
+                            </div>
+                        </div>
+
+                        <div class="inst-bento-card bento-small scroll-reveal delay-200">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-award"></i></div>
+                                <h3>Excelencia</h3>
+                                <p>Buscamos la máxima calidad, superando expectativas y apuntando siempre a la mejora
+                                    continua.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── CTA ── -->
+            <section class="inst-cta">
+                <div class="container">
+                    <div class="inst-cta-box scroll-reveal">
+                        <span class="inst-eyebrow" style="color: var(--inst-red); margin-bottom: 16px;">Únete a
+                            nosotros</span>
+                        <h2>Compartimos un propósito</h2>
+                        <p>Nuestra misión y visión son el corazón vibrante de todo lo que hacemos. Te invitamos a
+                            liderar este gran proyecto.</p>
+                        <div class="inst-cta-btns">
+                            <a href="/contacto" class="inst-btn-primary">
+                                <i class="fas fa-paper-plane"></i> Contactar Ahora
+                            </a>
+                            <a href="/propuesta-educativa" class="inst-btn-ghost">
+                                <i class="fas fa-graduation-cap"></i> Ver Propuesta Educativa
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- /.inst-content-layer -->
+    </div> <!-- /.inst-page-wrapper -->
+
+    <%- include('../partials/footer') %>

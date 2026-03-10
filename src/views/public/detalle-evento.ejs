@@ -1,0 +1,109 @@
+<%- include('../partials/header') %>
+
+    <!-- Custom Style for this page -->
+    <link rel="stylesheet" href="/css/pages/detalle.css">
+
+    <div class="detalle-page-wrapper">
+
+        <!-- Header minimalista sin imagen gigante -->
+        <header class="detalle-hero-clean">
+            <div class="container">
+                <div class="detalle-badge-wrap">
+                    <span class="detalle-tag evento">
+                        <i class="far fa-calendar-check"></i> Evento Institucional
+                    </span>
+                </div>
+                <h1 class="detalle-title">
+                    <%= evento.titulo %>
+                </h1>
+                <div class="detalle-meta">
+                    <span>
+                        <i class="far fa-calendar-alt"></i>
+                        Fecha: <%= new Date(evento.fecha_evento).toLocaleDateString('es-ES', { day: 'numeric' ,
+                            month: 'long' , year: 'numeric' }) %>
+                    </span>
+                    <% if(evento.ubicacion) { %>
+                        <span>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <%= evento.ubicacion %>
+                        </span>
+                        <% } %>
+                </div>
+            </div>
+        </header>
+
+        <section class="detalle-container">
+            <article class="detalle-main-card">
+                <% if(evento.imagen) { %>
+                    <!-- Imagen destacada en aspecto cinematográfico -->
+                    <div class="detalle-img-framing">
+                        <img src="<%= evento.imagen %>" alt="<%= evento.titulo %>" class="detalle-main-image">
+                    </div>
+                    <% } %>
+
+                        <div class="detalle-content-grid">
+                            <div class="detalle-text">
+                                <h3 class="detalle-summary-title">
+                                    <i class="fas fa-microchip"></i> Detalles del Evento
+                                </h3>
+                                <div class="detalle-body">
+                                    <%- (evento.contenido || evento.descripcion).replace(/\n/g, '<br>' ) %>
+                                </div>
+                            </div>
+
+                            <!-- Panel lateral de acciones (más PRO) -->
+                            <aside class="detalle-sidebar">
+                                <div class="share-box event-box">
+                                    <h4><i class="fas fa-ticket-alt"></i> Asistencia</h4>
+                                    <p class="sidebar-info">¡No te pierdas este importante evento institucional!</p>
+                                    <a href="https://wa.me/51987654321?text=Hola! Quisiera confirmar mi asistencia al evento: <%= evento.titulo %>"
+                                        target="_blank" class="btn-sidebar-primary">
+                                        <i class="fab fa-whatsapp"></i> Confirmar Asistencia
+                                    </a>
+                                </div>
+
+                                <div class="share-box">
+                                    <h4><i class="fas fa-share-alt"></i> Compartir</h4>
+                                    <div class="share-buttons-col">
+                                        <a href="#" class="share-btn fb" onclick="shareOnFacebook(event)">
+                                            <i class="fab fa-facebook-f"></i> Facebook
+                                        </a>
+                                        <a href="#" class="share-btn tw" onclick="shareOnTwitter(event)">
+                                            <i class="fab fa-twitter-x"></i> Twitter
+                                        </a>
+                                        <a href="#" class="share-btn wa" onclick="shareOnWhatsApp(event)">
+                                            <i class="fab fa-whatsapp"></i> WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    function shareOnFacebook(e) {
+                                        e.preventDefault();
+                                        const url = window.location.href;
+                                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+                                    }
+                                    function shareOnTwitter(e) {
+                                        e.preventDefault();
+                                        const url = window.location.href;
+                                        const text = "<%= evento.titulo %>";
+                                        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+                                    }
+                                    function shareOnWhatsApp(e) {
+                                        e.preventDefault();
+                                        const url = window.location.href;
+                                        const text = "<%= evento.titulo %>";
+                                        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+                                    }
+                                </script>
+                                <a href="/eventos" class="btn-back-sidebar">
+                                    <i class="fas fa-arrow-left"></i> Volver a Eventos
+                                </a>
+                            </aside>
+                        </div>
+            </article>
+        </section>
+
+    </div>
+
+    <%- include('../partials/footer') %>

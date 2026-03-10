@@ -1,0 +1,150 @@
+/* Botones Generales */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border: 2px solid transparent;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border-color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--primary-color);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #c0392b, #96281b);
+    color: white;
+    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.35);
+    border-color: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(192, 57, 43, 0.5);
+    color: white;
+}
+
+.btn-secondary:hover::before {
+    opacity: 1;
+}
+
+/* Pill modifier — keeps border-radius but adds extra padding */
+.btn-pill {
+    border-radius: 50px;
+    padding: 14px 42px;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-pill::after {
+    content: '\f061';
+    /* fa-arrow-right */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 0.8rem;
+    transition: transform 0.25s ease;
+}
+
+.btn-pill:hover::after {
+    transform: translateX(5px);
+}
+
+
+/* Botón Login/Director (Rediseñado) */
+/* Botón Login/Director (Rediseñado - Pro) */
+/* Botón Login/Director (Rediseñado - Pro) */
+a.btn-login {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #a82525 100%);
+    color: white !important;
+    padding: 12px 30px !important;
+    border: none;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex !important;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    text-decoration: none;
+}
+
+a.btn-login:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(211, 47, 47, 0.4);
+    background: linear-gradient(135deg, #e53935 0%, var(--primary-color) 100%);
+}
+
+/* Botones de acción en tablas */
+.btn-action {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-edit {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.btn-delete {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.btn-edit:hover {
+    background: #ffe0b2;
+}
+
+.btn-delete:hover {
+    background: #ffcdd2;
+}

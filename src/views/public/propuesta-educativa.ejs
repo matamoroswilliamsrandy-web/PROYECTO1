@@ -1,0 +1,173 @@
+<%- include('../partials/header') %>
+
+    <link rel="stylesheet" href="/css/pages/institutional.css">
+
+    <div class="inst-page-wrapper">
+        <div class="inst-content-layer">
+
+            <!-- ── HERO INMERSIVO ── -->
+            <section class="inst-hero">
+                <div class="inst-hero-bg">
+                    <img src="/img/hero-estudiantes.jpg" alt="Propuesta Educativa">
+                </div>
+                <div class="inst-hero-overlay"></div>
+
+                <div class="inst-hero-content">
+                    <div class="inst-hero-glass-card scroll-reveal">
+                        <div class="inst-badge">
+                            <i class="fas fa-graduation-cap"></i> Excelencia Académica
+                        </div>
+                        <h1 class="inst-hero-title">
+                            <%= ajustes.pe_hero_title %>
+                        </h1>
+                        <p class="inst-hero-sub">
+                            <%= ajustes.pe_hero_sub %>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="inst-breadcrumb">
+                    <a href="/">Inicio</a>
+                    <span class="inst-breadcrumb-sep">//</span>
+                    <span class="inst-breadcrumb-current">Propuesta Educativa</span>
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 1: METODOLOGÍA (Glass & 3D Image) ── -->
+            <section class="inst-section">
+                <div class="inst-glow-orb"></div>
+                <div class="container">
+                    <div class="inst-grid">
+                        <!-- Texto -->
+                        <div class="inst-text-block scroll-reveal">
+                            <span class="inst-eyebrow">Metodología Raymondina</span>
+                            <h2>
+                                <%= ajustes.pe_seccion1_titulo %>
+                            </h2>
+                            <p>
+                                <%= ajustes.pe_seccion1_desc %>
+                            </p>
+
+                            <div class="inst-feature-row">
+                                <div class="inst-feature-icon">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="inst-feature-text">
+                                    <h4>Certificación Internacional</h4>
+                                    <p>Nuestros estudiantes egresan con estándares globales reconocidos.</p>
+                                </div>
+                            </div>
+
+                            <div class="inst-feature-row delay-100">
+                                <div class="inst-feature-icon">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <div class="inst-feature-text">
+                                    <h4>Aprendizaje Experiencial</h4>
+                                    <p>Proyectos reales que conectan el aula con el mundo moderno.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imagen -->
+                        <div class="inst-img-wrapper scroll-reveal delay-200">
+                            <div class="inst-img-deco-1"></div>
+                            <img src="<%= ajustes.pe_img1 %>" alt="Propuesta Educativa" class="img-fluid">
+                            <div class="inst-stat-badge">
+                                <span class="stat-num">98%</span>
+                                <span class="stat-lbl">Ingresantes a<br>Universidades</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 2: PILARES EDUCATIVOS (Bento Box Grid) ── -->
+            <section class="inst-section">
+                <div class="inst-glow-orb right"></div>
+                <div class="container">
+                    <div class="inst-section-header scroll-reveal">
+                        <span class="inst-eyebrow">Fundamentos</span>
+                        <h2>Nuestros Pilares Educativos</h2>
+                    </div>
+
+                    <div class="inst-bento-grid">
+
+                        <div class="inst-bento-card bento-medium scroll-reveal">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-brain"></i></div>
+                                <h3>
+                                    <%= ajustes.pe_pil1_t %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.pe_pil1_d %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="inst-bento-card bento-medium scroll-reveal delay-100">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-laptop-code"></i></div>
+                                <h3>
+                                    <%= ajustes.pe_pil2_t %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.pe_pil2_d %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="inst-bento-card bento-medium scroll-reveal delay-200">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-heart"></i></div>
+                                <h3>
+                                    <%= ajustes.pe_pil3_t %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.pe_pil3_d %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="inst-bento-card bento-medium scroll-reveal delay-300">
+                            <div class="inst-bento-content">
+                                <div class="inst-bento-icon"><i class="fas fa-globe-americas"></i></div>
+                                <h3>
+                                    <%= ajustes.pe_pil4_t %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.pe_pil4_d %>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── CTA ── -->
+            <section class="inst-cta">
+                <div class="container">
+                    <div class="inst-cta-box scroll-reveal">
+                        <span class="inst-eyebrow" style="color: var(--inst-red); margin-bottom: 16px;">Da el siguiente
+                            paso</span>
+                        <h2>¿Listo para ser parte de nuestra comunidad?</h2>
+                        <p>Sé parte de una institución que transforma vidas a través de la educación de vanguardia y los
+                            sólidos valores éticos que nos caracterizan.</p>
+                        <div class="inst-cta-btns">
+                            <a href="/contacto" class="inst-btn-primary">
+                                <i class="fas fa-paper-plane"></i> Contactar Ahora
+                            </a>
+                            <a href="/" class="inst-btn-ghost">
+                                <i class="fas fa-home"></i> Volver al Inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- /.inst-content-layer -->
+    </div> <!-- /.inst-page-wrapper -->
+
+    <%- include('../partials/footer') %>

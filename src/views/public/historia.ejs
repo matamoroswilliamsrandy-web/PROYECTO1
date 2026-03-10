@@ -1,0 +1,176 @@
+<%- include('../partials/header') %>
+
+    <link rel="stylesheet" href="/css/pages/institutional.css">
+
+    <div class="inst-page-wrapper">
+        <div class="inst-content-layer">
+
+            <!-- ── HERO INMERSIVO ── -->
+            <section class="inst-hero">
+                <div class="inst-hero-bg">
+                    <img src="/img/hero-estudiantes.jpg" alt="Historia Institucional">
+                </div>
+                <div class="inst-hero-overlay"></div>
+
+                <div class="inst-hero-content">
+                    <div class="inst-hero-glass-card scroll-reveal">
+                        <div class="inst-badge">
+                            <i class="fas fa-landmark"></i> Legado y Tradición
+                        </div>
+                        <h1 class="inst-hero-title">Nuestra Historia</h1>
+                        <p class="inst-hero-sub">
+                            <%= ajustes.hist_hero_sub %>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="inst-breadcrumb">
+                    <a href="/">Inicio</a>
+                    <span class="inst-breadcrumb-sep">//</span>
+                    <span class="inst-breadcrumb-current">Historia</span>
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 1: FUNDACIÓN Y ORIGEN (Glass & 3D Image) ── -->
+            <section class="inst-section">
+                <div class="inst-glow-orb"></div>
+                <div class="container">
+                    <div class="inst-grid">
+                        <!-- Texto -->
+                        <div class="inst-text-block scroll-reveal">
+                            <span class="inst-eyebrow">Fundación y Origen</span>
+                            <h2>
+                                <%= ajustes.hist_seccion1_titulo %>
+                            </h2>
+                            <p>
+                                <%= ajustes.hist_seccion1_desc %>
+                            </p>
+                            <p>Desde nuestros humildes comienzos, hemos mantenido un compromiso inquebrantable con la
+                                formación de ciudadanos íntegros.</p>
+
+                            <div class="inst-feature-row">
+                                <div class="inst-feature-icon">
+                                    <i class="fas fa-history"></i>
+                                </div>
+                                <div class="inst-feature-text">
+                                    <h4>
+                                        <%= ajustes.stats_años %> Años de Trayectoria
+                                    </h4>
+                                    <p>Una historia forjada con esfuerzo, dedicación y amor por la educación.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Imagen -->
+                        <div class="inst-img-wrapper scroll-reveal delay-200">
+                            <div class="inst-img-deco-1"></div>
+                            <img src="<%= ajustes.hist_img1 %>" alt="Historia Institucional" class="img-fluid">
+                            <div class="inst-stat-badge">
+                                <span class="stat-num">
+                                    <%= ajustes.stats_años %>
+                                </span>
+                                <span class="stat-lbl">Años de<br>Historia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── SECCIÓN 2: LÍNEA DEL TIEMPO INTERACTIVA ── -->
+            <section class="inst-section">
+                <div class="inst-glow-orb right"></div>
+                <div class="container">
+                    <div class="inst-section-header scroll-reveal">
+                        <span class="inst-eyebrow">Hitos</span>
+                        <h2>Nuestra Trayectoria</h2>
+                    </div>
+
+                    <div class="inst-interactive-timeline">
+
+                        <!-- Hito 1 -->
+                        <div class="timeline-event scroll-reveal">
+                            <div class="timeline-empty"></div>
+                            <div class="timeline-marker">
+                                <div class="timeline-dot"></div>
+                            </div>
+                            <div class="timeline-card">
+                                <div class="timeline-year">
+                                    <%= ajustes.hist_t1_anio %>
+                                </div>
+                                <h3>
+                                    <%= ajustes.hist_t1_titulo %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.hist_t1_desc %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Hito 2 -->
+                        <div class="timeline-event scroll-reveal">
+                            <div class="timeline-card">
+                                <div class="timeline-year">
+                                    <%= ajustes.hist_t2_anio %>
+                                </div>
+                                <h3>
+                                    <%= ajustes.hist_t2_titulo %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.hist_t2_desc %>
+                                </p>
+                            </div>
+                            <div class="timeline-marker">
+                                <div class="timeline-dot"></div>
+                            </div>
+                            <div class="timeline-empty"></div>
+                        </div>
+
+                        <!-- Hito 3 -->
+                        <div class="timeline-event scroll-reveal">
+                            <div class="timeline-empty"></div>
+                            <div class="timeline-marker">
+                                <div class="timeline-dot"></div>
+                            </div>
+                            <div class="timeline-card">
+                                <div class="timeline-year">
+                                    <%= ajustes.hist_t3_anio %>
+                                </div>
+                                <h3>
+                                    <%= ajustes.hist_t3_titulo %>
+                                </h3>
+                                <p>
+                                    <%= ajustes.hist_t3_desc %>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div><!-- /.inst-interactive-timeline -->
+                </div>
+            </section>
+
+            <!-- ── CTA ── -->
+            <section class="inst-cta">
+                <div class="container">
+                    <div class="inst-cta-box scroll-reveal">
+                        <span class="inst-eyebrow" style="color: var(--inst-red); margin-bottom: 16px;">Parte de nuestro
+                            legado</span>
+                        <h2>Construye tu historia con nosotros</h2>
+                        <p>Años de experiencia forman la base de una educación de calidad que trasciende generaciones.
+                        </p>
+                        <div class="inst-cta-btns">
+                            <a href="/contacto" class="inst-btn-primary">
+                                <i class="fas fa-paper-plane"></i> Contáctanos
+                            </a>
+                            <a href="/autoridades" class="inst-btn-ghost">
+                                <i class="fas fa-users"></i> Nuestras Autoridades
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div> <!-- /.inst-content-layer -->
+    </div> <!-- /.inst-page-wrapper -->
+
+    <%- include('../partials/footer') %>

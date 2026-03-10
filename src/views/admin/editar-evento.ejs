@@ -1,0 +1,266 @@
+<%- include('../partials/admin-header', { path: '/panel-director/eventos' }) %>
+
+    <!-- ── PAGE HEADER ─────────────────────────────── -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="fas fa-pen"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Editar Evento</h1>
+                <p class="adm-page-sub">Modifica los campos y guarda los cambios</p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/panel-director/eventos" class="adm-header-link">
+                <i class="fas fa-arrow-left"></i> <span>Volver</span>
+            </a>
+        </div>
+    </div>
+
+    <% if (error) { %>
+        <div class="adm-edit-alert adm-edit-alert--error">
+            <i class="fas fa-exclamation-circle"></i>
+            <%= error %>
+        </div>
+        <% } %>
+
+            <% const fechaEvento=new Date(evento.fecha_evento); const fechaStr=fechaEvento.toISOString().split('T')[0];
+                const hoy=new Date(); const diffMs=fechaEvento - hoy; const diffDays=Math.ceil(diffMs /
+                (1000*60*60*24)); const esPasado=diffDays < 0; %>
+
+                <!-- ═══ TWO-COLUMN LAYOUT ════════════════════════ -->
+                <div class="adm-edit-layout">
+
+                    <!-- ── LEFT: FORM ─────────────────────────── -->
+                    <div class="adm-edit-card">
+                        <div class="adm-edit-card-header">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>Datos del Evento</span>
+                        </div>
+
+                        <form id="edit-form" action="/panel-director/eventos/editar/<%= evento.id %>" method="POST"
+                            enctype="multipart/form-data" class="adm-edit-form">
+
+                            <div class="adm-field">
+                                <label class="adm-label" for="edit-titulo"><i class="fas fa-heading"></i> Título del
+                                    Evento</label>
+                                <input id="edit-titulo" type="text" name="titulo" class="adm-input" required
+                                    value="<%= evento.titulo %>" oninput="syncPreview()">
+                            </div>
+
+                            <div class="adm-field">
+                                <label class="adm-label" for="edit-desc"><i class="fas fa-align-left"></i>
+                                    Descripción</label>
+                                <textarea id="edit-desc" name="descripcion" rows="5" class="adm-input"
+                                    oninput="syncPreview()"><%= evento.descripcion || '' %></textarea>
+                            </div>
+
+                            <div class="adm-ev-row">
+                                <div class="adm-field">
+                                    <label class="adm-label" for="edit-fecha"><i class="fas fa-calendar-day"></i> Fecha
+                                        del Evento</label>
+                                    <input id="edit-fecha" type="date" name="fecha_evento" class="adm-input" required
+                                        value="<%= fechaStr %>" onchange="syncPreview()">
+                                </div>
+                                <div class="adm-field">
+                                    <label class="adm-label" for="edit-lugar"><i class="fas fa-map-marker-alt"></i>
+                                        Lugar</label>
+                                    <input id="edit-lugar" type="text" name="lugar" class="adm-input"
+                                        value="<%= evento.lugar || '' %>" placeholder="Ej. Auditorio principal"
+                                        oninput="syncPreview()">
+                                </div>
+                            </div>
+
+                            <div class="adm-field">
+                                <label class="adm-label"><i class="fas fa-image"></i> Imagen</label>
+                                <% if (evento.imagen) { %>
+                                    <div class="adm-edit-img-preview">
+                                        <img src="<%= evento.imagen %>" alt="Imagen actual" id="current-img">
+                                        <div class="adm-edit-img-info">
+                                            <span class="adm-edit-img-badge"><i class="fas fa-check-circle"></i> Imagen
+                                                actual</span>
+                                            <p>Sube una nueva imagen si deseas reemplazarla.</p>
+                                        </div>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="adm-edit-no-img">
+                                            <i class="far fa-image"></i><span>Sin imagen — puedes subir una abajo</span>
+                                        </div>
+                                        <% } %>
+                                            <label class="adm-file-label" for="edit-imagen" style="margin-top:10px">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                                <span id="edit-file-name">Cambiar imagen (opcional)…</span>
+                                                <input id="edit-imagen" type="file" name="imagen" accept="image/*"
+                                                    onchange="previewImg(this)">
+                                            </label>
+                            </div>
+
+                            <div class="adm-field">
+                                <label class="adm-featured-toggle-card" id="featured-card">
+                                    <input type="checkbox" name="destacado" id="toggle-featured" <%=evento.destacado
+                                        ? 'checked' : '' %> onchange="syncPreview()">
+                                    <span class="adm-premium-switch"></span>
+                                    <div class="adm-featured-toggle-icon-box">
+                                        <i class="fas fa-star"></i>
+                                        <div class="adm-featured-toggle-text-wrap">
+                                            <p>Marcar como</p>
+                                            <span>Destacado</span>
+                                            <div class="adm-featured-toggle-hint-text">Aparecerá en el inicio</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="adm-edit-actions">
+                                <button type="submit" class="adm-btn-submit">
+                                    <i class="fas fa-save"></i> Guardar Cambios
+                                </button>
+                                <a href="/panel-director/eventos" class="adm-btn-cancel">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- ── RIGHT: LIVE PREVIEW SIDEBAR ────────── -->
+                    <aside class="adm-edit-sidebar">
+
+                        <!-- Countdown block -->
+                        <div class="adm-preview-block adm-preview-block--countdown">
+                            <div class="adm-preview-header">
+                                <i class="fas fa-hourglass-half"></i> Cuenta regresiva
+                                <span class="adm-preview-pulse"></span>
+                            </div>
+                            <div class="adm-countdown-display" id="countdown-display">
+                                <span class="adm-countdown-num" id="countdown-num">
+                                    <%= Math.abs(diffDays) %>
+                                </span>
+                                <span class="adm-countdown-label" id="countdown-label">
+                                    <%= esPasado ? 'días transcurridos' : diffDays===0 ? '¡Hoy!' : 'días restantes' %>
+                                </span>
+                                <span class="adm-countdown-status <%= esPasado ? 'status-past' : 'status-upcoming' %>"
+                                    id="countdown-status">
+                                    <i class="fas fa-<%= esPasado ? 'history' : 'rocket' %>"></i>
+                                    <%= esPasado ? 'Evento pasado' : 'Próximo evento' %>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Preview card -->
+                        <div class="adm-preview-block">
+                            <div class="adm-preview-header">
+                                <i class="fas fa-eye"></i> Vista previa
+                            </div>
+                            <div class="adm-preview-event-card">
+                                <div class="adm-preview-img-wrap">
+                                    <img id="preview-img" src="<%= evento.imagen || '' %>" alt=""
+                                        style="<%= evento.imagen ? '' : 'display:none' %>">
+                                    <div id="preview-no-img" class="adm-preview-no-img"
+                                        style="<%= evento.imagen ? 'display:none' : '' %>">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div id="preview-badge" class="adm-preview-badge"
+                                        style="<%= evento.destacado ? '' : 'display:none' %>">
+                                        <i class="fas fa-star"></i> Destacado
+                                    </div>
+                                </div>
+                                <div class="adm-preview-body">
+                                    <h4 id="preview-title">
+                                        <%= evento.titulo %>
+                                    </h4>
+                                    <div class="adm-preview-meta">
+                                        <span id="preview-fecha">
+                                            <i class="fas fa-calendar-day"></i>
+                                            <%= fechaEvento.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'})
+                                                %>
+                                        </span>
+                                        <span id="preview-lugar">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <%= evento.lugar || 'Sin lugar' %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Meta info -->
+                        <div class="adm-sidebar-meta">
+                            <div class="adm-sidebar-meta-title"><i class="fas fa-info-circle"></i> Información</div>
+                            <div class="adm-sidebar-meta-row"><span>ID</span><strong>#<%= evento.id %></strong></div>
+                            <div class="adm-sidebar-meta-row">
+                                <span>Estado</span>
+                                <strong class="<%= esPasado ? 'text-gray' : 'text-green' %>">
+                                    <%= esPasado ? 'Concluido' : 'Próximo' %>
+                                </strong>
+                            </div>
+                        </div>
+
+                        <!-- Tips -->
+                        <div class="adm-sidebar-tips">
+                            <div class="adm-sidebar-tips-title"><i class="fas fa-lightbulb"></i> Consejos</div>
+                            <ul>
+                                <li>Incluye el <strong>lugar exacto</strong> para facilitar la asistencia.</li>
+                                <li>Una imagen horizontal <strong>16:9</strong> luce mejor en la portada.</li>
+                                <li>Publica el evento con al menos <strong>1 semana de anticipación</strong>.</li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+
+                <script>
+                    function syncPreview() {
+                        const title = document.getElementById('edit-titulo').value.trim();
+                        const lugar = document.getElementById('edit-lugar').value.trim();
+                        const fecha = document.getElementById('edit-fecha').value;
+                        const isDestacado = document.getElementById('toggle-featured').checked;
+
+                        document.getElementById('preview-title').textContent = title || 'Título del evento…';
+                        document.getElementById('preview-lugar').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${lugar || 'Sin lugar'}`;
+
+                        // Toggle badge and card active state
+                        const badge = document.getElementById('preview-badge');
+                        const card = document.getElementById('featured-card');
+
+                        if (isDestacado) {
+                            badge.style.display = '';
+                            card.classList.add('active');
+                        } else {
+                            badge.style.display = 'none';
+                            card.classList.remove('active');
+                        }
+
+                        if (fecha) {
+                            const d = new Date(fecha + 'T12:00:00');
+                            document.getElementById('preview-fecha').innerHTML =
+                                `<i class="fas fa-calendar-day"></i> ${d.toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric' })}`;
+
+                            const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+                            const diff = Math.ceil((d - hoy) / (1000 * 60 * 60 * 24));
+                            document.getElementById('countdown-num').textContent = Math.abs(diff);
+                            document.getElementById('countdown-label').textContent = diff < 0 ? 'días transcurridos' : diff === 0 ? '¡Hoy!' : 'días restantes';
+                            const st = document.getElementById('countdown-status');
+                            st.className = `adm-countdown-status ${diff < 0 ? 'status-past' : 'status-upcoming'}`;
+                            st.innerHTML = `<i class="fas fa-${diff < 0 ? 'history' : 'rocket'}"></i> ${diff < 0 ? 'Evento pasado' : 'Próximo evento'}`;
+                        }
+                    }
+
+                    // Initial sync
+                    document.addEventListener('DOMContentLoaded', syncPreview);
+
+                    function previewImg(input) {
+                        document.getElementById('edit-file-name').textContent = input.files[0]?.name || 'Cambiar imagen (opcional)…';
+                        if (input.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = e => {
+                                const pImg = document.getElementById('preview-img');
+                                const cImg = document.getElementById('current-img');
+                                const noImg = document.getElementById('preview-no-img');
+                                if (pImg) { pImg.src = e.target.result; pImg.style.display = ''; }
+                                if (cImg) { cImg.src = e.target.result; }
+                                if (noImg) { noImg.style.display = 'none'; }
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                </script>
+
+                <%- include('../partials/admin-footer') %>

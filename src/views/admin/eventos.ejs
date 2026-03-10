@@ -1,0 +1,356 @@
+<%- include('../partials/admin-header', { path: '/panel-director/eventos' }) %>
+
+    <!-- ═══════════════════════════════════════════════
+     PAGE HEADER
+════════════════════════════════════════════════ -->
+    <div class="adm-page-header">
+        <div class="adm-page-header-left">
+            <div class="adm-page-icon adm-page-icon--red">
+                <i class="far fa-calendar-alt"></i>
+            </div>
+            <div>
+                <h1 class="adm-page-title">Gestión de Eventos</h1>
+                <p class="adm-page-sub">
+                    <%= eventos.length %> evento<%= eventos.length !==1 ? 's' : '' %> registrado<%= eventos.length !==1
+                                ? 's' : '' %>
+                </p>
+            </div>
+        </div>
+        <div class="adm-page-header-actions">
+            <a href="/" target="_blank" class="adm-header-link">
+                <i class="fas fa-globe"></i> <span>Ver Sitio</span>
+            </a>
+            <button id="btn-toggle-form" class="adm-btn-new" onclick="toggleForm()">
+                <i class="fas fa-plus" id="btn-icon"></i>
+                <span id="btn-label">Nuevo Evento</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+     MAIN LAYOUT: SIDE PANEL + TABLE
+════════════════════════════════════════════════ -->
+    <div class="adm-noticias-layout" id="noticias-layout">
+
+        <!-- ── FORM SIDE PANEL ──────────────────────── -->
+        <aside class="adm-side-panel" id="side-panel" aria-hidden="true">
+            <div class="adm-side-panel-inner">
+
+                <div class="adm-drawer-header">
+                    <div class="adm-drawer-title-group">
+                        <div class="adm-form-panel-icon">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <div>
+                            <h3>Nuevo Evento</h3>
+                            <p>Completa los campos y crea el evento</p>
+                        </div>
+                    </div>
+                    <button class="adm-drawer-close" onclick="toggleForm()" title="Cerrar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <form action="/panel-director/eventos/crear" method="POST" enctype="multipart/form-data"
+                    class="adm-drawer-form">
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="ev-titulo">
+                            <i class="fas fa-heading"></i> Título del Evento
+                        </label>
+                        <input id="ev-titulo" type="text" name="titulo" class="adm-input" required
+                            placeholder="Ej. Clausura del Año Escolar…">
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="ev-desc">
+                            <i class="fas fa-align-left"></i> Descripción
+                        </label>
+                        <textarea id="ev-desc" name="descripcion" rows="4" class="adm-input adm-textarea"
+                            placeholder="Detalles del evento…"></textarea>
+                    </div>
+
+                    <div class="adm-ev-row">
+                        <div class="adm-field">
+                            <label class="adm-label" for="ev-fecha">
+                                <i class="fas fa-calendar-day"></i> Fecha
+                            </label>
+                            <input id="ev-fecha" type="date" name="fecha_evento" class="adm-input" required>
+                        </div>
+                        <div class="adm-field">
+                            <label class="adm-label" for="ev-lugar">
+                                <i class="fas fa-map-marker-alt"></i> Lugar
+                            </label>
+                            <input id="ev-lugar" type="text" name="lugar" class="adm-input"
+                                placeholder="Ej. Auditorio Principal">
+                        </div>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="ev-imagen">
+                            <i class="fas fa-image"></i> Imagen del Evento
+                        </label>
+                        <label class="adm-file-label" for="ev-imagen">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-ev">Seleccionar imagen…</span>
+                            <input id="ev-imagen" type="file" name="imagen" accept="image/*"
+                                onchange="document.getElementById('file-name-ev').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-featured-toggle-card">
+                            <input type="checkbox" name="destacado">
+                            <span class="adm-premium-switch"></span>
+                            <div class="adm-featured-toggle-icon-box">
+                                <i class="fas fa-star"></i>
+                                <p>Marcar como</p>
+                                <span>Destacado</span>
+                                <div class="adm-featured-toggle-hint-text">Aparecerá en la página de inicio</div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="adm-side-form-actions">
+                        <button type="submit" class="adm-btn-submit">
+                            <i class="fas fa-calendar-check"></i> Crear Evento
+                        </button>
+                        <button type="button" class="adm-btn-cancel" onclick="toggleForm()">
+                            Cancelar
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </aside>
+
+        <!-- ── TABLE PANEL ──────────────────────────── -->
+        <section class="adm-table-panel">
+
+            <!-- Search bar -->
+            <div class="adm-table-panel-header">
+                <h3><i class="far fa-calendar-alt"></i> Listado de Eventos</h3>
+                <div class="adm-search-wrap">
+                    <i class="fas fa-search adm-search-icon"></i>
+                    <input type="text" id="ev-search" class="adm-search-input" placeholder="Buscar evento…"
+                        oninput="filterEvents(this.value)">
+                    <button class="adm-search-clear" id="ev-clear-search" onclick="clearEvSearch()" title="Limpiar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <span class="adm-count-badge" id="ev-visible-count">
+                    <%= eventos.length %>
+                </span>
+            </div>
+
+            <% if (eventos.length===0) { %>
+                <div class="adm-empty-state">
+                    <div class="adm-empty-icon"><i class="far fa-calendar-alt"></i></div>
+                    <p>No hay eventos programados todavía.</p>
+                    <span>Haz clic en <strong>Nuevo Evento</strong> para crear el primero.</span>
+                </div>
+                <% } else { %>
+
+                    <!-- Desktop table -->
+                    <div class="adm-tbl-wrap">
+                        <table class="adm-tbl" id="ev-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:70px">Imagen</th>
+                                    <th>Evento</th>
+                                    <th style="width:130px">Fecha</th>
+                                    <th style="width:150px">Lugar</th>
+                                    <th style="width:120px">Estado</th>
+                                    <th style="width:90px; text-align:center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ev-tbody">
+                                <% eventos.forEach(evento=> {
+                                    const fechaEv = new Date(evento.fecha_evento);
+                                    const hoy = new Date();
+                                    const esPasado = fechaEv < hoy; %>
+                                        <tr class="adm-tbl-row" data-title="<%= evento.titulo.toLowerCase() %>">
+                                            <td>
+                                                <% if (evento.imagen) { %>
+                                                    <img src="<%= evento.imagen %>" alt="" class="adm-tbl-thumb">
+                                                    <% } else { %>
+                                                        <div class="adm-tbl-thumb adm-tbl-thumb--empty">
+                                                            <i class="far fa-calendar"></i>
+                                                        </div>
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <span class="adm-tbl-title">
+                                                    <%= evento.titulo %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="adm-ev-date-cell">
+                                                    <span class="adm-meta-item">
+                                                        <i class="fas fa-calendar-day"></i>
+                                                        <%= fechaEv.toLocaleDateString('es-PE', { day:'2-digit',
+                                                            month:'short', year:'numeric' }) %>
+                                                    </span>
+                                                    <% if (esPasado) { %>
+                                                        <span class="adm-badge adm-badge--gray">Pasado</span>
+                                                        <% } else { %>
+                                                            <span class="adm-badge adm-badge--green">Próximo</span>
+                                                            <% } %>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="adm-meta-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <%= evento.lugar || '—' %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <% if (evento.destacado) { %>
+                                                    <span class="adm-badge adm-badge--star"><i class="fas fa-star"></i>
+                                                        Destacado</span>
+                                                    <% } else { %>
+                                                        <span class="adm-badge adm-badge--gray">Normal</span>
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="adm-tbl-actions">
+                                                    <a href="/panel-director/eventos/editar/<%= evento.id %>"
+                                                        class="adm-action-btn adm-action-btn--edit" title="Editar">
+                                                        <i class="fas fa-pen"></i>
+                                                    </a>
+                                                    <form action="/panel-director/eventos/eliminar/<%= evento.id %>"
+                                                        method="POST"
+                                                        onsubmit="return confirm('¿Eliminar este evento?');">
+                                                        <button type="submit"
+                                                            class="adm-action-btn adm-action-btn--delete"
+                                                            title="Eliminar">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                            </tbody>
+                        </table>
+
+                        <!-- No results message -->
+                        <div class="adm-no-results" id="ev-no-results" style="display:none;">
+                            <i class="fas fa-search"></i>
+                            <p>No se encontraron eventos que coincidan.</p>
+                        </div>
+                    </div>
+
+                    <!-- Mobile cards -->
+                    <div class="adm-mobile-list" id="ev-mobile-list">
+                        <% eventos.forEach(evento=> {
+                            const fechaEv = new Date(evento.fecha_evento);
+                            const esPasado = fechaEv < new Date(); %>
+                                <div class="adm-news-item" data-title="<%= evento.titulo.toLowerCase() %>">
+                                    <div class="adm-news-thumb">
+                                        <% if (evento.imagen) { %>
+                                            <img src="<%= evento.imagen %>" alt="<%= evento.titulo %>">
+                                            <% } else { %>
+                                                <div class="adm-news-thumb-placeholder"><i class="far fa-calendar"></i>
+                                                </div>
+                                                <% } %>
+                                                    <% if (evento.destacado) { %>
+                                                        <span class="adm-thumb-star"><i class="fas fa-star"></i></span>
+                                                        <% } %>
+                                    </div>
+                                    <div class="adm-news-body">
+                                        <p class="adm-news-title">
+                                            <%= evento.titulo %>
+                                        </p>
+                                        <div class="adm-news-meta">
+                                            <span class="adm-meta-item">
+                                                <i class="fas fa-calendar-day"></i>
+                                                <%= fechaEv.toLocaleDateString('es-PE', { day:'2-digit', month:'short',
+                                                    year:'numeric' }) %>
+                                            </span>
+                                            <% if (evento.lugar) { %>
+                                                <span class="adm-meta-item">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <%= evento.lugar %>
+                                                </span>
+                                                <% } %>
+                                                    <% if (esPasado) { %>
+                                                        <span class="adm-badge adm-badge--gray">Pasado</span>
+                                                        <% } else { %>
+                                                            <span class="adm-badge adm-badge--green">Próximo</span>
+                                                            <% } %>
+                                                                <% if (evento.destacado) { %>
+                                                                    <span class="adm-badge adm-badge--star"><i
+                                                                            class="fas fa-star"></i> Destacado</span>
+                                                                    <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="adm-news-actions">
+                                        <a href="/panel-director/eventos/editar/<%= evento.id %>"
+                                            class="adm-action-btn adm-action-btn--edit"><i class="fas fa-pen"></i></a>
+                                        <form action="/panel-director/eventos/eliminar/<%= evento.id %>" method="POST"
+                                            style="display:inline;" onsubmit="return confirm('¿Eliminar?');">
+                                            <button type="submit" class="adm-action-btn adm-action-btn--delete"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <% }) %>
+                    </div>
+
+                    <% } %>
+        </section>
+
+    </div>
+
+    <!-- ── SCRIPTS ────────────────────────────────── -->
+    <script>
+        function toggleForm() {
+            const layout = document.getElementById('noticias-layout');
+            const panel = document.getElementById('side-panel');
+            const icon = document.getElementById('btn-icon');
+            const label = document.getElementById('btn-label');
+            const isOpen = layout.classList.toggle('panel-open');
+
+            panel.setAttribute('aria-hidden', String(!isOpen));
+            icon.className = isOpen ? 'fas fa-times' : 'fas fa-plus';
+            label.textContent = isOpen ? 'Cerrar' : 'Nuevo Evento';
+
+            if (isOpen) {
+                setTimeout(() => document.getElementById('ev-titulo')?.focus(), 350);
+            }
+        }
+
+        function filterEvents(query) {
+            const q = query.toLowerCase().trim();
+            const rows = document.querySelectorAll('#ev-tbody .adm-tbl-row');
+            const cards = document.querySelectorAll('#ev-mobile-list .adm-news-item');
+            const noRes = document.getElementById('ev-no-results');
+            const badge = document.getElementById('ev-visible-count');
+            const clearBtn = document.getElementById('ev-clear-search');
+
+            let visible = 0;
+            rows.forEach(r => {
+                const match = !q || r.dataset.title.includes(q);
+                r.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+            cards.forEach(c => {
+                c.style.display = (!q || c.dataset.title.includes(q)) ? '' : 'none';
+            });
+
+            badge.textContent = visible;
+            noRes.style.display = (visible === 0 && q) ? 'flex' : 'none';
+            clearBtn.style.opacity = q ? '1' : '0';
+            clearBtn.style.pointerEvents = q ? 'auto' : 'none';
+        }
+
+        function clearEvSearch() {
+            const input = document.getElementById('ev-search');
+            input.value = '';
+            filterEvents('');
+            input.focus();
+        }
+    </script>
+
+    <%- include('../partials/admin-footer') %>

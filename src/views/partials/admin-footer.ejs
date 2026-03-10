@@ -1,0 +1,37 @@
+</div> <!-- End .content-container -->
+</main> <!-- End .admin-content -->
+</div> <!-- End .admin-wrapper -->
+
+<script src="/js/main.js"></script>
+<script src="/js/admin-alerts.js"></script>
+<script>
+    // Premium Sidebar Toggle Logic
+    const headerToggle = document.querySelector('.header-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    if (headerToggle && sidebar && sidebarOverlay) {
+        const toggleSidebar = () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        };
+
+        headerToggle.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Cerrar al hacer click en enlaces (móvil)
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    }
+</script>
+</body>
+
+</html>

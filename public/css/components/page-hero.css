@@ -1,0 +1,229 @@
+/* ══════════════════════════════════════════════════
+   UNIFIED PAGE HERO — Premium Design System
+   Consistent across all subpages
+══════════════════════════════════════════════════ */
+
+.page-hero {
+    position: relative;
+    background: #c0392b;
+    background-image:
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(0, 0, 0, 0.15) 0%, transparent 40%),
+        linear-gradient(165deg, #c0392b 0%, #a93226 50%, #8e2317 100%);
+    padding: 40px 20px 60px;
+    text-align: center;
+    overflow: hidden;
+    min-height: 240px;
+    /* Standardized height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    isolation: isolate;
+    z-index: 1;
+}
+
+/* Institutional pattern texture - Modern Micro-grid */
+.page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Subtle glass gloss effect */
+.page-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.1) 20%,
+            rgba(255, 255, 255, 0.3) 50%,
+            rgba(255, 255, 255, 0.1) 80%,
+            transparent 100%);
+    z-index: 2;
+}
+
+.page-hero .hero-container {
+    position: relative;
+    z-index: 5;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Premium Tag System */
+.page-hero .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: heroFadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-hero .hero-tag i {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Standardized Typography */
+.page-hero .hero-title {
+    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    /* Reduced size */
+    font-weight: 900;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    margin-bottom: 16px;
+    animation: heroFadeDown 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-hero .hero-subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 300;
+    animation: heroFadeDown 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Unified Wave Separator */
+.page-hero .hero-wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    line-height: 0;
+}
+
+.page-hero .hero-wave svg {
+    display: block;
+    width: 100%;
+    height: 60px;
+    /* Reduced wave height */
+}
+
+/* Animations */
+@keyframes heroFadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 30px 16px 50px;
+        min-height: 200px;
+    }
+
+    .page-hero .hero-title {
+        letter-spacing: -0.5px;
+    }
+
+    .page-hero .hero-subtitle {
+        font-size: 0.88rem;
+    }
+}
+
+/* --- Hero Search Form --- */
+.page-hero .hero-search-form {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 60px;
+    padding: 6px 6px 6px 22px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 540px;
+    width: 100%;
+    margin: 32px auto 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: heroFadeDown 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-hero .hero-search-form:focus-within {
+    transform: translateY(-3px);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.page-hero .hero-search-icon {
+    color: #aaa;
+    font-size: 1rem;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.page-hero .hero-search-form input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.98rem;
+    color: #333;
+    min-width: 0;
+}
+
+.page-hero .hero-search-form input::placeholder {
+    color: #aaa;
+}
+
+.page-hero .hero-search-form button {
+    background: linear-gradient(135deg, #c0392b, #7b0000);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+.page-hero .hero-search-form button:hover {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.5);
+}
+
+@media (max-width: 480px) {
+    .page-hero .hero-search-form {
+        padding: 5px 5px 5px 16px;
+    }
+
+    .page-hero .hero-search-form button {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
