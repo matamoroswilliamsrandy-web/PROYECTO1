@@ -34,23 +34,36 @@ class Noticia extends BaseModel {
     }
 
     static async create(data) {
-        const { titulo, contenido, imagen, destacada } = data;
+        const { titulo, contenido, imagen, imagen2, imagen3, destacada } = data;
         const result = await this.execute(
-            'INSERT INTO noticias (titulo, contenido, imagen, destacada, fecha_publicacion) VALUES (?, ?, ?, ?, NOW())',
-            [titulo, contenido, imagen, destacada ? 1 : 0]
+            'INSERT INTO noticias (titulo, contenido, imagen, imagen2, imagen3, destacada, fecha_publicacion) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+            [titulo, contenido, imagen, imagen2 || null, imagen3 || null, destacada ? 1 : 0]
         );
         return result.insertId;
     }
 
     static async update(id, data) {
-        const { titulo, contenido, imagen, destacada } = data;
-        let sql = 'UPDATE noticias SET titulo = ?, contenido = ?, destacada = ? WHERE id = ?';
-        let params = [titulo, contenido, destacada ? 1 : 0, id];
+        const { titulo, contenido, imagen, imagen2, imagen3, destacada } = data;
 
-        if (imagen) {
-            sql = 'UPDATE noticias SET titulo = ?, contenido = ?, imagen = ?, destacada = ? WHERE id = ?';
-            params = [titulo, contenido, imagen, destacada ? 1 : 0, id];
+        // Creamos la query dinámicamente según qué imágenes se envíen
+        let sql = 'UPDATE noticias SET titulo = ?, contenido = ?, destacada = ?';
+        let params = [titulo, contenido, destacada ? 1 : 0];
+
+        if (imagen !== undefined) {
+            sql += ', imagen = ?';
+            params.push(imagen);
         }
+        if (imagen2 !== undefined) {
+            sql += ', imagen2 = ?';
+            params.push(imagen2);
+        }
+        if (imagen3 !== undefined) {
+            sql += ', imagen3 = ?';
+            params.push(imagen3);
+        }
+
+        sql += ' WHERE id = ?';
+        params.push(id);
 
         const result = await this.execute(sql, params);
         return result.affectedRows;

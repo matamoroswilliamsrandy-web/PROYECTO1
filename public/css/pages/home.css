@@ -788,16 +788,63 @@
 }
 
 @media (max-width: 640px) {
+    .highlights-grid {
+        gap: 45px; /* More breathing room */
+        padding: 15px 0;
+    }
+
     .hl-card {
-        height: 320px;
+        height: 210px;
+        width: 82%;
+        transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    /* Staircase / Escalera Design - L-R-L Pattern */
+    .hl-card:nth-child(1) {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .hl-card:nth-child(2) {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .hl-card:nth-child(3) {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .hl-card-body {
+        padding: 20px 20px 28px;
     }
 
     .hl-card-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+    }
+
+    .hl-card-desc {
+        font-size: 0.82rem;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .hl-card-num {
-        font-size: 4rem;
+        font-size: 3.2rem;
+        top: 12px;
+        right: 15px;
+    }
+
+    .hl-card-cat {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+        margin-bottom: 10px;
     }
 }
 
@@ -1431,5 +1478,117 @@
     .stat-label {
         font-size: 0.75rem;
         letter-spacing: 1px;
+    }
+}
+
+/* --- SOCIAL FEED SECTION --- */
+.social-section {
+    padding: 100px 0;
+    background: #f8fafc;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.fb-feed-wrapper {
+    background: white;
+    padding: 20px;
+    border-radius: 30px;
+    /* Multilayer Frame Effect */
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.05),
+        0 30px 60px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 10px #f8fafc,
+        /* Inner "mat" border */
+        inset 0 0 0 11px rgba(0, 0, 0, 0.05);
+    /* Thin inner line */
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 640px;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.fb-feed-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    padding: 2px;
+    /* Border thickness */
+    background: linear-gradient(135deg, #E31B23, transparent, #E31B23);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.3;
+}
+
+.fb-feed-wrapper:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.08),
+        0 40px 80px rgba(0, 0, 0, 0.15),
+        inset 0 0 0 10px #f1f5f9;
+}
+
+.social-info-card {
+    background: white;
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(227, 27, 35, 0.05);
+    border-left: 5px solid #E31B23;
+    transition: all 0.4s ease;
+}
+
+.social-info-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 30px 60px rgba(227, 27, 35, 0.1);
+}
+
+.social-info-card i.fa-facebook-square {
+    font-size: 4rem;
+    color: #1877F2;
+    margin-bottom: 25px;
+}
+
+.social-info-card h3 {
+    font-size: 2.2rem;
+    font-weight: 850;
+    color: #1a202c;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.social-info-card p {
+    font-size: 1.15rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
+
+@media (max-width: 992px) {
+    .social-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .social-info-card {
+        padding: 40px 30px;
+        text-align: center;
+        border-left: none;
+        border-top: 5px solid #E31B23;
+    }
+
+    .fb-feed-wrapper {
+        min-height: auto;
     }
 }

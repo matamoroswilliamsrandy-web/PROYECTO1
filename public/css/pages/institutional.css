@@ -1023,17 +1023,93 @@
     }
 
     .mv-glass-block {
-        padding: 30px 20px;
+        padding: 40px 24px;
         border-radius: 28px;
+        text-align: center;
+    }
+
+    .mv-content-wrap {
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .mv-label {
+        display: inline-flex;
+        justify-content: center;
+        margin: 0 auto 20px;
+    }
+
+    .mv-glass-block.vision .mv-content-wrap {
+        text-align: center;
     }
 
     .mv-checklist {
         grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .mv-checklist li {
+        width: 100%;
+        max-width: 320px;
+        justify-content: center;
+    }
+
+    .mv-deco-letter {
+        font-size: 20rem;
+        left: 50%;
+        top: 50%;
+        right: auto;
+        transform: translate(-50%, -50%);
+        opacity: 0.05;
     }
 
     .inst-cta-box {
         padding: 40px 24px;
         border-radius: 28px;
+    }
+
+    /* Bento Grid Staircase - L-R-L Pattern */
+    .inst-bento-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 45px;
+        margin-top: 50px;
+    }
+
+    .inst-bento-card {
+        padding: 30px;
+        border-radius: 28px;
+        width: 82%;
+        text-align: center;
+        align-items: center;
+        transition: transform 0.5s ease;
+    }
+
+    .inst-bento-card:nth-child(1) {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .inst-bento-card:nth-child(2) {
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .inst-bento-card:nth-child(3) {
+        margin-right: auto;
+        margin-left: 0;
+    }
+
+    .inst-bento-icon {
+        margin: 0 auto 20px;
+    }
+
+    .inst-bento-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .inst-bento-card p {
+        font-size: 0.95rem;
     }
 }
 

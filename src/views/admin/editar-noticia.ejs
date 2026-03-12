@@ -52,27 +52,48 @@
                         </div>
 
                         <div class="adm-field">
-                            <label class="adm-label"><i class="fas fa-image"></i> Imagen</label>
+                            <label class="adm-label"><i class="fas fa-image"></i> Imagen Principal (1)</label>
                             <% if (noticia.imagen) { %>
                                 <div class="adm-edit-img-preview">
-                                    <img src="<%= noticia.imagen %>" alt="Imagen actual" id="current-img">
-                                    <div class="adm-edit-img-info">
-                                        <span class="adm-edit-img-badge"><i class="fas fa-check-circle"></i> Imagen
-                                            actual</span>
-                                        <p>Sube una nueva imagen si deseas reemplazarla.</p>
-                                    </div>
+                                    <img src="<%= noticia.imagen %>" alt="Imagen 1" id="current-img-1">
                                 </div>
-                                <% } else { %>
-                                    <div class="adm-edit-no-img">
-                                        <i class="far fa-image"></i><span>Sin imagen — puedes subir una abajo</span>
-                                    </div>
-                                    <% } %>
-                                        <label class="adm-file-label" for="edit-imagen" style="margin-top:10px">
-                                            <i class="fas fa-cloud-upload-alt"></i>
-                                            <span id="edit-file-name">Cambiar imagen (opcional)…</span>
-                                            <input id="edit-imagen" type="file" name="imagen" accept="image/*"
-                                                onchange="previewImg(this)">
-                                        </label>
+                                <% } %>
+                                    <label class="adm-file-label" for="edit-imagen" style="margin-top:10px">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span id="edit-file-name-1">Cambiar imagen 1…</span>
+                                        <input id="edit-imagen" type="file" name="imagen" accept="image/*"
+                                            onchange="document.getElementById('edit-file-name-1').textContent = this.files[0]?.name || 'Cambiar imagen 1…'">
+                                    </label>
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-label"><i class="fas fa-image"></i> Imagen Adicional (2)</label>
+                            <% if (noticia.imagen2) { %>
+                                <div class="adm-edit-img-preview">
+                                    <img src="<%= noticia.imagen2 %>" alt="Imagen 2">
+                                </div>
+                                <% } %>
+                                    <label class="adm-file-label" for="edit-imagen2" style="margin-top:10px">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span id="edit-file-name-2">Subir/Cambiar imagen 2…</span>
+                                        <input id="edit-imagen2" type="file" name="imagen2" accept="image/*"
+                                            onchange="document.getElementById('edit-file-name-2').textContent = this.files[0]?.name || 'Subir/Cambiar imagen 2…'">
+                                    </label>
+                        </div>
+
+                        <div class="adm-field">
+                            <label class="adm-label"><i class="fas fa-image"></i> Imagen Adicional (3)</label>
+                            <% if (noticia.imagen3) { %>
+                                <div class="adm-edit-img-preview">
+                                    <img src="<%= noticia.imagen3 %>" alt="Imagen 3">
+                                </div>
+                                <% } %>
+                                    <label class="adm-file-label" for="edit-imagen3" style="margin-top:10px">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <span id="edit-file-name-3">Subir/Cambiar imagen 3…</span>
+                                        <input id="edit-imagen3" type="file" name="imagen3" accept="image/*"
+                                            onchange="document.getElementById('edit-file-name-3').textContent = this.files[0]?.name || 'Subir/Cambiar imagen 3…'">
+                                    </label>
                         </div>
 
                         <div class="adm-field">
@@ -190,7 +211,8 @@
                     }
 
                     const metaDest = document.getElementById('meta-dest-text');
-                    metaDest.className = destacada ? 'text-green' : 'text-gray';
+                    metaDest.className = isDestacada ? 'text-green' : 'text-gray';
+                    metaDest.textContent = isDestacada ? 'Destacada' : 'Normal';
                 }
 
                 function previewImg(input) {

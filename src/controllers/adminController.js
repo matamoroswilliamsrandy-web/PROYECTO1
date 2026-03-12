@@ -52,8 +52,18 @@ exports.crearNoticia = catchAsync(async (req, res, next) => {
         });
     }
 
-    const imagen = req.file ? '/uploads/' + req.file.filename : null;
-    await Noticia.create({ titulo: titulo.trim(), contenido: contenido.trim(), imagen, destacada: !!destacada });
+    const imagen = req.files['imagen'] ? '/uploads/' + req.files['imagen'][0].filename : null;
+    const imagen2 = req.files['imagen2'] ? '/uploads/' + req.files['imagen2'][0].filename : null;
+    const imagen3 = req.files['imagen3'] ? '/uploads/' + req.files['imagen3'][0].filename : null;
+
+    await Noticia.create({
+        titulo: titulo.trim(),
+        contenido: contenido.trim(),
+        imagen,
+        imagen2,
+        imagen3,
+        destacada: !!destacada
+    });
     res.redirect('/panel-director/noticias?success=1&msg=La noticia ha sido publicada con éxito.');
 });
 
@@ -71,8 +81,17 @@ exports.editarNoticia = catchAsync(async (req, res, next) => {
         return res.render('admin/editar-noticia', { noticia, error: 'El título es obligatorio.' });
     }
 
-    const imagen = req.file ? '/uploads/' + req.file.filename : null;
-    await Noticia.update(req.params.id, { titulo: titulo.trim(), contenido: contenido.trim(), imagen, destacada: !!destacada });
+    const updateData = {
+        titulo: titulo.trim(),
+        contenido: contenido.trim(),
+        destacada: !!destacada
+    };
+
+    if (req.files['imagen']) updateData.imagen = '/uploads/' + req.files['imagen'][0].filename;
+    if (req.files['imagen2']) updateData.imagen2 = '/uploads/' + req.files['imagen2'][0].filename;
+    if (req.files['imagen3']) updateData.imagen3 = '/uploads/' + req.files['imagen3'][0].filename;
+
+    await Noticia.update(req.params.id, updateData);
     res.redirect('/panel-director/noticias?success=1&msg=La noticia ha sido actualizada.');
 });
 
@@ -90,20 +109,26 @@ exports.listarEventos = catchAsync(async (req, res, next) => {
 });
 
 exports.crearEvento = catchAsync(async (req, res, next) => {
-    const { titulo, descripcion, fecha_evento, lugar, destacado } = req.body;
+    const { titulo, descripcion, fecha_evento, hora_evento, lugar, destacado } = req.body;
 
     if (!titulo?.trim() || !fecha_evento) {
         const eventos = await Evento.findAll();
         return res.render('admin/eventos', { eventos, error: 'Título y fecha son obligatorios.' });
     }
 
-    const imagen = req.file ? '/uploads/' + req.file.filename : null;
+    const imagen = req.files['imagen'] ? '/uploads/' + req.files['imagen'][0].filename : null;
+    const imagen2 = req.files['imagen2'] ? '/uploads/' + req.files['imagen2'][0].filename : null;
+    const imagen3 = req.files['imagen3'] ? '/uploads/' + req.files['imagen3'][0].filename : null;
+
     await Evento.create({
         titulo: titulo.trim(),
         descripcion,
         fecha_evento,
+        hora_evento,
         lugar,
         imagen,
+        imagen2,
+        imagen3,
         destacado: !!destacado
     });
     res.redirect('/panel-director/eventos?success=1&msg=El evento ha sido creado con éxito.');
@@ -116,22 +141,27 @@ exports.mostrarEditarEvento = catchAsync(async (req, res, next) => {
 });
 
 exports.editarEvento = catchAsync(async (req, res, next) => {
-    const { titulo, descripcion, fecha_evento, lugar, destacado } = req.body;
+    const { titulo, descripcion, fecha_evento, hora_evento, lugar, destacado } = req.body;
 
     if (!titulo?.trim()) {
         const evento = await Evento.findById(req.params.id);
         return res.render('admin/editar-evento', { evento, error: 'El título es obligatorio.' });
     }
 
-    const imagen = req.file ? '/uploads/' + req.file.filename : null;
-    await Evento.update(req.params.id, {
+    const updateData = {
         titulo: titulo.trim(),
         descripcion,
         fecha_evento,
+        hora_evento,
         lugar,
-        imagen,
         destacado: !!destacado
-    });
+    };
+
+    if (req.files['imagen']) updateData.imagen = '/uploads/' + req.files['imagen'][0].filename;
+    if (req.files['imagen2']) updateData.imagen2 = '/uploads/' + req.files['imagen2'][0].filename;
+    if (req.files['imagen3']) updateData.imagen3 = '/uploads/' + req.files['imagen3'][0].filename;
+
+    await Evento.update(req.params.id, updateData);
     res.redirect('/panel-director/eventos?success=1&msg=El evento ha sido actualizado.');
 });
 

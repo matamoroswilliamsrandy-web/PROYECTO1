@@ -1563,24 +1563,20 @@
     }
 
     .news-list-date {
-        flex-direction: row;
-        gap: 8px;
-        min-width: auto;
-        height: auto;
-        padding: 5px 15px;
-        background: transparent;
-        border: none;
-        align-self: flex-start;
-        border-bottom: 2px solid #c0392b;
-        border-radius: 0;
+        min-width: 60px;
+        height: 60px;
+        background: #c0392b;
+        border-radius: 12px;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(192, 57, 43, 0.2);
     }
 
     .news-list-date .day {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .news-list-date .month {
-        font-size: 0.8rem;
+        font-size: 0.65rem;
     }
 
     .news-list-action {

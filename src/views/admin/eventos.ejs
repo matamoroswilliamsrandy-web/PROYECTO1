@@ -73,28 +73,47 @@
                     <div class="adm-ev-row">
                         <div class="adm-field">
                             <label class="adm-label" for="ev-fecha">
-                                <i class="fas fa-calendar-day"></i> Fecha
+                                <i class="fas fa-calendar-day"></i> Fecha del Evento
                             </label>
                             <input id="ev-fecha" type="date" name="fecha_evento" class="adm-input" required>
                         </div>
                         <div class="adm-field">
-                            <label class="adm-label" for="ev-lugar">
-                                <i class="fas fa-map-marker-alt"></i> Lugar
-                            </label>
-                            <input id="ev-lugar" type="text" name="lugar" class="adm-input"
-                                placeholder="Ej. Auditorio Principal">
                         </div>
                     </div>
 
                     <div class="adm-field">
                         <label class="adm-label" for="ev-imagen">
-                            <i class="fas fa-image"></i> Imagen del Evento
+                            <i class="fas fa-image"></i> Imagen Principal (1)
                         </label>
                         <label class="adm-file-label" for="ev-imagen">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <span id="file-name-ev">Seleccionar imagen…</span>
+                            <span id="file-name-ev-1">Seleccionar imagen…</span>
                             <input id="ev-imagen" type="file" name="imagen" accept="image/*"
-                                onchange="document.getElementById('file-name-ev').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                                onchange="document.getElementById('file-name-ev-1').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="ev-imagen2">
+                            <i class="fas fa-image"></i> Imagen Adicional (2)
+                        </label>
+                        <label class="adm-file-label" for="ev-imagen2">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-ev-2">Opcional…</span>
+                            <input id="ev-imagen2" type="file" name="imagen2" accept="image/*"
+                                onchange="document.getElementById('file-name-ev-2').textContent = this.files[0]?.name || 'Opcional…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="ev-imagen3">
+                            <i class="fas fa-image"></i> Imagen Adicional (3)
+                        </label>
+                        <label class="adm-file-label" for="ev-imagen3">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-ev-3">Opcional…</span>
+                            <input id="ev-imagen3" type="file" name="imagen3" accept="image/*"
+                                onchange="document.getElementById('file-name-ev-3').textContent = this.files[0]?.name || 'Opcional…'">
                         </label>
                     </div>
 

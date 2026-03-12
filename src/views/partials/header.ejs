@@ -15,9 +15,26 @@
     <link rel="stylesheet" href="/css/components/page-hero.css">
     <!-- WhatsApp Floating Button CSS -->
     <link rel="stylesheet" href="/css/components/whatsapp.css">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= typeof currentUrl !== 'undefined' ? currentUrl : '' %>">
+    <meta property="og:title"
+        content="<%= typeof title !== 'undefined' ? (title + ' | IE. Antonio Raymondi') : 'IE. Antonio Raymondi' %>">
+    <meta property="og:description"
+        content="<%= typeof description !== 'undefined' ? description : 'Institución educativa comprometida con la excelencia académica y la formación de valores.' %>">
+    <meta property="og:image"
+        content="<%= typeof ogImage !== 'undefined' ? (ogImage.startsWith('http') ? ogImage : (baseUrl + ogImage)) : (baseUrl + '/img/logo.png') %>">
+
+    <!-- WhatsApp / Mobile Sharing Description -->
+    <meta name="description"
+        content="<%= typeof description !== 'undefined' ? description : 'Institución educativa comprometida con la excelencia académica.' %>">
 </head>
 
 <body>
+    <!-- Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v17.0"></script>
 
     <header id="main-header">
         <div class="container">

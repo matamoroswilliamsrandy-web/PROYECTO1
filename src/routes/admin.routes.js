@@ -12,17 +12,33 @@ router.get('/', adminController.dashboard);
 
 // ── Noticias ──────────────────────────────────
 router.get('/noticias', adminController.listarNoticias);
-router.post('/noticias/crear', upload.single('imagen'), adminController.crearNoticia);
+router.post('/noticias/crear', upload.fields([
+    { name: 'imagen', maxCount: 1 },
+    { name: 'imagen2', maxCount: 1 },
+    { name: 'imagen3', maxCount: 1 }
+]), adminController.crearNoticia);
 router.get('/noticias/editar/:id', adminController.mostrarEditarNoticia);
-router.post('/noticias/editar/:id', upload.single('imagen'), adminController.editarNoticia);
-router.post('/noticias/eliminar/:id', adminController.eliminarNoticia);       // ← POST (era GET)
+router.post('/noticias/editar/:id', upload.fields([
+    { name: 'imagen', maxCount: 1 },
+    { name: 'imagen2', maxCount: 1 },
+    { name: 'imagen3', maxCount: 1 }
+]), adminController.editarNoticia);
+router.post('/noticias/eliminar/:id', adminController.eliminarNoticia);
 
 // ── Eventos ───────────────────────────────────
 router.get('/eventos', adminController.listarEventos);
-router.post('/eventos/crear', upload.single('imagen'), adminController.crearEvento);
+router.post('/eventos/crear', upload.fields([
+    { name: 'imagen', maxCount: 1 },
+    { name: 'imagen2', maxCount: 1 },
+    { name: 'imagen3', maxCount: 1 }
+]), adminController.crearEvento);
 router.get('/eventos/editar/:id', adminController.mostrarEditarEvento);
-router.post('/eventos/editar/:id', upload.single('imagen'), adminController.editarEvento);
-router.post('/eventos/eliminar/:id', adminController.eliminarEvento);         // ← POST (era GET)
+router.post('/eventos/editar/:id', upload.fields([
+    { name: 'imagen', maxCount: 1 },
+    { name: 'imagen2', maxCount: 1 },
+    { name: 'imagen3', maxCount: 1 }
+]), adminController.editarEvento);
+router.post('/eventos/eliminar/:id', adminController.eliminarEvento);
 
 // ── Autoridades ───────────────────────────────
 router.get('/autoridades', adminController.listarAutoridades);

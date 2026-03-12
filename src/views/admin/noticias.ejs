@@ -72,13 +72,37 @@
 
                     <div class="adm-field">
                         <label class="adm-label" for="imagen">
-                            <i class="fas fa-image"></i> Imagen
+                            <i class="fas fa-image"></i> Imagen Principal (1)
                         </label>
                         <label class="adm-file-label" for="imagen">
                             <i class="fas fa-cloud-upload-alt"></i>
-                            <span id="file-name-not">Seleccionar imagen…</span>
+                            <span id="file-name-1">Seleccionar imagen…</span>
                             <input id="imagen" type="file" name="imagen" accept="image/*"
-                                onchange="document.getElementById('file-name-not').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                                onchange="document.getElementById('file-name-1').textContent = this.files[0]?.name || 'Seleccionar imagen…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="imagen2">
+                            <i class="fas fa-image"></i> Imagen Adicional (2)
+                        </label>
+                        <label class="adm-file-label" for="imagen2">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-2">Opcional…</span>
+                            <input id="imagen2" type="file" name="imagen2" accept="image/*"
+                                onchange="document.getElementById('file-name-2').textContent = this.files[0]?.name || 'Opcional…'">
+                        </label>
+                    </div>
+
+                    <div class="adm-field">
+                        <label class="adm-label" for="imagen3">
+                            <i class="fas fa-image"></i> Imagen Adicional (3)
+                        </label>
+                        <label class="adm-file-label" for="imagen3">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="file-name-3">Opcional…</span>
+                            <input id="imagen3" type="file" name="imagen3" accept="image/*"
+                                onchange="document.getElementById('file-name-3').textContent = this.files[0]?.name || 'Opcional…'">
                         </label>
                     </div>
 

@@ -15,25 +15,32 @@ class Evento extends BaseModel {
     }
 
     static async create(data) {
-        const { titulo, descripcion, fecha_evento, lugar, imagen, destacado } = data;
-        const result = await this.execute(
-            'INSERT INTO eventos (titulo, descripcion, fecha_evento, lugar, imagen, destacado) VALUES (?, ?, ?, ?, ?, ?)',
-            [titulo, descripcion, fecha_evento, lugar, imagen, destacado || false]
+        const { titulo, descripcion, fecha_evento, hora_evento, lugar, destacado, imagen, imagen2, imagen3 } = data;
+        const [result] = await this.db.query(
+            'INSERT INTO eventos (titulo, descripcion, fecha_evento, hora_evento, lugar, destacado, imagen, imagen2, imagen3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [titulo, descripcion, fecha_evento, hora_evento, lugar, destacado || 0, imagen, imagen2, imagen3]
         );
         return result.insertId;
     }
 
     static async update(id, data) {
-        const { titulo, descripcion, fecha_evento, lugar, imagen, destacado } = data;
-        let sql = 'UPDATE eventos SET titulo = ?, descripcion = ?, fecha_evento = ?, lugar = ?, destacado = ? WHERE id = ?';
-        let params = [titulo, descripcion, fecha_evento, lugar, destacado || false, id];
+        const fields = [];
+        const values = [];
 
-        if (imagen) {
-            sql = 'UPDATE eventos SET titulo = ?, descripcion = ?, fecha_evento = ?, lugar = ?, imagen = ?, destacado = ? WHERE id = ?';
-            params = [titulo, descripcion, fecha_evento, lugar, imagen, destacado || false, id];
-        }
+        if (data.titulo) { fields.push('titulo = ?'); values.push(data.titulo); }
+        if (data.descripcion !== undefined) { fields.push('descripcion = ?'); values.push(data.descripcion); }
+        if (data.fecha_evento) { fields.push('fecha_evento = ?'); values.push(data.fecha_evento); }
+        if (data.hora_evento !== undefined) { fields.push('hora_evento = ?'); values.push(data.hora_evento); }
+        if (data.lugar !== undefined) { fields.push('lugar = ?'); values.push(data.lugar); }
+        if (data.destacado !== undefined) { fields.push('destacado = ?'); values.push(data.destacado); }
+        if (data.imagen) { fields.push('imagen = ?'); values.push(data.imagen); }
+        if (data.imagen2) { fields.push('imagen2 = ?'); values.push(data.imagen2); }
+        if (data.imagen3) { fields.push('imagen3 = ?'); values.push(data.imagen3); }
 
-        const result = await this.execute(sql, params);
+        if (fields.length === 0) return;
+
+        values.push(id);
+        const [result] = await this.db.query(`UPDATE eventos SET ${fields.join(', ')} WHERE id = ?`, values);
         return result.affectedRows;
     }
 

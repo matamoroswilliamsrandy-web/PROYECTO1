@@ -33,6 +33,8 @@ app.use(session({
 // Variables Globales de Plantilla
 app.use((req, res, next) => {
     res.locals.usuario = req.session.usuario || null;
+    res.locals.baseUrl = `${req.protocol}://${req.get('host')}`;
+    res.locals.currentUrl = `${res.locals.baseUrl}${req.originalUrl}`;
     next();
 });
 

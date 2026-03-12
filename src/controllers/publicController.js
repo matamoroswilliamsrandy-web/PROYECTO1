@@ -137,14 +137,34 @@ exports.detalleNoticia = catchAsync(async (req, res, next) => {
     const noticia = await Noticia.findById(req.params.id);
     if (!noticia) return next(new AppError('Noticia no encontrada', 404));
 
-    res.render('public/detalle-noticia', { title: noticia.titulo, noticia, path: '/noticias' });
+    const description = noticia.contenido
+        ? noticia.contenido.substring(0, 160).replace(/\n/g, ' ') + '...'
+        : 'Lee esta noticia de la IE. Antonio Raymondi.';
+
+    res.render('public/detalle-noticia', {
+        title: noticia.titulo,
+        description,
+        ogImage: noticia.imagen,
+        noticia,
+        path: '/noticias'
+    });
 });
 
 exports.detalleEvento = catchAsync(async (req, res, next) => {
     const evento = await Evento.findById(req.params.id);
     if (!evento) return next(new AppError('Evento no encontrado', 404));
 
-    res.render('public/detalle-evento', { title: evento.titulo, evento, path: '/eventos' });
+    const description = (evento.contenido || evento.descripcion)
+        ? (evento.contenido || evento.descripcion).substring(0, 160).replace(/\n/g, ' ') + '...'
+        : '¡No te pierdas este evento institucional!';
+
+    res.render('public/detalle-evento', {
+        title: evento.titulo,
+        description,
+        ogImage: evento.imagen,
+        evento,
+        path: '/eventos'
+    });
 });
 
 exports.eventos = catchAsync(async (req, res, next) => {

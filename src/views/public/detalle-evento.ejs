@@ -22,12 +22,18 @@
                         Fecha: <%= new Date(evento.fecha_evento).toLocaleDateString('es-ES', { day: 'numeric' ,
                             month: 'long' , year: 'numeric' }) %>
                     </span>
-                    <% if(evento.ubicacion) { %>
+                    <% if(evento.hora_evento) { %>
                         <span>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <%= evento.ubicacion %>
+                            <i class="far fa-clock"></i>
+                            Hora: <%= evento.hora_evento %>
                         </span>
                         <% } %>
+                            <% if(evento.lugar) { %>
+                                <span>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <%= evento.lugar %>
+                                </span>
+                                <% } %>
                 </div>
             </div>
         </header>
@@ -35,9 +41,55 @@
         <section class="detalle-container">
             <article class="detalle-main-card">
                 <% if(evento.imagen) { %>
-                    <!-- Imagen destacada en aspecto cinematográfico -->
+                    <!-- Contenedor de Imagen con Efecto Blur y Slider -->
                     <div class="detalle-img-framing">
-                        <img src="<%= evento.imagen %>" alt="<%= evento.titulo %>" class="detalle-main-image">
+                        <% if(evento.imagen2 || evento.imagen3) { %>
+                            <!-- Slider si hay múltiples imágenes -->
+                            <div class="detalle-slider-container">
+                                <div class="detalle-slides" id="detail-slides">
+                                    <div class="detalle-slide">
+                                        <div class="detalle-img-bg-blur"><img src="<%= evento.imagen %>" alt=""></div>
+                                        <img src="<%= evento.imagen %>" alt="<%= evento.titulo %>">
+                                    </div>
+                                    <% if(evento.imagen2) { %>
+                                        <div class="detalle-slide">
+                                            <div class="detalle-img-bg-blur"><img src="<%= evento.imagen2 %>" alt="">
+                                            </div>
+                                            <img src="<%= evento.imagen2 %>" alt="<%= evento.titulo %>">
+                                        </div>
+                                        <% } %>
+                                            <% if(evento.imagen3) { %>
+                                                <div class="detalle-slide">
+                                                    <div class="detalle-img-bg-blur"><img src="<%= evento.imagen3 %>"
+                                                            alt=""></div>
+                                                    <img src="<%= evento.imagen3 %>" alt="<%= evento.titulo %>">
+                                                </div>
+                                                <% } %>
+                                </div>
+
+                                <div class="slider-nav">
+                                    <div class="slider-btn prev" onclick="moveSlider(-1)"><i
+                                            class="fas fa-chevron-left"></i></div>
+                                    <div class="slider-btn next" onclick="moveSlider(1)"><i
+                                            class="fas fa-chevron-right"></i></div>
+                                </div>
+
+                                <div class="slider-dots">
+                                    <div class="slider-dot active" onclick="setSlide(0)"></div>
+                                    <% if(evento.imagen2) { %>
+                                        <div class="slider-dot" onclick="setSlide(1)"></div>
+                                        <% } %>
+                                            <% if(evento.imagen3) { %>
+                                                <div class="slider-dot"
+                                                    onclick="setSlide(<%= evento.imagen2 ? 2 : 1 %>)"></div>
+                                                <% } %>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <!-- Imagen única con Blur Background -->
+                                <div class="detalle-img-bg-blur"><img src="<%= evento.imagen %>" alt=""></div>
+                                <img src="<%= evento.imagen %>" alt="<%= evento.titulo %>" class="detalle-main-image">
+                                <% } %>
                     </div>
                     <% } %>
 
@@ -49,19 +101,28 @@
                                 <div class="detalle-body">
                                     <%- (evento.contenido || evento.descripcion).replace(/\n/g, '<br>' ) %>
                                 </div>
-                            </div>
 
-                            <!-- Panel lateral de acciones (más PRO) -->
-                            <aside class="detalle-sidebar">
-                                <div class="share-box event-box">
-                                    <h4><i class="fas fa-ticket-alt"></i> Asistencia</h4>
-                                    <p class="sidebar-info">¡No te pierdas este importante evento institucional!</p>
+                                <div class="event-card-premium">
+                                    <div class="event-card-premium-header">
+                                        <div class="event-card-premium-icon">
+                                            <i class="fas fa-ticket-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4>Asistencia</h4>
+                                            <p>Evento Institucional</p>
+                                        </div>
+                                    </div>
+                                    <p class="event-card-info">¡Te esperamos! Confirma tu asistencia directamente vía
+                                        WhatsApp.</p>
                                     <a href="https://wa.me/51987654321?text=Hola! Quisiera confirmar mi asistencia al evento: <%= evento.titulo %>"
-                                        target="_blank" class="btn-sidebar-primary">
+                                        target="_blank" class="btn-sidebar-primary-premium">
                                         <i class="fab fa-whatsapp"></i> Confirmar Asistencia
                                     </a>
                                 </div>
+                            </div>
 
+                            <!-- Panel lateral de acciones -->
+                            <aside class="detalle-sidebar">
                                 <div class="share-box">
                                     <h4><i class="fas fa-share-alt"></i> Compartir</h4>
                                     <div class="share-buttons-col">
@@ -74,10 +135,38 @@
                                         <a href="#" class="share-btn wa" onclick="shareOnWhatsApp(event)">
                                             <i class="fab fa-whatsapp"></i> WhatsApp
                                         </a>
+                                        <a href="#" class="share-btn copy" onclick="copyPageLink(event)">
+                                            <i class="fas fa-link"></i> Copiar Enlace
+                                        </a>
                                     </div>
                                 </div>
 
                                 <script>
+                                    // Slider Navigation
+                                    let currentSlide = 0;
+                                    const totalSlides = document.querySelectorAll('.detalle-slide').length;
+
+                                    function updateSlider() {
+                                        const slides = document.getElementById('detail-slides');
+                                        const dots = document.querySelectorAll('.slider-dot');
+                                        if (slides) {
+                                            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+                                            dots.forEach((dot, idx) => {
+                                                dot.classList.toggle('active', idx === currentSlide);
+                                            });
+                                        }
+                                    }
+
+                                    function moveSlider(dir) {
+                                        currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+                                        updateSlider();
+                                    }
+
+                                    function setSlide(idx) {
+                                        currentSlide = idx;
+                                        updateSlider();
+                                    }
+
                                     function shareOnFacebook(e) {
                                         e.preventDefault();
                                         const url = window.location.href;
@@ -94,6 +183,20 @@
                                         const url = window.location.href;
                                         const text = "<%= evento.titulo %>";
                                         window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+                                    }
+                                    function copyPageLink(e) {
+                                        e.preventDefault();
+                                        const url = window.location.href;
+                                        navigator.clipboard.writeText(url).then(() => {
+                                            const btn = e.currentTarget;
+                                            const originalText = btn.innerHTML;
+                                            btn.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+                                            btn.classList.add('success');
+                                            setTimeout(() => {
+                                                btn.innerHTML = originalText;
+                                                btn.classList.remove('success');
+                                            }, 2000);
+                                        });
                                     }
                                 </script>
                                 <a href="/eventos" class="btn-back-sidebar">
